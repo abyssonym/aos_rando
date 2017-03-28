@@ -1,0 +1,7 @@
+difficulty,1
+item_type,1
+zero1,1
+unknown,1
+zero2,1
+item_index,1
+zero3,1

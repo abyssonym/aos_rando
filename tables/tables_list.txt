@@ -1,0 +1,3 @@
+# objname tablefile address count grouped
+MonsterObject       monster_table.txt           e9644   112
+TreasureObject      treasure_table.txt          treasure_pointers.txt

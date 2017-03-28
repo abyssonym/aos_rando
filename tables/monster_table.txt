@@ -1,0 +1,15 @@
+unk1,8
+common_drop,2
+rare_drop,2
+hp,2
+mp,2
+xp,2
+unk2,2
+atk,1
+def,1
+unk3,1
+soul_type,1
+soul,1
+zero,1
+weak,2
+unk4,8
