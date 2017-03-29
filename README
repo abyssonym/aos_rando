@@ -1,0 +1,45 @@
+Castlevania Aria of Sorrow Item Randomizer
+Version:    1
+Date:       March 29, 2017
+URL:        https://github.com/abyssonym/aos_rando
+Contact:    https://twitter.com/abyssonym
+            https://www.twitch.tv/abyssonym
+
+--- ABOUT ---
+    This is an item randomizer in the same vein as the LttP and Super Metroid item randomizers. Every seed should be beatable, but IANACE (I Am Not A Castlevania Expert).
+
+--- HOW TO USE ---
+Running the randomizer:
+    Windows users may use the executable file, "aos_rando.exe". Other users, please run "randomizer.py" using Python version 2.7.
+
+Source rom file:
+    This randomizer requires the North American GBA rom "Castlevania: Aria of Sorrow" with the MD5 hash shown below.
+    MD5 - e7470df4d241f73060d14437011b90ce
+
+Flags:
+    d  Randomize enemy souls and drops.
+    i  Randomize item and ability locations.
+
+Seed value:
+    Input a seed value here, or leave it blank if you don't care.
+
+Output files:
+    The randomizer will output a new, randomized rom with the seed in the filename.
+
+Like this randomizer? Be sure to check out my other projects:
+    FF6 Beyond Chaos Randomizer
+        https://github.com/abyssonym/beyondchaos
+    FF Tactics Rumble Chaos Crashdown Randomizer
+        https://github.com/abyssonym/rumble_chaos_crashdown
+    Breath of Fire 2 Painsong Randomizer
+        https://github.com/abyssonym/painsong
+    Chrono Trigger Eternal Nightmare Randomizer
+        https://github.com/abyssonym/eternalnightmare
+    Final Fantasy Mystic Quest Terrible Secret Randomizer
+        https://github.com/abyssonym/terriblesecret
+    Super Mario RPG Gentle Beauty and Raw Power Randomizer
+        https://github.com/abyssonym/smrpg_gbarp
+    FF5 Grand Cross Randomizer
+        https://github.com/abyssonym/grand_cross
+    FF4 Beyond Babil Ancient Cave Randomizer
+        https://github.com/abyssonym/beyond_babil
