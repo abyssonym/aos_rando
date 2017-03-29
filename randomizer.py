@@ -43,9 +43,21 @@ def get_item_names():
 
 
 class MonsterObject(TableObject):
-    flag = "s"
-    flag_description = "enemy souls"
-    intershuffle_attributes = [("soul_type", "soul")]
+    flag = "d"
+    flag_description = "enemy souls and drops"
+    intershuffle_attributes = [("soul_type", "soul"),
+                               "common_drop",
+                               "rare_drop"]
+
+    def mutate(self):
+        for attr in ["common_drop", "rare_drop"]:
+            value = getattr(self, attr)
+            if value == 0:
+                continue
+            i = ItemObject.superget(value)
+            i = i.get_similar()
+            value = (value & 0xFF00) | i.superindex
+            setattr(self, attr, value)
 
 
 class ItemObject(TableObject):
@@ -56,6 +68,32 @@ class ItemObject(TableObject):
         else:
             rank = self.price
         return rank + random.random()
+
+    @property
+    def name(self):
+        index = self.index
+        if isinstance(self, ConsumableObject):
+            index |= 0x200
+        if isinstance(self, WeaponObject):
+            index |= 0x300
+        elif isinstance(self, ArmorObject):
+            index |= 0x400
+        return get_item_names()[index]
+
+    @classmethod
+    def superget(cls, index):
+        return (ConsumableObject.every +
+                WeaponObject.every +
+                ArmorObject.every)[index]
+
+    @property
+    def superindex(self):
+        index = self.index
+        if isinstance(self, WeaponObject) or isinstance(self, ArmorObject):
+            index += len(ConsumableObject.every)
+        if isinstance(self, ArmorObject):
+            index += len(WeaponObject.every)
+        return index
 
 
 class ConsumableObject(ItemObject): pass
@@ -176,8 +214,6 @@ if __name__ == "__main__":
 
         if DEBUG_MODE:
             pass
-
-        import pdb; pdb.set_trace()
 
         clean_and_write(ALL_OBJECTS)
         finish_interface()
