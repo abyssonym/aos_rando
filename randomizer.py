@@ -7,11 +7,7 @@ from randomtools.interface import (
     get_outfile, get_seed, get_flags, run_interface, rewrite_snes_meta,
     clean_and_write, finish_interface)
 from randomtools.itemrouter import ItemRouter
-from collections import defaultdict
 from os import path
-from time import time
-from collections import Counter
-import string
 
 
 VERSION = 1
@@ -48,6 +44,12 @@ class MonsterObject(TableObject):
     intershuffle_attributes = [("soul_type", "soul"),
                                "common_drop",
                                "rare_drop"]
+
+    @property
+    def intershuffle_valid(self):
+        if "i" not in get_flags() and self.index in [0x5F, 0x68]:
+            return False
+        return True
 
     def mutate(self):
         for attr in ["common_drop", "rare_drop"]:
