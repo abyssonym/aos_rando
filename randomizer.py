@@ -192,7 +192,9 @@ class TreasureObject(TableObject):
                     m = random.choice(MonsterObject.every)
                     item_type = m.soul_type = 5
                     item_index = m.soul
-                if item_type >= 3 and (item_type, item_index) in done_items:
+                if ((item_type >= 3 or
+                        (item_type == 2 and item_index >= 0x1a)) and
+                        (item_type, item_index) in done_items):
                     continue
                 t.item_type = item_type
                 t.item_index = item_index
@@ -203,7 +205,7 @@ class TreasureObject(TableObject):
 if __name__ == "__main__":
     try:
         print ('You are using the Castlevania: Aria of Sorrow '
-               'randomizer version %s.' % VERSION)
+               'item randomizer version %s.' % VERSION)
         print
 
         ALL_OBJECTS = [g for g in globals().values()
