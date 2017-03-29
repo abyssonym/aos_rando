@@ -1,0 +1,135 @@
+.def flight 602
+.def high_jump 805|flight
+.def double_jump 803|high_jump
+.def slide 802|flight
+.def backdash 801
+.def float 601|603|high_jump
+.def waterwalking 701
+.def swimming 702
+.def transformation 612|613|614
+.def dracula 52c&602&707
+.def reservoir swimming&double_jump
+.def forbidden reservoir&waterwalking&transformation
+.def long_jump double_jump&float|high_jump
+.def inner_corridor float|forbidden
+.def chapel inner_corridor|forbidden
+.def study chapel|forbidden
+.def dance_hall long_jump
+.def inner_quarters dance_hall&slide|inner_corridor&long_jump
+.def timestop 806&inner_quarters
+.def floating_garden waterwalking&double_jump|high_jump
+.def top_floor inner_quarters&high_jump|inner_corridor&high_jump
+.def clock_tower inner_corridor&high_jump&swimming|floating_garden|top_floor
+.def arena reservoir
+5109dd double_jump
+510af1 high_jump
+510afd double_jump
+510bf9 *
+510c11 *
+510c1d *
+510dd9 double_jump
+510ed5 *
+51103d inner_corridor&float|inner_corridor&double_jump
+511145 *
+#5114c9 inner_corridor&flight
+511565 *
+511619 inner_corridor&high_jump
+51163d
+511715 inner_corridor&float
+511739 inner_corridor
+511769
+51250d
+5124cd
+5125d9
+512609 chapel
+512615
+512669
+51271d
+5127a1 chapel&high_jump
+5128f1 chapel
+512939
+5129c9
+512a05 chapel&double_jump
+513875
+5138f9
+513911
+513af1 study
+513be1 study&double_jump
+513bf9 study&double_jump
+513c59 study&double_jump
+513c71 study&backdash
+513d0d study&slide|forbidden
+513dfd
+513ebd study
+51515d dance_hall
+5151a5
+5152ad dance_hall&slide
+5153f1
+5154a5
+51554d dance_hall&double_jump
+5155d1
+515781 inner_quarters&high_jump
+516829 timestop&double_jump
+516835 timestop&double_jump
+51696d
+516abd
+516c9d inner_quarters
+516d09 inner_quarters&double_jump
+516d15 inner_quarters&double_jump
+51714d
+517d91 floating_garden
+517e2d
+517f1d
+518175
+518235
+518301
+5199d1 clock_tower&swimming&slide&double_jump
+519cad clock_tower&swimming
+519f7d clock_tower
+51a0fd
+51a3cd clock_tower
+51cbf5 *
+51cd39
+51cd5d waterwalking&double_jump|high_jump
+51ce05 swimming
+51d015
+51d051
+51d1e9
+51d32d
+51d405
+51d56d reservoir&high_jump
+51d801 reservoir
+51d825 reservoir
+51d8e5 reservoir&high_jump
+51d981
+51d999 reservoir&high_jump
+51da7d reservoir&high_jump
+51dad1
+51dc2d reservoir&high_jump
+51dc75 reservoir&high_jump
+51dced
+51dd29 forbidden
+51dd7d
+51e25d
+51e329 reservoir
+51f1d1 arena
+51f285 arena
+51f5fd arena&high_jump
+51f8b5 arena
+51f8e5 arena&slide
+51f909 arena
+51f945
+520bb1 dracula
+520bbd dracula
+520bd5
+520c35 top_floor
+520d6d top_floor
+520e09 top_floor
+5211ed
+521361
+521385 top_floor
+521c5d forbidden&swimming
+521d05 forbidden&swimming
+523cc1
+523d99
+523dbd

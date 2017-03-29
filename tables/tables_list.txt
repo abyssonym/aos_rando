@@ -1,3 +1,6 @@
 # objname tablefile address count grouped
 MonsterObject       monster_table.txt           e9644   112
+ConsumableObject    consumable_table.txt        505b3c  32
+WeaponObject        weapon_table.txt            505d3c  59
+ArmorObject         armor_table.txt             5063b0  45
 TreasureObject      treasure_table.txt          treasure_pointers.txt

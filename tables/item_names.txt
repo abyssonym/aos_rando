@@ -1,0 +1,263 @@
+100 $1
+101 $10
+102 $50
+103 $100
+104 $500
+105 $1,000
+106 $2,000
+200 Potion
+201 High Potion
+202 Super Potion
+203 Meat Strip
+204 Tasty Meat
+205 Mind Up
+206 High Mind Up
+207 Mana Prism
+208 Anti-Venom
+209 Uncurse Potion
+20A Coffee
+20B Tea
+20C Pudding
+20D Strawberry
+20E Melon
+20F Grapes
+210 Persimmon
+211 Rotten Meat
+212 Spoiled Milk
+213 Skull Key
+214 Potato Pancake
+215 Beef Curry
+216 Ramen
+217 Cream Soda
+218 Cream Puff
+219 Milk
+21A Ancient Book 1
+21B Ancient Book 2
+21C Ancient Book 3
+21D Castle Map 1
+21E Castle Map 2
+21F Castle Map 3
+300 Knife
+301 Baselard
+302 Combat Knife
+303 Shord Sword
+304 Bastard Sword
+305 Whip Sword
+306 Gladius
+307 Gram
+308 Milican's Sword
+309 Hrunting
+30A Mystletain
+30B Rahab's Sword
+30C Durandal
+30D Laevatain
+30E Burtgang
+30F Kaladbolg
+310 Vjaya
+311 Balmung
+312 Broadsword
+313 Scimitar
+314 Claymore
+315 Great Sword
+316 Joyeuse
+317 Dainslef
+318 Ascalon
+319 Claimh Solais
+31A Final Sword
+31B Bamboo Sword
+31C Katana
+31D Osafune
+31E Onikiri
+31F Kunitsuna
+320 Yasutsuna
+321 Muramasa
+322 Hammer
+323 Warhammer
+324 Excalibur
+325 Tallhammer
+326 Battle Axe
+327 Death's Sickle
+328 Rapier
+329 Estoc
+32A Cutall
+32B Spear
+32C Trident
+32D Lance
+32E Partizan
+32F Gabolg
+330 Gungner
+331 Ronginus' Spear
+332 Cestus
+333 Kaiser Knuckle
+334 Mach Punch
+335 Whip Knuckle
+336 Poison Fist
+337 Handgun
+338 Silver Gun
+339 Positron Rifle
+33A Valmanway
+400 Casual Clothes
+401 Cloth Tunic
+402 Gym Clothes
+403 War Fatigues
+404 Ninja Suit
+405 Soldier Uniform
+406 Pitch Black Suit
+407 Olrox's Suit
+408 Dracula's Tunic
+409 Leather Plate
+40A Copper Plate
+40B Iron Plate
+40C Steel Plate
+40D Silver Plate
+40E Gold Plate
+40F Eversing
+410 Samurai Armor
+411 Silk Robe
+412 Elfin Robe
+413 Death's Robe
+414 Demon's Mail
+415 Armor of Fire
+416 Armor of Water
+417 Blocking Mail
+418 Army Jacket
+419 Cape
+41A Crimson Cloak
+41B Black Cloak
+41C Pendant
+41D Heart Pendant
+41E Scarf
+41F Red Scarf
+420 Ancient Belt
+421 Black Belt
+422 Skull Necklace
+423 Flame Necklace
+424 Satan's Ring
+425 Tear Of Blood
+426 Lucky Charm
+427 Rare Ring
+428 Soul Eater Ring
+429 Rune Ring
+42A Sherman Ring
+42B Gold Ring
+42C Chaos Ring
+501 Winged Skeleton
+502 Bat
+503 Skeleton
+504 Merman
+505 Axe Armor
+506 Skull Archer
+507 Killer Fish
+508 Blue Crow
+509 Zombie Soldier
+50A Ghost
+50B Siren
+50C Tiny Devil
+50D Durga
+50E Rock Armor
+50F Student Witch
+510 Arachne
+511 Fleaman
+512 Evil Butcher
+513 Waiter Skeleton
+514 Altair
+515 Mudman
+516 Cockatrice
+517 Werewolf
+518 Harpy
+519 Une
+51A Needles
+51B Man-Eater
+51C Ukoback
+51D Fish Head
+51E Disc Armor
+51F Nightmare
+520 Slime
+521 Dryad
+522 Ripper
+523 Werejaguar
+524 Weretiger
+525 Biphron
+526 Mandragora
+527 Beam Skeleton
+528 Skull Millione
+529 Giant Skeleton
+52A Gladiator
+52B Demon Lord
+52C Flame Demon
+52D Lightning Doll
+52E Valkyrie
+52F Bomber Armor
+530 Red Minotaur
+531 Legion
+532 Balore
+533 Killer Doll
+534 Nemesis
+535 Killer Mantle
+536 Kyoma Demon
+537 Chronomage
+601 Flying Armor
+602 Giant Bat
+603 Black Panther
+604 Buer
+605 Witch
+606 Giant Ghost
+607 Final Guard
+608 Great Armor
+609 Catoblepas
+60A Bone Pillar
+60B Cagnazzo
+60C Big Golem
+60D Shadow Knight
+60E Creaking Skull
+60F Medusa Head
+610 Persephone
+611 Alura Une
+612 Devil
+613 Manticore
+614  Curly
+615 Sky Fish
+616 Imp
+617 Alastor
+618 Death
+701 Undine
+702 Skula
+703 Zombie Officer
+704 Iorn Golem
+705 Dead Warrior
+706 Peeping Eye
+707 Succubus
+708 Flesh Golem
+709 Tsuchinoko
+70A Giant Worm
+70B Wooden Golem
+70C Zombie
+70D Lubricant
+70E Headhunter
+70F Basilisk
+710 Erinys
+711 Mimic
+712 Arc Demon
+713 Poison Worm
+714 Ectoplasm
+715 Gargoyle
+716 Skeleton Knight
+717 Minotaur
+718 Golem
+719 Triton
+71A White Dragon
+71B Quezlcoatl
+71C Gorgon
+71D Dead Crusader
+71E Red Crow
+71F Lilith
+720 Bael
+721 Stolas
+722 Ghost Dancer
+723 Gremlin
+801 Grave Keeper
+802 Skeleton Blaze
+803 Malphas
+804 Kicker Skeleton
+805 Hippogryph
+806 Galamoth
