@@ -190,7 +190,7 @@ class TreasureObject(TableObject):
                 elif item_type >= 5:
                     # souls
                     m = random.choice(MonsterObject.every)
-                    item_type = m.soul_type = 5
+                    item_type = m.soul_type + 5
                     item_index = m.soul
                 if ((item_type >= 3 or
                         (item_type == 2 and item_index >= 0x1a)) and
