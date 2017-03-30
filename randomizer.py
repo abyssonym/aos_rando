@@ -193,7 +193,8 @@ class TreasureObject(TableObject):
                     item_type = m.soul_type + 5
                     item_index = m.soul
                 if ((item_type >= 3 or
-                        (item_type == 2 and item_index >= 0x1a)) and
+                        (item_type == 2 and item_index >= 0x1a) or
+                        (item_type == 1 and item_index <= 2)) and
                         (item_type, item_index) in done_items):
                     continue
                 t.item_type = item_type
