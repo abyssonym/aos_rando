@@ -203,6 +203,19 @@ class TreasureObject(TableObject):
                 break
 
 
+def enable_cutscene_skip():
+    # 0x1AF8 is the byte in SRAM that saves whether the game has been beaten
+    # (#03 if so) and therefore cutscenes can be skipped.
+    # This byte is copied to 02000060 when the game it turned on.
+    # When Start is pressed during a cutscene, the byte is loaded from
+    # memory at 0x5B56C.
+    # This patch changes it to a simple MOV r0, #03 instruction.
+    f = open(get_outfile(), "r+b")
+    f.seek(0x5B56C)
+    f.write("".join(map(chr, [0x03, 0x20])))
+    f.close()
+
+
 if __name__ == "__main__":
     try:
         print ('You are using the Castlevania: Aria of Sorrow '
@@ -218,8 +231,27 @@ if __name__ == "__main__":
         minmax = lambda x: (min(x), max(x))
 
         if DEBUG_MODE:
-            pass
+            for m in MonsterObject.every:
+                m.hp = 1
+                m.atk = 1
+                m.xp = 1000
 
+            pointers = [0x510bf9, 0x510c11, 0x510c1d,
+                        0x510ed5, 0x511145, 0x511565]
+            souls = [0x603, 0x805, 0x52c, 0x602, 0x707, 0x702]
+            for p, s in zip(pointers, souls):
+                item_type = s >> 8
+                item_index = s & 0xFF
+                t = TreasureObject.get_by_pointer(p)
+                t.item_type = item_type
+                t.item_index = item_index
+
+            for t in TreasureObject.every:
+                if t.pointer not in pointers:
+                    t.item_type = 3
+                    t.item_index = 0x19
+
+        enable_cutscene_skip()
         clean_and_write(ALL_OBJECTS)
         finish_interface()
     except Exception, e:
