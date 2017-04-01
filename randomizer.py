@@ -10,7 +10,7 @@ from randomtools.itemrouter import ItemRouter
 from os import path
 
 
-VERSION = 2
+VERSION = 3
 ALL_OBJECTS = None
 DEBUG_MODE = False
 RESEED_COUNTER = 0
