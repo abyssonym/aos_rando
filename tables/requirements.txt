@@ -97,16 +97,16 @@
 51d1e9
 51d32d
 51d405
-51d56d reservoir&high_jump
+51d56d reservoir&high_jump|reservoir&603
 51d801 reservoir
 51d825 reservoir
 51d8e5 reservoir&high_jump
 51d981
 51d999 reservoir&high_jump
-51da7d reservoir&high_jump
+51da7d reservoir&high_jump|reservoir&603
 51dad1
-51dc2d reservoir&high_jump
-51dc75 reservoir&high_jump
+51dc2d reservoir&high_jump|reservoir&603
+51dc75 reservoir&high_jump|reservoir&603
 51dced
 51dd29 forbidden
 51dd7d
