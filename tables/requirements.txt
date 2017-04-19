@@ -64,7 +64,7 @@
 513ebd study
 51515d dance_hall
 5151a5
-5152ad dance_hall&slide
+#5152ad dance_hall&slide
 5153f1
 5154a5
 51554d dance_hall&double_jump
