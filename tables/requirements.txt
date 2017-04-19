@@ -3,7 +3,8 @@
 .def double_jump 803|high_jump
 .def slide 802|flight
 .def backdash 801
-.def float 601|603|high_jump
+.def black_panther 603
+.def float 601|black_panther|high_jump
 .def waterwalking 701
 .def swimming 702
 .def transformation 612|613|614
@@ -17,7 +18,7 @@
 .def dance_hall long_jump
 .def inner_quarters dance_hall&slide|inner_corridor&long_jump
 .def timestop 806&inner_quarters
-.def floating_garden waterwalking&double_jump|high_jump
+.def floating_garden waterwalking&double_jump|black_panther&double_jump|high_jump
 .def top_floor inner_quarters&high_jump|inner_corridor&high_jump
 .def clock_tower inner_corridor&high_jump&swimming|floating_garden|top_floor
 .def arena reservoir
@@ -97,16 +98,16 @@
 51d1e9
 51d32d
 51d405
-51d56d reservoir&high_jump|reservoir&603
+51d56d reservoir&high_jump|reservoir&black_panther
 51d801 reservoir
 51d825 reservoir
 51d8e5 reservoir&high_jump
 51d981
 51d999 reservoir&high_jump
-51da7d reservoir&high_jump|reservoir&603
+51da7d reservoir&high_jump|reservoir&black_panther
 51dad1
-51dc2d reservoir&high_jump|reservoir&603
-51dc75 reservoir&high_jump|reservoir&603
+51dc2d reservoir&high_jump|reservoir&black_panther
+51dc75 reservoir&high_jump|reservoir&black_panther
 51dced
 51dd29 forbidden
 51dd7d
