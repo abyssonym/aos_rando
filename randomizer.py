@@ -136,7 +136,7 @@ class TreasureObject(TableObject):
 
         for item_type, item_index in souls:
             item = "%x" % ((item_type << 8) | item_index)
-            ir.assign_item(item, relaxed=True)
+            ir.assign_item(item)
 
         done_treasures = set([])
         done_items = set([])

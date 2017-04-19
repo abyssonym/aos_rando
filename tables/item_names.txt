@@ -215,7 +215,7 @@
 611 Alura Une
 612 Devil
 613 Manticore
-614  Curly
+614 Curly
 615 Sky Fish
 616 Imp
 617 Alastor

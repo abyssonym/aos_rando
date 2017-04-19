@@ -11,7 +11,7 @@
 .def reservoir swimming&double_jump
 .def forbidden reservoir&waterwalking&transformation
 .def long_jump double_jump&float|high_jump
-.def inner_corridor float|forbidden
+.def inner_corridor float|double_jump|forbidden
 .def chapel inner_corridor|forbidden
 .def study chapel|forbidden
 .def dance_hall long_jump
@@ -35,7 +35,7 @@
 511565 *
 511619 inner_corridor&high_jump
 51163d
-511715 inner_corridor&float
+511715 inner_corridor&float|inner_corridor&double_jump
 511739 inner_corridor
 511769
 51250d
