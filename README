@@ -8,6 +8,22 @@ Contact:    https://twitter.com/abyssonym
 --- ABOUT ---
     This is an item randomizer in the same vein as the LttP and Super Metroid item randomizers. Every seed should be beatable, but IANACE (I Am Not A Castlevania Expert).
 
+--- FAQ ---
+Q: Do I have to farm enemy souls to get the good ending?
+A: No, the required souls are hidden in the castle in soul statues. You never have to farm enemy souls.
+
+Q: What about to get ability souls like double jump or backdash?
+A: Those are all still in the game as pickups. You can get them all without ever farming enemy souls.
+
+Q: Uh-oh, I got Flame Demon/Succubus from an enemy... does that mean I have to farm them?
+A: No, an enemy can still drop them, but they are also hidden in statues. You never have to farm.
+
+Q: What about Kicker Skeleton. That's an ability soul.
+A: Okay, yeah, that one you still have to find from enemies. But you don't need it to progress.
+
+Q: What if I don't randomize items, just enemy souls? How do I get the good ending?
+A: In that case, Flame Demon and Succubus drop their normal souls.
+
 --- HOW TO USE ---
 Running the randomizer:
     Windows users may use the executable file, "aos_rando.exe". Other users, please run "randomizer.py" using Python version 2.7.
