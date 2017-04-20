@@ -48,6 +48,8 @@ class MonsterObject(TableObject):
 
     @property
     def intershuffle_valid(self):
+        if self.soul_type == 0 and self.soul == 0:
+            return False
         if "i" not in get_flags() and self.index in [0x5F, 0x68]:
             return False
         return True
