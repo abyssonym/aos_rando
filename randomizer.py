@@ -4,7 +4,8 @@ from randomtools.utils import (
     classproperty, mutate_normal, shuffle_bits, get_snes_palette_transformer,
     write_multi, utilrandom as random)
 from randomtools.interface import (
-    get_outfile, get_seed, get_flags, run_interface, rewrite_snes_meta,
+    get_outfile, get_seed, get_flags, get_user_input_flags,
+    run_interface, rewrite_snes_meta,
     clean_and_write, finish_interface)
 from randomtools.itemrouter import ItemRouter
 from os import path
@@ -155,6 +156,12 @@ class TreasureObject(TableObject):
                                if t not in done_treasures]
         random.shuffle(remaining_treasures)
         max_rank = max(ir.location_ranks)
+        user_input_flags = get_user_input_flags().lower()
+        oops_all_souls = ("oops" in user_input_flags and
+                          "all" in user_input_flags and
+                          "souls" in user_input_flags)
+        if oops_all_souls:
+            print "OOPS ALL SOULS CODE ACTIVATED"
         for t in remaining_treasures:
             rank = ir.get_location_rank("%x" % t.pointer)
             if rank is None:
@@ -162,13 +169,18 @@ class TreasureObject(TableObject):
                         * max_rank / 3.0)
             ratio = float(rank) / max_rank
             while True:
-                low = random.uniform(
-                        0.0, random.uniform(0.0, random.uniform(0.0, 1.0)))
-                high = random.uniform(random.uniform(0.0, 1.0), 1.0)
-                if low > high:
-                    low, high = high, low
-                score = (ratio * high) + ((1-ratio) * low)
-                item_type = random.choice(item_types)
+                if oops_all_souls:
+                    item_type = 5
+                else:
+                    item_type = random.choice(item_types)
+                if item_type < 5:
+                    low = random.uniform(
+                            0.0, random.uniform(0.0, random.uniform(0.0, 1.0)))
+                    high = random.uniform(random.uniform(0.0, 1.0), 1.0)
+                    if low > high:
+                        low, high = high, low
+                    score = (ratio * high) + ((1-ratio) * low)
+
                 if item_type == 1:
                     # money
                     max_index = 6
