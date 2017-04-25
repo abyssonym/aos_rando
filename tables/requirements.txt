@@ -1,6 +1,7 @@
 .def flight 602
 .def high_jump 805|flight
 .def double_jump 803|high_jump
+.def hard_mode double_jump
 .def slide 802|flight
 .def backdash 801
 .def black_panther 603
@@ -15,8 +16,10 @@
 .def inner_corridor float|double_jump|forbidden
 .def chapel inner_corridor|forbidden
 .def study chapel|forbidden
+.def overhead study
+.def underfoot study
 .def dance_hall long_jump
-.def inner_quarters dance_hall&slide|inner_corridor&long_jump
+.def inner_quarters dance_hall&slide|inner_corridor&long_jump|dance_hall&slide&hard_mode
 .def timestop 806&inner_quarters
 .def floating_garden waterwalking&double_jump|black_panther&double_jump|high_jump
 .def top_floor inner_quarters&high_jump|inner_corridor&high_jump
@@ -30,107 +33,110 @@
 510c1d *
 510dd9 double_jump
 510ed5 *
+510f65 inner_corridor
+510fad inner_corridor
 51103d inner_corridor&float|inner_corridor&double_jump
 511145 *
-#5114c9 inner_corridor&flight
+5114c9 inner_corridor&overhead
 511565 *
 511619 inner_corridor&high_jump
-51163d
-511715 inner_corridor&float|inner_corridor&double_jump
+51163d inner_corridor&float|inner_corridor&double_jump
+511715 inner_corridor&black_panther|inner_corridor&double_jump
 511739 inner_corridor
-511769
-51250d
-5124cd
-5125d9
+511769 inner_corridor
+51187d inner_corridor
+51250d chapel&double_jump|chapel&hard_mode
+5125cd chapel&double_jump
+5125d9 chapel
 512609 chapel
-512615
-512669
-51271d
+512615 chapel&double_jump|chapel&black_panther
+512669 chapel
+51271d chapel&double_jump
 5127a1 chapel&high_jump
 5128f1 chapel
-512939
-5129c9
+512939 chapel&overhead
+5129c9 chapel
 512a05 chapel&double_jump
-513875
-5138f9
-513911
+513875 study
+5138f9 study
+513911 study
 513af1 study
-513be1 study&double_jump
+513be1 study&double_jump|study&black_panther
 513bf9 study&double_jump
 513c59 study&double_jump
 513c71 study&backdash
 513d0d study&slide|forbidden
-513dfd
+513dfd study
 513ebd study
 51515d dance_hall
-5151a5
-#5152ad dance_hall&slide
-5153f1
-5154a5
+5151a5 dance_hall&double_jump
+5152ad dance_hall
+5153f1 dance_hall&high_jump|dance_hall&double_jump&hard_mode
+5154a5 dance_hall&double_jump
 51554d dance_hall&double_jump
-5155d1
+5155d1 dance_hall&double_jump
 515781 inner_quarters&high_jump
 516829 timestop&double_jump
 516835 timestop&double_jump
-51696d
-516abd
-516c9d inner_quarters
+51696d inner_quarters&double_jump
+516abd inner_quarters&underfoot
+516c9d inner_quarters&underfoot
 516d09 inner_quarters&double_jump
 516d15 inner_quarters&double_jump
-51714d
+51714d inner_quarters&double_jump
 517d91 floating_garden
-517e2d
-517f1d
-518175
-518235
-518301
+517e2d floating_garden
+517f1d floating_garden
+518175 floating_garden
+518235 floating_garden
+518301 floating_garden
 5199d1 clock_tower&swimming&slide&double_jump
 519cad clock_tower&swimming
 519f7d clock_tower
-51a0fd
+51a0fd clock_tower
 51a3cd clock_tower
 51cbf5 *
-51cd39
+51cd39 *
 51cd5d waterwalking&double_jump|high_jump
 51ce05 swimming
-51d015
-51d051
-51d1e9
-51d32d
-51d405
+51d015 reservoir
+51d051 reservoir
+51d1e9 reservoir&slide
+51d32d reservoir
+51d405 reservoir&high_jump
 51d56d reservoir&high_jump|reservoir&black_panther
 51d801 reservoir
 51d825 reservoir
 51d8e5 reservoir&high_jump
-51d981
+51d981 reservoir&high_jump|reservoir&black_panther
 51d999 reservoir&high_jump
 51da7d reservoir&high_jump|reservoir&black_panther
-51dad1
+51dad1 reservoir&high_jump|reservoir&black_panther
 51dc2d reservoir&high_jump|reservoir&black_panther
 51dc75 reservoir&high_jump|reservoir&black_panther
-51dced
+51dced reservoir&high_jump|reservoir&black_panther
 51dd29 forbidden
-51dd7d
-51e25d
+51dd7d reservoir
+51e25d reservoir
 51e329 reservoir
 51f1d1 arena
 51f285 arena
-51f5fd arena&high_jump
+51f5fd arena&high_jump|arena&black_panther&hard_mode
 51f8b5 arena
 51f8e5 arena&slide
 51f909 arena
-51f945
+51f945 arena
 520bb1 dracula
 520bbd dracula
-520bd5
+520bd5 top_floor
 520c35 top_floor
 520d6d top_floor
 520e09 top_floor
-5211ed
-521361
+5211ed top_floor
+521361 top_floor
 521385 top_floor
 521c5d forbidden&swimming
 521d05 forbidden&swimming
-523cc1
-523d99
-523dbd
+523cc1 dracula
+523d99 dracula
+523dbd dracula

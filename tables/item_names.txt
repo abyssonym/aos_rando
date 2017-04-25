@@ -40,7 +40,7 @@
 300 Knife
 301 Baselard
 302 Combat Knife
-303 Shord Sword
+303 Short Sword
 304 Bastard Sword
 305 Whip Sword
 306 Gladius
@@ -223,7 +223,7 @@
 701 Undine
 702 Skula
 703 Zombie Officer
-704 Iorn Golem
+704 Iron Golem
 705 Dead Warrior
 706 Peeping Eye
 707 Succubus

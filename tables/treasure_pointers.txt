@@ -1,11 +1,13 @@
 5109dd Lucky Charm
 510af1 Vjaya
 510afd Cestus
-510bf9 Shord Sword
+510bf9 Short Sword
 510c11 Cape
 510c1d Grave Keeper
 510dd9 Lance
 510ed5 Mind Up
+510f65 Potion
+510fad Potion
 51103d Leather Plate
 511145 Flying Armor
 5114c9 Yasutsuna
@@ -15,6 +17,7 @@
 511715 Copper Plate
 511739 Scarf
 511769 $500
+51187d Potion
 51250d Anti-Venom
 5125cd High Mind Up
 5125d9 $100
