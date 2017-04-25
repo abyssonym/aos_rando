@@ -1,0 +1,3 @@
+item_type,1
+item_index,1
+zero,2

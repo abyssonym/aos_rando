@@ -100,6 +100,14 @@ class ItemObject(TableObject):
             index += len(WeaponObject.every)
         return index
 
+    @classproperty
+    def every(self):
+        if self is ItemObject:
+            return (ConsumableObject.every +
+                    WeaponObject.every +
+                    ArmorObject.every)
+        return super(ItemObject, self).every
+
 
 class ConsumableObject(ItemObject): pass
 class WeaponObject(ItemObject): pass
@@ -219,6 +227,9 @@ class TreasureObject(TableObject):
                 break
 
 
+class ShopIndexObject(TableObject): pass
+
+
 def enable_cutscene_skip():
     # 0x1AF8 is the byte in SRAM that saves whether the game has been beaten
     # (#03 if so) and therefore cutscenes can be skipped.
@@ -241,7 +252,9 @@ if __name__ == "__main__":
         ALL_OBJECTS = [g for g in globals().values()
                        if isinstance(g, type) and issubclass(g, TableObject)
                        and g not in [TableObject]]
+
         run_interface(ALL_OBJECTS, snes=True)
+
         hexify = lambda x: "{0:0>2}".format("%x" % x)
         numify = lambda x: "{0: >3}".format(x)
         minmax = lambda x: (min(x), max(x))
@@ -252,20 +265,53 @@ if __name__ == "__main__":
                 m.atk = 1
                 m.xp = 1000
 
-            pointers = [0x510bf9, 0x510c11, 0x510c1d,
-                        0x510ed5, 0x511145, 0x511565]
-            souls = [0x603, 0x805, 0x52c, 0x602, 0x707, 0x702]
-            for p, s in zip(pointers, souls):
+            soul_pointers = {
+                    # castle entrance
+                    0x510bf9: 0x603,
+                    0x510c11: 0x805,
+                    0x510c1d: 0x803,
+                    0x5109dd: 0x801,
+                    0x510af1: 0x802,
+                    0x510afd: 0x601,
+                    # reservoir
+                    0x51cbf5: 0x701,
+                    0x51cd5d: 0x702,
+                    0x51cd39: random.choice([0x612, 0x613, 0x614]),
+                    # past creaking skull
+                    0x510ed5: 0x602,
+                    0x511145: 0x52c,
+                    0x511565: 0x707,
+                }
+            done_pointers = []
+            for p, s in soul_pointers.items():
                 item_type = s >> 8
                 item_index = s & 0xFF
                 t = TreasureObject.get_by_pointer(p)
                 t.item_type = item_type
                 t.item_index = item_index
+                done_pointers.append(p)
 
-            for t in TreasureObject.every:
-                if t.pointer not in pointers:
-                    t.item_type = 3
-                    t.item_index = 0x19
+            souls = sorted(set([(e.soul_type, e.soul)
+                                for e in MonsterObject.every
+                                if e.soul_type > 0 or e.soul > 0]))
+            for t in sorted(TreasureObject.every, key=lambda t: t.pointer):
+                if t.pointer in done_pointers:
+                    continue
+                soul_type, soul = souls.pop(0)
+                t.item_type = soul_type + 5
+                t.item_index = soul
+                print "%x" % t.pointer, t.name
+
+            for m in MonsterObject.every:
+                m.soul_type = 3
+                m.soul = 4
+
+            s = ShopIndexObject.get(0x80)
+            s.item_type, s.item_index = 4, 0x13
+            s = ShopIndexObject.get(0x81)
+            s.item_type, s.item_index = 4, 0x2c
+            for i in ItemObject.every:
+                i.price = 0
 
         enable_cutscene_skip()
         clean_and_write(ALL_OBJECTS)
