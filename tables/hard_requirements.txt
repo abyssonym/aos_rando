@@ -12,22 +12,22 @@
 .def chaos dracula&skula
 .def kicker 803&804|hippogryph
 
-.def reservoir skula&malphas
-.def eastern_reservoir skula&malphas&panther|skula&hippogryph
+.def reservoir skula
+.def eastern_reservoir skula&panther|skula&kicker
 .def cemetary reservoir
 .def forbidden reservoir&undine&rush&malphas
 .def long_jump malphas&float|hippogryph
-.def inner_corridor float|malphas
+.def inner_corridor float|malphas|backdash
 .def chapel inner_corridor
 .def study chapel
 .def overhead study|panther
 .def underfoot study|panther
-.def dance_hall long_jump
+.def dance_hall long_jump|kicker
 .def inner_quarters dance_hall&slide|inner_corridor&long_jump
 .def timestop 806&inner_quarters
-.def floating_garden undine&malphas|hippogryph
+.def floating_garden malphas
 .def top_floor inner_quarters&hippogryph|inner_corridor&hippogryph
-.def clock_tower inner_corridor&hippogryph&skula|floating_garden|top_floor
+.def clock_tower inner_corridor&hippogryph&skula|inner_corridor&hippogryph&kicker|floating_garden|top_floor
 .def arena reservoir
 
 5109dd malphas
@@ -42,21 +42,21 @@
 510fad inner_corridor
 51103d inner_corridor
 511145 *
-5114c9 inner_corridor&bat
+5114c9 inner_corridor&bat|inner_corridor&overhead
 511565 *
 511619 inner_corridor&hippogryph
 51163d inner_corridor
-511715 inner_corridor&panther|inner_corridor&malphas
+511715 inner_corridor&float|inner_corridor&malphas
 511739 inner_corridor
 511769 inner_corridor
 51187d inner_corridor
-51250d chapel&malphas
+51250d chapel&malphas|chapel&float
 5125cd chapel
 5125d9 chapel
 512609 chapel
 512615 chapel&malphas|chapel&panther
 512669 chapel
-51271d chapel&long_jump
+51271d chapel&malphas
 5127a1 chapel&hippogryph
 5128f1 chapel
 512939 chapel&overhead
@@ -66,11 +66,11 @@
 5138f9 study
 513911 study
 513af1 study
-513be1 study&malphas
+513be1 study&malphas|study&panther
 513bf9 study&malphas
 513c59 study&malphas
-513c71 study&backdash
-513d0d study&slide|forbidden
+513c71 study
+#513d0d study&slide|forbidden
 513dfd study
 513ebd study
 51515d dance_hall
@@ -80,10 +80,10 @@
 5154a5 dance_hall&malphas
 51554d dance_hall&malphas
 5155d1 dance_hall&malphas
-515781 inner_quarters&hippogryph
+515781 inner_quarters&kicker
 516829 timestop&malphas
 516835 timestop&malphas
-51696d inner_quarters&malphas
+51696d inner_quarters&malphas|inner_quarters&panther
 516abd inner_quarters&underfoot&malphas
 516c9d inner_quarters&underfoot&malphas
 516d09 inner_quarters&malphas
@@ -106,26 +106,26 @@
 51ce05 reservoir
 51d015 reservoir&skula
 51d051 cemetary
-51d1e9 reservoir&slide
+51d1e9 reservoir&slide|reservoir&overhead
 51d32d reservoir
 51d405 reservoir&hippogryph
-51d56d eastern_reservoir&long_jump
+51d56d eastern_reservoir&kicker|eastern_reservoir&long_jump
 51d801 reservoir
 51d825 cemetary
 51d8e5 reservoir&hippogryph
 51d981 eastern_reservoir
 51d999 reservoir&hippogryph
-51da7d eastern_reservoir&long_jump|eastern_reservoir&undine&malphas
+51da7d eastern_reservoir&kicker|eastern_reservoir&long_jump|eastern_reservoir&undine&malphas
 51dad1 eastern_reservoir&malphas
 51dc2d eastern_reservoir&malphas
 51dc75 eastern_reservoir&malphas
 51dced eastern_reservoir&malphas&skula
-51dd29 forbidden
+51dd29 reservoir&malphas
 51dd7d cemetary&malphas
 51e25d cemetary&malphas
 51e329 cemetary&malphas
 51f1d1 arena
-51f285 arena&hippogryph
+51f285 arena
 51f5fd arena
 51f8b5 arena
 51f8e5 arena&slide
