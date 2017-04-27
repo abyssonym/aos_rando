@@ -142,9 +142,34 @@ def route_items():
         ir = ItemRouter(path.join(tblpath, "bat_requirements.txt"))
     else:
         ir = ItemRouter(path.join(tblpath, "requirements.txt"))
-    ir.assign_everything()
+
+    if hard_mode:
+        aggression=4
+    else:
+        aggression=3
+
+    while True:
+        ir.assign_everything(aggression=aggression)
+        if hard_mode:
+            bat_location = ir.get_assigned_location("602")
+            assert bat_location is not None
+            hippo_location = ir.get_assigned_location("805")
+            malphas_location = ir.get_assigned_location("803")
+            if (hippo_location and
+                    ir.get_location_rank(bat_location) <
+                    ir.get_location_rank(hippo_location)):
+                ir.clear_assignments()
+                continue
+            if (malphas_location and
+                    ir.get_location_rank(bat_location) <
+                    ir.get_location_rank(malphas_location)):
+                ir.clear_assignments()
+                continue
+        break
+
     souls = [(t.item_type, t.item_index) for t in TreasureObject.every
              if t.item_type >= 5]
+    souls += [(0x8, 0x04)]  # kicker skeleton
 
     # save for later when picking items
     item_types = [t.item_type for t in TreasureObject.every]
@@ -159,7 +184,18 @@ def route_items():
 
     for item_type, item_index in souls:
         item = "%x" % ((item_type << 8) | item_index)
-        ir.assign_item(item)
+        if bat_mode or (hard_mode and random.choice([True, False])):
+            continue
+        ir.assign_item(item, aggression=aggression)
+
+    if hard_mode and (8, 0x05) in souls:
+        bat_location = ir.get_assigned_location("602")
+        hippo_location = ir.get_assigned_location("805")
+        assert bat_location is not None
+        if (hippo_location and
+                ir.get_location_rank(bat_location) >
+                ir.get_location_rank(hippo_location)):
+            ir.unassign_item("805")
 
     done_treasures = set([])
     done_items = set([])

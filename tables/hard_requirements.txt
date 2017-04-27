@@ -1,5 +1,5 @@
-.def bat 602
-.def hippogryph 805|bat
+.def bat 602&805|602&803|602&603|602&702
+.def hippogryph 805&803|805&602|805&603|805&702|bat
 .def malphas 803|hippogryph
 .def slide 802|bat
 .def backdash 801
