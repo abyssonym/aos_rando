@@ -229,9 +229,12 @@ def route_items():
             else:
                 item_type = random.choice(item_types)
             if item_type < 5:
-                low = random.uniform(
-                        0.0, random.uniform(0.0, random.uniform(0.0, 1.0)))
-                high = random.uniform(random.uniform(0.0, 1.0), 1.0)
+                low = random.uniform(0.0, random.uniform(0.0, 1.0))
+                high = random.uniform(0.0, 1.0)
+                if hard_mode:
+                    low = random.uniform(0.0, low)
+                else:
+                    high = random.uniform(high, 1.0)
                 if low > high:
                     low, high = high, low
                 score = (ratio * high) + ((1-ratio) * low)
@@ -250,6 +253,9 @@ def route_items():
                 elif item_type == 4:
                     # armor
                     objects = ArmorObject.ranked
+                if 3 <= item_type <= 4:
+                    objects = [o for o in objects
+                               if (item_type, o.index) not in done_items]
                 max_index = len(objects)-1
                 index = int(round(score * max_index))
                 chosen = objects[index]
@@ -262,8 +268,8 @@ def route_items():
                 if item_type == 5 and item_index == 0:
                     continue
             if ((item_type >= 3 or
-                    (item_type == 2 and item_index >= 0x1a) or
-                    (item_type == 1 and item_index <= 3)) and
+                    item_type == 1 or
+                    (item_type == 2 and item_index >= 0x1a)) and
                     (item_type, item_index) in done_items):
                 continue
             t.item_type = item_type
