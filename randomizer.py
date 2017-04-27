@@ -4,7 +4,7 @@ from randomtools.utils import (
     classproperty, mutate_normal, shuffle_bits, get_snes_palette_transformer,
     write_multi, utilrandom as random)
 from randomtools.interface import (
-    get_outfile, get_seed, get_flags, get_user_input_flags,
+    get_outfile, get_seed, get_flags, get_activated_codes,
     run_interface, rewrite_snes_meta,
     clean_and_write, finish_interface)
 from randomtools.itemrouter import ItemRouter
@@ -127,113 +127,119 @@ class TreasureObject(TableObject):
     def get_by_pointer(cls, pointer):
         return [t for t in TreasureObject.every if t.pointer == pointer][0]
 
-    @classmethod
-    def randomize_all(cls):
-        ir = ItemRouter(path.join(tblpath, "requirements.txt"))
-        ir.assign_everything()
-        souls = [(t.item_type, t.item_index) for t in TreasureObject.every
-                 if t.item_type >= 5]
-
-        # save for later when picking items
-        item_types = [t.item_type for t in TreasureObject.every]
-
-        for pointer, item in sorted(ir.assignments.items()):
-            pointer = int(pointer, 0x10)
-            item = int(item, 0x10)
-            item_type = item >> 8
-            item_index = item & 0xFF
-            if (item_type, item_index) in souls:
-                souls.remove((item_type, item_index))
-
-        for item_type, item_index in souls:
-            item = "%x" % ((item_type << 8) | item_index)
-            ir.assign_item(item)
-
-        done_treasures = set([])
-        done_items = set([])
-        for pointer, item in sorted(ir.assignments.items()):
-            pointer = int(pointer, 0x10)
-            item = int(item, 0x10)
-            item_type = item >> 8
-            item_index = item & 0xFF
-            t = TreasureObject.get_by_pointer(pointer)
-            t.item_type = item_type
-            t.item_index = item_index
-            done_treasures.add(t)
-            done_items.add((item_type, item_index))
-
-        remaining_treasures = [t for t in TreasureObject.every
-                               if t not in done_treasures]
-        random.shuffle(remaining_treasures)
-        max_rank = max(ir.location_ranks)
-        user_input_flags = get_user_input_flags().lower()
-        oops_all_souls = ("oops" in user_input_flags and
-                          "all" in user_input_flags and
-                          "souls" in user_input_flags)
-        if oops_all_souls:
-            print "OOPS ALL SOULS CODE ACTIVATED"
-        for t in remaining_treasures:
-            rank = ir.get_location_rank("%x" % t.pointer)
-            if rank is None:
-                rank = ((random.random() + random.random() + random.random())
-                        * max_rank / 3.0)
-            ratio = float(rank) / max_rank
-            while True:
-                if oops_all_souls:
-                    item_type = 5
-                else:
-                    item_type = random.choice(item_types)
-                if item_type < 5:
-                    low = random.uniform(
-                            0.0, random.uniform(0.0, random.uniform(0.0, 1.0)))
-                    high = random.uniform(random.uniform(0.0, 1.0), 1.0)
-                    if low > high:
-                        low, high = high, low
-                    score = (ratio * high) + ((1-ratio) * low)
-
-                if item_type == 1:
-                    # money
-                    max_index = 6
-                    item_index = int(round(score * max_index))
-                elif 2 <= item_type <= 4:
-                    if item_type == 2:
-                        # consumables
-                        objects = ConsumableObject.ranked
-                    elif item_type == 3:
-                        # weapons
-                        objects = WeaponObject.ranked
-                    elif item_type == 4:
-                        # armor
-                        objects = ArmorObject.ranked
-                    max_index = len(objects)-1
-                    index = int(round(score * max_index))
-                    chosen = objects[index]
-                    item_index = chosen.index
-                elif item_type >= 5:
-                    # souls
-                    m = random.choice(MonsterObject.every)
-                    item_type = m.soul_type + 5
-                    item_index = m.soul
-                    if item_type == 5 and item_index == 0:
-                        continue
-                if ((item_type >= 3 or
-                        (item_type == 2 and item_index >= 0x1a) or
-                        (item_type == 1 and item_index <= 3)) and
-                        (item_type, item_index) in done_items):
-                    continue
-                t.item_type = item_type
-                t.item_index = item_index
-                done_items.add((item_type, item_index))
-                break
-
 
 class ShopIndexObject(TableObject): pass
+
+
+def route_items():
+    hard_mode = "hard" in get_activated_codes()
+    bat_mode = "bat" in get_activated_codes()
+    if hard_mode:
+        print "HARD MODE ACTIVATED"
+        ir = ItemRouter(path.join(tblpath, "hard_requirements.txt"))
+    elif bat_mode:
+        print "BAT MODE ACTIVATED"
+        ir = ItemRouter(path.join(tblpath, "bat_requirements.txt"))
+    else:
+        ir = ItemRouter(path.join(tblpath, "requirements.txt"))
+    ir.assign_everything()
+    souls = [(t.item_type, t.item_index) for t in TreasureObject.every
+             if t.item_type >= 5]
+
+    # save for later when picking items
+    item_types = [t.item_type for t in TreasureObject.every]
+
+    for pointer, item in sorted(ir.assignments.items()):
+        pointer = int(pointer, 0x10)
+        item = int(item, 0x10)
+        item_type = item >> 8
+        item_index = item & 0xFF
+        if (item_type, item_index) in souls:
+            souls.remove((item_type, item_index))
+
+    for item_type, item_index in souls:
+        item = "%x" % ((item_type << 8) | item_index)
+        ir.assign_item(item)
+
+    done_treasures = set([])
+    done_items = set([])
+    for pointer, item in sorted(ir.assignments.items()):
+        pointer = int(pointer, 0x10)
+        item = int(item, 0x10)
+        item_type = item >> 8
+        item_index = item & 0xFF
+        t = TreasureObject.get_by_pointer(pointer)
+        t.item_type = item_type
+        t.item_index = item_index
+        done_treasures.add(t)
+        done_items.add((item_type, item_index))
+
+    remaining_treasures = [t for t in TreasureObject.every
+                           if t not in done_treasures]
+    random.shuffle(remaining_treasures)
+    max_rank = max(ir.location_ranks)
+    oops_all_souls = 'oopsallsouls' in get_activated_codes()
+    if oops_all_souls:
+        print "OOPS ALL SOULS CODE ACTIVATED"
+    for t in remaining_treasures:
+        rank = ir.get_location_rank("%x" % t.pointer)
+        if rank is None:
+            rank = ((random.random() + random.random() + random.random())
+                    * max_rank / 3.0)
+        ratio = float(rank) / max_rank
+        while True:
+            if oops_all_souls:
+                item_type = 5
+            else:
+                item_type = random.choice(item_types)
+            if item_type < 5:
+                low = random.uniform(
+                        0.0, random.uniform(0.0, random.uniform(0.0, 1.0)))
+                high = random.uniform(random.uniform(0.0, 1.0), 1.0)
+                if low > high:
+                    low, high = high, low
+                score = (ratio * high) + ((1-ratio) * low)
+
+            if item_type == 1:
+                # money
+                max_index = 6
+                item_index = int(round(score * max_index))
+            elif 2 <= item_type <= 4:
+                if item_type == 2:
+                    # consumables
+                    objects = ConsumableObject.ranked
+                elif item_type == 3:
+                    # weapons
+                    objects = WeaponObject.ranked
+                elif item_type == 4:
+                    # armor
+                    objects = ArmorObject.ranked
+                max_index = len(objects)-1
+                index = int(round(score * max_index))
+                chosen = objects[index]
+                item_index = chosen.index
+            elif item_type >= 5:
+                # souls
+                m = random.choice(MonsterObject.every)
+                item_type = m.soul_type + 5
+                item_index = m.soul
+                if item_type == 5 and item_index == 0:
+                    continue
+            if ((item_type >= 3 or
+                    (item_type == 2 and item_index >= 0x1a) or
+                    (item_type == 1 and item_index <= 3)) and
+                    (item_type, item_index) in done_items):
+                continue
+            t.item_type = item_type
+            t.item_index = item_index
+            done_items.add((item_type, item_index))
+            break
 
 
 def enable_cutscene_skip():
     # 0x1AF8 is the byte in SRAM that saves whether the game has been beaten
     # (#03 if so) and therefore cutscenes can be skipped.
-    # This byte is copied to 02000060 when the game it turned on.
+    # This byte is copied to 02000060 when the game is turned on.
     # When Start is pressed during a cutscene, the byte is loaded from
     # memory at 0x5B56C.
     # This patch changes it to a simple MOV r0, #03 instruction.
@@ -253,7 +259,18 @@ if __name__ == "__main__":
                        if isinstance(g, type) and issubclass(g, TableObject)
                        and g not in [TableObject]]
 
-        run_interface(ALL_OBJECTS, snes=True)
+        codes = {
+            'oopsallsouls': ['oopsallsouls', 'oops all souls',
+                               'oops_all_souls'],
+            'bat': ['batcompany', 'bat_company', 'bat company'],
+            'hard': 'hard',
+        }
+        run_interface(ALL_OBJECTS, snes=True, codes=codes)
+
+        activated_codes = get_activated_codes()
+        if ('i' in get_flags() or "oopsallsouls" in activated_codes
+                or "bat" in activated_codes or "hard" in activated_codes):
+            route_items()
 
         hexify = lambda x: "{0:0>2}".format("%x" % x)
         numify = lambda x: "{0: >3}".format(x)
