@@ -271,6 +271,46 @@ def route_items():
             done_items.add((item_type, item_index))
             break
 
+    # replace boss souls to prevent softlocks
+    winged = [m for m in MonsterObject.every
+              if m.soul_type == 0 and m.soul == 1][0]
+    kicker = [m for m in MonsterObject.every
+              if m.soul_type == 3 and m.soul == 4][0]
+    if hard_mode:
+        replaceable = [kicker, winged]
+    else:
+        replaceable = [winged, kicker]
+    legion = MonsterObject.get(0x6c)
+    balore = MonsterObject.get(0x6d)
+    bosses = [legion, balore]
+    random.shuffle(bosses)
+    for boss in bosses:
+        if boss is legion:
+            locations = [0x51d051, 0x51d825]
+            souls = set([(8, 0x03), (8, 0x05), (6, 0x02)])
+        elif boss is balore:
+            locations = [0x51f1d1, 0x51f8b5, 0x51f909]
+            souls = set([(8, 0x03), (8, 0x05), (6, 0x03), (6, 0x02)])
+        else:
+            raise Exception
+        locations = set([
+            (t.get_by_pointer(l).item_type, t.get_by_pointer(l).item_index)
+            for l in locations])
+        if locations & souls:
+            continue
+        soulstrs = dict([((a, b), "{0}{1:0>2}".format("%x" % a, "%x" % b))
+                         for (a, b) in souls])
+        souls = [s for s in souls if ir.get_item_rank(soulstrs[s]) is not None]
+        souls = sorted(
+            souls, key=lambda s: (ir.get_item_rank(soulstrs[s]),
+                                  random.random()))
+        soul_type, soul = souls.pop(0)
+        replacement = replaceable.pop(0)
+        replacement.soul_type = boss.soul_type
+        replacement.soul = boss.soul
+        boss.soul_type = soul_type
+        boss.soul = soul
+
 
 def enable_cutscene_skip():
     # 0x1AF8 is the byte in SRAM that saves whether the game has been beaten
