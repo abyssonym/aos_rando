@@ -11,3 +11,6 @@ $legion2            51d825
 $balore1            51f1d1
 $balore2            51f8b5
 $balore3            51f909
+$hammer1            526c04
+$hammer2            526c1c
+$hammer3            526c40

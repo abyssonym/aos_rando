@@ -75,21 +75,33 @@ class ItemObject(TableObject):
         return rank + random.random()
 
     @property
+    def item_type(self):
+        if isinstance(self, ConsumableObject):
+            item_type = 2
+        if isinstance(self, WeaponObject):
+            item_type = 3
+        elif isinstance(self, ArmorObject):
+            item_type = 4
+        return item_type
+
+    @property
     def name(self):
         index = self.index
-        if isinstance(self, ConsumableObject):
-            index |= 0x200
-        if isinstance(self, WeaponObject):
-            index |= 0x300
-        elif isinstance(self, ArmorObject):
-            index |= 0x400
+        index |= (self.item_type << 8)
         return get_item_names()[index]
 
     @classmethod
-    def superget(cls, index):
-        return (ConsumableObject.every +
-                WeaponObject.every +
-                ArmorObject.every)[index]
+    def superget(cls, index1, index2=None):
+        if index2 is None:
+            return (ConsumableObject.every +
+                    WeaponObject.every +
+                    ArmorObject.every)[index1]
+        subcls = {
+            2: ConsumableObject,
+            3: WeaponObject,
+            4: ArmorObject,
+        }[index1]
+        return subcls.get(index2)
 
     @property
     def superindex(self):
@@ -128,7 +140,64 @@ class TreasureObject(TableObject):
         return [t for t in TreasureObject.every if t.pointer == pointer][0]
 
 
-class ShopIndexObject(TableObject): pass
+class ShopIndexObject(TableObject):
+    flag = "h"
+    flag_description = "Hammer's shop"
+
+    def __repr__(self):
+        return self.item.__repr__()
+
+    @property
+    def item(self):
+        return ItemObject.superget(self.item_type, self.item_index)
+
+    @classmethod
+    def randomize_all(cls):
+        f = open(get_outfile(), "r+b")
+        f.seek(addresses.hammer3)
+        num_items = ord(f.read(1))
+        indexes = map(ord, f.read(num_items))
+        f.close()
+        sios = [ShopIndexObject.get(i) for i in indexes]
+        hard_mode = "hard" in get_activated_codes()
+        total_new_items = []
+        for item_type in [2, 3, 4]:
+            subsios = [sio for sio in sios if sio.item_type == item_type]
+            new_items = []
+            candidates = [i for i in ItemObject.every
+                          if i.item_type == item_type and i.price > 0]
+            candidates = sorted(candidates,
+                                key=lambda c: (c.price, random.random()))
+            max_index = len(candidates)-1
+            while len(new_items) < len(subsios):
+                if hard_mode:
+                    index = random.randint(0, random.randint(0, max_index))
+                else:
+                    index = random.randint(0, max_index)
+                chosen = candidates[index]
+                if chosen in new_items:
+                    continue
+                new_items.append(chosen)
+            new_items = sorted(new_items, key=lambda ni: ni.index)
+            total_new_items.extend(new_items)
+
+        sios = [ShopIndexObject.get(i) for i in xrange(len(total_new_items))]
+        for sio, ni in zip(sios, total_new_items):
+            sio.item_type = ni.item_type
+            sio.item_index = ni.index
+
+        f = open(get_outfile(), "r+b")
+        previous = list(sios)
+        for address in ["hammer3", "hammer2", "hammer1"]:
+            f.seek(getattr(addresses, address))
+            num_items = ord(f.read(1))
+            f.seek(getattr(addresses, address)+1)
+            chosen_sios = random.sample(previous, num_items)
+            chosen_sios = sorted(chosen_sios, key=lambda sio: sio.index)
+            for sio in chosen_sios:
+                f.write(chr(sio.index))
+            previous = chosen_sios
+        f.close()
 
 
 def route_items():
