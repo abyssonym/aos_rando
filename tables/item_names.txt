@@ -15,22 +15,22 @@
 207 Mana Prism
 208 Anti-Venom
 209 Uncurse Potion
-20A Coffee
-20B Tea
-20C Pudding
-20D Strawberry
-20E Melon
-20F Grapes
-210 Persimmon
-211 Rotten Meat
-212 Spoiled Milk
-213 Skull Key
-214 Potato Pancake
-215 Beef Curry
-216 Ramen
-217 Cream Soda
-218 Cream Puff
-219 Milk
+20A Potato Pancake
+20B Beef Curry
+20C Ramen
+20D Cream Soda
+20E Cream Puff
+20F Milk
+210 Coffee
+211 Tea
+212 Pudding
+213 Strawberry
+214 Melon
+215 Grapes
+216 Persimmon
+217 Rotten Meat
+218 Spoiled Milk
+219 Skull Key
 21A Ancient Book 1
 21B Ancient Book 2
 21C Ancient Book 3
