@@ -5,3 +5,9 @@ WeaponObject        weapon_table.txt            505d3c  59
 ArmorObject         armor_table.txt             5063b0  45
 TreasureObject      treasure_table.txt          treasure_pointers.txt
 ShopIndexObject     shop_index_table.txt        5269fc  130
+$cutscene_skip      5b56c
+$legion1            51d051
+$legion2            51d825
+$balore1            51f1d1
+$balore2            51f8b5
+$balore3            51f909

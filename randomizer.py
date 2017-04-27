@@ -292,10 +292,11 @@ def route_items():
     random.shuffle(bosses)
     for boss in bosses:
         if boss is legion:
-            locations = [0x51d051, 0x51d825]
+            locations = [addresses.legion1, addresses.legion2]
             souls = set([(8, 0x03), (8, 0x05), (6, 0x02)])
         elif boss is balore:
-            locations = [0x51f1d1, 0x51f8b5, 0x51f909]
+            locations = [addresses.balore1, addresses.balore2,
+                         addresses.balore3]
             souls = set([(8, 0x03), (8, 0x05), (6, 0x03), (6, 0x02)])
         else:
             raise Exception
@@ -326,7 +327,7 @@ def enable_cutscene_skip():
     # memory at 0x5B56C.
     # This patch changes it to a simple MOV r0, #03 instruction.
     f = open(get_outfile(), "r+b")
-    f.seek(0x5B56C)
+    f.seek(addresses.cutscene_skip)
     f.write("".join(map(chr, [0x03, 0x20])))
     f.close()
 
