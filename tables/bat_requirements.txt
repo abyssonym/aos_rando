@@ -6,7 +6,7 @@
 .def panther bat
 .def float bat
 .def undine 701&bat
-.def skula 702&bat
+.def skula 702&bat&52c|702&bat&707
 .def rush 612|613|614
 .def dracula 52c&602&707
 .def chaos dracula&skula
