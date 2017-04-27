@@ -47,10 +47,34 @@ class MonsterObject(TableObject):
                                "rare_drop"]
 
     @property
+    def name(self):
+        soul_type = self.soul_type + 5
+        soul = self.soul
+        index = (soul_type << 8) | soul
+        try:
+            return get_item_names()[index]
+        except KeyError:
+            return "UNKNOWN MONSTER"
+
+    @property
+    def pretty_drops(self):
+        pretty_drops = []
+        for attr in ["common_drop", "rare_drop"]:
+            value = getattr(self, attr)
+            if value == 0:
+                pretty_drops.append("Nothing")
+                continue
+            pretty_drops.append(ItemObject.superget(value-1).name)
+        return ", ".join(pretty_drops)
+
+    @property
     def intershuffle_valid(self):
         if self.soul_type == 0 and self.soul == 0:
             return False
-        if "i" not in get_flags() and self.index in [0x5F, 0x68]:
+        codes = get_activated_codes()
+        item_rando = ("i" in get_flags() or "hard" in codes
+                      or "bat" in codes or "oopsallsouls" in codes)
+        if self.index in [0x5F, 0x68] and not item_rando:
             return False
         return True
 
@@ -59,10 +83,21 @@ class MonsterObject(TableObject):
             value = getattr(self, attr)
             if value == 0:
                 continue
-            i = ItemObject.superget(value)
+            i = ItemObject.superget(value-1)
             i = i.get_similar()
-            value = (value & 0xFF00) | i.superindex
+            value = (value & 0xFF00) | (i.superindex+1)
             setattr(self, attr, value)
+
+    @property
+    def rank(self):
+        hard_mode = "hard" in get_activated_codes()
+        if hard_mode:
+            if self.xp == 0:
+                return 20000 + random.random()
+            else:
+                return self.xp + random.random()
+        else:
+            return 0
 
 
 class ItemObject(TableObject):
