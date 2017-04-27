@@ -68,7 +68,7 @@ class MonsterObject(TableObject):
 class ItemObject(TableObject):
     @property
     def rank(self):
-        if self.price == 0:
+        if self.price == 0 and self.item_type >= 3:
             rank = 1000000
         else:
             rank = self.price

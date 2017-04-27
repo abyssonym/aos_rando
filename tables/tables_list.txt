@@ -14,3 +14,7 @@ $balore3            51f909
 $hammer1            526c04
 $hammer2            526c1c
 $hammer3            526c40
+$ancient1           f3f32
+$ancient2           f3f66
+$ancient3           f3f96
+$enemy_descriptions f6a3e
