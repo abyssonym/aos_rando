@@ -376,6 +376,11 @@ def route_items():
                     (item_type == 2 and item_index >= 0x1a)) and
                     (item_type, item_index) in done_items):
                 continue
+            if hard_mode and (item_type, item_index) in [
+                    (6, 0x12), (6, 0x13), (6, 0x14),
+                    (5, 0x2c), (7, 0x07), (8, 0x04),
+                    ]:
+                continue
             t.item_type = item_type
             t.item_index = item_index
             done_items.add((item_type, item_index))
