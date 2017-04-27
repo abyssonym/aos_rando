@@ -3,10 +3,10 @@
 .def malphas 803|hippogryph
 .def slide 802|bat
 .def backdash 801
-.def panther 603
-.def float 601|panther|hippogryph
+.def float 601&804|601&malphas|601&skula|panther|hippogryph
 .def undine 701
 .def skula 702
+.def panther skula&601&603|malphas&601&603
 .def rush 612|613|614
 .def dracula 52c&602&707
 .def chaos dracula&skula
