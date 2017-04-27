@@ -1,1 +1,3 @@
 AOS_NA      e7470df4d241f73060d14437011b90ce    tables_list.txt
+AOS_JP      146ae198a3d42a66733b9e0ef3ec11eb    tables_list_jp.txt
+AOS_EURASIA 9223af5d37facc2281d27fa193007a26    tables_list_jp.txt

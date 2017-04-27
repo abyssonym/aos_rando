@@ -278,8 +278,7 @@ def route_items():
     # save for later when picking items
     item_types = [t.item_type for t in TreasureObject.every]
 
-    for pointer, item in sorted(ir.assignments.items()):
-        pointer = int(pointer, 0x10)
+    for location, item in sorted(ir.assignments.items()):
         item = int(item, 0x10)
         item_type = item >> 8
         item_index = item & 0xFF
@@ -303,12 +302,13 @@ def route_items():
 
     done_treasures = set([])
     done_items = set([])
-    for pointer, item in sorted(ir.assignments.items()):
-        pointer = int(pointer, 0x10)
+    for location, item in sorted(ir.assignments.items()):
+        _, index = location.split('_')
+        index = int(index, 0x10)
         item = int(item, 0x10)
         item_type = item >> 8
         item_index = item & 0xFF
-        t = TreasureObject.get_by_pointer(pointer)
+        t = TreasureObject.get(index)
         t.item_type = item_type
         t.item_index = item_index
         done_treasures.add(t)
@@ -322,7 +322,7 @@ def route_items():
     if oops_all_souls:
         print "OOPS ALL SOULS CODE ACTIVATED"
     for t in remaining_treasures:
-        rank = ir.get_location_rank("%x" % t.pointer)
+        rank = ir.get_location_rank("item_{0:0>2}".format("%x" % t.index))
         if rank is None:
             rank = ((random.random() + random.random() + random.random())
                     * max_rank / 3.0)
