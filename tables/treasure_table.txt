@@ -1,7 +1,7 @@
+#x,2
+#y,2
+#unknown,1
 difficulty,1
-item_type,1
-zero1,1
-unknown,1
-zero2,1
-item_index,1
-zero3,1
+item_type,2
+memory_flag,2
+item_index,2

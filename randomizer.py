@@ -386,7 +386,7 @@ def route_items():
             if item_type == 1:
                 # money
                 max_index = 6
-                item_index = int(round(score * max_index))
+                item_index = random.randint(0, max_index)
             elif 2 <= item_type <= 4:
                 if item_type == 2:
                     # consumables
@@ -415,7 +415,7 @@ def route_items():
                 else:
                     item_type, item_index = random.choice(souls)
             if ((item_type >= 3 or
-                    item_type == 1 or
+                    (item_type == 1 and item_index <= 3) or
                     (item_type == 2 and item_index >= 0x1a)) and
                     (item_type, item_index) in done_items):
                 continue
@@ -428,6 +428,14 @@ def route_items():
             t.item_index = item_index
             done_items.add((item_type, item_index))
             break
+
+    for t in TreasureObject.every:
+        if (t.item_type == 1 and t.item_index >= 4
+                and random.randint(1, 5) == 5):
+            t.difficulty = 1
+            t.item_type = 0x60
+            t.memory_flag = 1
+            t.item_index = random.randint(0, 2)
 
     # replace boss souls to prevent softlocks
     winged = [m for m in MonsterObject.every
