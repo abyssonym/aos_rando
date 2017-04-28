@@ -18,3 +18,5 @@ $ancient1           f3f32
 $ancient2           f3f66
 $ancient3           f3f96
 $enemy_descriptions f6a3e
+$start_game_text    f850a
+$soul_set_text      f86c6

@@ -73,7 +73,7 @@ class MonsterObject(TableObject):
             return False
         codes = get_activated_codes()
         item_rando = ("i" in get_flags() or "hard" in codes
-                      or "bat" in codes or "oopsallsouls" in codes)
+                      or "bat" in codes or "oops" in codes)
         if self.index in [0x5F, 0x68] and not item_rando:
             return False
         return True
@@ -318,7 +318,7 @@ def route_items():
                            if t not in done_treasures]
     random.shuffle(remaining_treasures)
     max_rank = max(ir.location_ranks)
-    oops_all_souls = 'oopsallsouls' in get_activated_codes()
+    oops_all_souls = 'oops' in get_activated_codes()
     if oops_all_souls:
         print "OOPS ALL SOULS CODE ACTIVATED"
     for t in remaining_treasures:
@@ -327,6 +327,19 @@ def route_items():
             rank = ((random.random() + random.random() + random.random())
                     * max_rank / 3.0)
         ratio = float(rank) / max_rank
+        old_item_type, old_index = t.item_type, t.item_index
+        old_ratio = None
+        if old_item_type == 1:
+            old_ratio = old_index / 6.0
+        elif 2 <= old_item_type <= 4:
+            old_item = ItemObject.superget(old_item_type, old_index)
+            index = old_item.ranked.index(old_item)
+            old_ratio = index / float(len(old_item.every))
+        if old_ratio is not None and old_ratio > ratio:
+            adjustment = ((random.random() + random.random() + random.random())
+                          / 3.0)
+            ratio = (ratio * adjustment) + (old_ratio * (1-adjustment))
+
         while True:
             if oops_all_souls:
                 item_type = 5
@@ -366,11 +379,14 @@ def route_items():
                 item_index = chosen.index
             elif item_type >= 5:
                 # souls
-                m = random.choice(MonsterObject.every)
-                item_type = m.soul_type + 5
-                item_index = m.soul
-                if item_type == 5 and item_index == 0:
-                    continue
+                souls = [(m.soul_type+5, m.soul) for m in MonsterObject.every
+                         if m.soul > 0 or m.soul_type > 0]
+                souls = [s for s in souls if s not in done_items]
+                if not souls:
+                    item_type = 1
+                    item_index = 6
+                else:
+                    item_type, item_index = random.choice(souls)
             if ((item_type >= 3 or
                     item_type == 1 or
                     (item_type == 2 and item_index >= 0x1a)) and
@@ -443,6 +459,24 @@ def enable_cutscene_skip():
     f.close()
 
 
+def write_seed_display():
+    f = open(get_outfile(), "r+b")
+    f.seek(addresses.start_game_text)
+    s = "%s" % get_seed()
+    while len(s) < 11:
+        s += " "
+    s = s[:11]
+    f.write(s)
+    f.seek(addresses.soul_set_text)
+    s = "%s" % get_seed() + chr(0x06)
+    s += get_flags() + " " + " ".join(get_activated_codes())
+    while len(s) < 26:
+        s += " "
+    s = s[:26].upper()
+    f.write(s)
+    f.close()
+
+
 if __name__ == "__main__":
     try:
         print ('You are using the Castlevania: Aria of Sorrow '
@@ -454,15 +488,14 @@ if __name__ == "__main__":
                        and g not in [TableObject]]
 
         codes = {
-            'oopsallsouls': ['oopsallsouls', 'oops all souls',
-                               'oops_all_souls'],
+            'oops': ['oopsallsouls', 'oops all souls', 'oops_all_souls'],
             'bat': ['batcompany', 'bat_company', 'bat company'],
             'hard': 'hard',
         }
         run_interface(ALL_OBJECTS, snes=True, codes=codes)
 
         activated_codes = get_activated_codes()
-        if ('i' in get_flags() or "oopsallsouls" in activated_codes
+        if ('i' in get_flags() or "oops" in activated_codes
                 or "bat" in activated_codes or "hard" in activated_codes):
             route_items()
 
@@ -484,6 +517,8 @@ if __name__ == "__main__":
                 i.price = 0
 
         enable_cutscene_skip()
+        if get_global_label() == "AOS_NA":
+            write_seed_display()
         clean_and_write(ALL_OBJECTS)
         finish_interface()
     except Exception, e:
