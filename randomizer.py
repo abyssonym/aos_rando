@@ -422,12 +422,12 @@ def route_items():
                                   random.random()))
         soul_type, soul = souls.pop(0)
         soul_type -= 5
-        assert 0 <= soul_type <= 3
         replacement = replaceable.pop(0)
         replacement.soul_type = boss.soul_type
         replacement.soul = boss.soul
         boss.soul_type = soul_type
         boss.soul = soul
+        assert 0 <= boss.soul_type <= 3
 
 
 def enable_cutscene_skip():
@@ -475,47 +475,6 @@ if __name__ == "__main__":
                 m.hp = 1
                 m.atk = 1
                 m.xp = 1000
-
-            soul_pointers = {
-                    # castle entrance
-                    0x510bf9: 0x603,
-                    0x510c11: 0x805,
-                    0x510c1d: 0x803,
-                    0x5109dd: 0x801,
-                    0x510af1: 0x802,
-                    0x510afd: 0x601,
-                    # reservoir
-                    0x51cbf5: 0x701,
-                    0x51cd5d: 0x702,
-                    0x51cd39: random.choice([0x612, 0x613, 0x614]),
-                    # past creaking skull
-                    0x510ed5: 0x602,
-                    0x511145: 0x52c,
-                    0x511565: 0x707,
-                }
-            done_pointers = []
-            for p, s in soul_pointers.items():
-                item_type = s >> 8
-                item_index = s & 0xFF
-                t = TreasureObject.get_by_pointer(p)
-                t.item_type = item_type
-                t.item_index = item_index
-                done_pointers.append(p)
-
-            souls = sorted(set([(e.soul_type, e.soul)
-                                for e in MonsterObject.every
-                                if e.soul_type > 0 or e.soul > 0]))
-            for t in sorted(TreasureObject.every, key=lambda t: t.pointer):
-                if t.pointer in done_pointers:
-                    continue
-                soul_type, soul = souls.pop(0)
-                t.item_type = soul_type + 5
-                t.item_index = soul
-                print "%x" % t.pointer, t.name
-
-            for m in MonsterObject.every:
-                m.soul_type = 3
-                m.soul = 4
 
             s = ShopIndexObject.get(0x80)
             s.item_type, s.item_index = 4, 0x13
