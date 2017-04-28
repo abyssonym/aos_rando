@@ -520,7 +520,7 @@ def write_seed_display():
     s = s[:11]
     f.write(s)
     f.seek(addresses.soul_set_text)
-    s = "%s" % get_seed() + chr(0x06)
+    s = ("%s-%s" % (VERSION, get_seed())) + chr(0x06)
     s += get_flags() + " " + " ".join(get_activated_codes())
     while len(s) < 26:
         s += " "
