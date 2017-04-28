@@ -1,6 +1,6 @@
 Castlevania Aria of Sorrow Item Randomizer
-Version:    5
-Date:       April 19, 2017
+Version:    6
+Date:       April 28, 2017
 URL:        https://github.com/abyssonym/aos_rando
 Contact:    https://twitter.com/abyssonym
             https://www.twitch.tv/abyssonym
@@ -9,17 +9,26 @@ Contact:    https://twitter.com/abyssonym
     This is an item randomizer in the same vein as the LttP and Super Metroid item randomizers. Every seed should be beatable, but IANACE (I Am Not A Castlevania Expert).
 
 --- FAQ ---
+Q: What is "Chaos Mode"?
+A: "Chaos Mode" is the hard version of the randomizer, not to confused with Aria of Sorrow's "hard mode". To play Chaos Mode, type "chaos" when the randomizer asks for flags. Chaos Mode differs from the casual mode in a number of ways:
+    - Chaos Mode may not be completeable without the use of tricks, such as precise jumps and damage boosts.
+    - Chaos Mode is much more aggressively linear than casual mode. This refers to both game balance and area progression.
+    - In Chaos Mode, you will never start with Black Panther or Flying Armor. Usually you will get either backdash or Skula.
+    - If a soul isn't necessary to complete the game, it may never appear. So, some seeds may not have backdash or hippogryph.
+    - Please note that Chaos mode doesn't pull any punches. In a Skula-first run, you may find yourself in the Arena with very few resources.
+    - Zips are NOT accounted for in Chaos mode, because I'm not very familiar with them. I may add another mode in the future that requires zips to complete.
+
 Q: Do I have to farm enemy souls to get the good ending?
 A: No, the required souls are hidden in the castle in soul statues. You never have to farm enemy souls.
 
 Q: What about to get ability souls like double jump or backdash?
 A: Those are all still in the game as pickups. You can get them all without ever farming enemy souls.
 
+Q: What about rush souls, for getting past the waterfall?
+A: There will be at least one rush soul obtainable without farming, too.
+
 Q: Uh-oh, I got Flame Demon/Succubus from an enemy... does that mean I have to farm them?
 A: No, an enemy can still drop them, but they are also hidden in statues. You never have to farm.
-
-Q: What about Kicker Skeleton. That's an ability soul.
-A: Okay, yeah, that one you still have to find from enemies. But you don't need it to progress.
 
 Q: What if I don't randomize items, just enemy souls? How do I get the good ending?
 A: In that case, Flame Demon and Succubus drop their normal souls.
@@ -29,12 +38,14 @@ Running the randomizer:
     Windows users may use the executable file, "aos_rando.exe". Other users, please run "randomizer.py" using Python version 2.7.
 
 Source rom file:
-    This randomizer requires the North American GBA rom "Castlevania: Aria of Sorrow" with the MD5 hash shown below.
-    MD5 - e7470df4d241f73060d14437011b90ce
+    This randomizer requires the North American or Japanese GBA rom "Castlevania: Aria of Sorrow" with the MD5 hash shown below.
+    MD5 - e7470df4d241f73060d14437011b90ce (NA)
+          146ae198a3d42a66733b9e0ef3ec11eb (J)
 
 Flags:
     d  Randomize enemy souls and drops.
     i  Randomize item and ability locations.
+    h  Randomize Hammer's shop.
 
 Seed value:
     Input a seed value here, or leave it blank if you don't care.

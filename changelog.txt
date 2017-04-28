@@ -1,0 +1,9 @@
+VERSION 6
+- "Chaos Mode" added. "Chaos Mode" is the hard version of the randomizer, not to confused with Aria of Sorrow's "hard mode". To play Chaos Mode, type "chaos" when the randomizer asks for flags.
+- Hammer's inventory is now randomizable.
+- On both Chaos and casual modes, Legion and Balore will drop certain progression souls in order to prevent softlocks.
+- General balance changes. The normal mode was made more random (easier) now that Chaos Mode is available.
+- Previously, many item locations were not considered for important souls. Now, there's a chance a progression soul will be at nearly any location in the game.
+- Added some more special surprises and secret codes.
+- The randomizer now works on the Japanese version of the rom.
+- On the English version, you can now see your seed and flags in the menu.
