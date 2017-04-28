@@ -75,7 +75,7 @@ class MonsterObject(TableObject):
         if self.soul_type == 0 and self.soul == 0:
             return False
         codes = get_activated_codes()
-        item_rando = ("i" in get_flags() or "hard" in codes
+        item_rando = ("i" in get_flags() or "chaos" in codes
                       or "bat" in codes or "oops" in codes)
         if self.index in [0x5F, 0x68] and not item_rando:
             return False
@@ -86,7 +86,7 @@ class MonsterObject(TableObject):
         monsters = [m for m in MonsterObject.ranked
                     if m.intershuffle_valid]
         max_index = len(monsters)-1
-        hard_mode = "hard" in get_activated_codes()
+        hard_mode = "chaos" in get_activated_codes()
         if hard_mode:
             def shuffle_func(m):
                 index = monsters.index(m)
@@ -125,7 +125,7 @@ class MonsterObject(TableObject):
 
     @property
     def rank(self):
-        hard_mode = "hard" in get_activated_codes()
+        hard_mode = "chaos" in get_activated_codes()
         if hard_mode:
             if self.xp == 0:
                 return 20000 + random.random()
@@ -190,6 +190,13 @@ class ItemObject(TableObject):
                     ArmorObject.every)
         return super(ItemObject, self).every
 
+    @classproperty
+    def ranked(self):
+        if self is ItemObject:
+            return sorted(ItemObject.every,
+                          key=lambda i: (i.rank, random.random()))
+        return super(ItemObject, self).ranked
+
 
 class ConsumableObject(ItemObject): pass
 class WeaponObject(ItemObject): pass
@@ -229,7 +236,7 @@ class ShopIndexObject(TableObject):
         indexes = map(ord, f.read(num_items))
         f.close()
         sios = [ShopIndexObject.get(i) for i in indexes]
-        hard_mode = "hard" in get_activated_codes()
+        hard_mode = "chaos" in get_activated_codes()
         total_new_items = []
         for item_type in [2, 3, 4]:
             subsios = [sio for sio in sios if sio.item_type == item_type]
@@ -274,10 +281,10 @@ class ShopIndexObject(TableObject):
 
 
 def route_items():
-    hard_mode = "hard" in get_activated_codes()
+    hard_mode = "chaos" in get_activated_codes()
     bat_mode = "bat" in get_activated_codes()
     if hard_mode:
-        print "HARD MODE ACTIVATED"
+        print "CHAOS MODE ACTIVATED"
         ir = ItemRouter(path.join(tblpath, "hard_requirements.txt"))
     elif bat_mode:
         print "BAT MODE ACTIVATED"
@@ -371,8 +378,8 @@ def route_items():
             old_ratio = old_index / 6.0
         elif 2 <= old_item_type <= 4:
             old_item = ItemObject.superget(old_item_type, old_index)
-            index = old_item.ranked.index(old_item)
-            old_ratio = index / float(len(old_item.every))
+            index = ItemObject.ranked.index(old_item)
+            old_ratio = index / float(len(ItemObject.every))
         if old_ratio is not None and old_ratio > ratio:
             adjustment = ((random.random() + random.random() + random.random())
                           / 3.0)
@@ -542,7 +549,7 @@ if __name__ == "__main__":
         codes = {
             'oops': ['oopsallsouls', 'oops all souls', 'oops_all_souls'],
             'bat': ['batcompany', 'bat_company', 'bat company'],
-            'hard': ['dracula', 'hard'],
+            'chaos': ['chaos', 'hard'],
             'fam': ['famine'],
             'safe': ['goodmoney', 'good money', 'good_money'],
         }
