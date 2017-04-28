@@ -421,6 +421,8 @@ def route_items():
             souls, key=lambda s: (ir.get_item_rank(soulstrs[s]),
                                   random.random()))
         soul_type, soul = souls.pop(0)
+        soul_type -= 5
+        assert 0 <= soul_type <= 3
         replacement = replaceable.pop(0)
         replacement.soul_type = boss.soul_type
         replacement.soul = boss.soul
