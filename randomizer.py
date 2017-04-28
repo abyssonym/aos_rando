@@ -358,7 +358,7 @@ def route_items():
     max_rank = max(ir.location_ranks)
     oops_all_souls = 'oops' in get_activated_codes()
     if oops_all_souls:
-        print "OOPS ALL SOULS CODE ACTIVATED"
+        print "OOPS ALL SOULS MODE ACTIVATED"
     for t in remaining_treasures:
         rank = ir.get_location_rank("item_{0:0>2}".format("%x" % t.index))
         if rank is None:
@@ -443,13 +443,16 @@ def route_items():
             done_items.add((item_type, item_index))
             break
 
-    for t in TreasureObject.every:
-        if (t.item_type == 1 and t.item_index >= 4
-                and random.randint(1, 5) == 5):
-            t.difficulty = 1
-            t.item_type = 0x60
-            t.memory_flag = 1
-            t.item_index = random.randint(0, 2)
+    if 'safe' not in get_activated_codes():
+        for t in TreasureObject.every:
+            if (t.item_type == 1 and t.item_index >= 4
+                    and random.randint(1, 5) == 5):
+                t.difficulty = 1
+                t.item_type = 0x60
+                t.memory_flag = 1
+                t.item_index = random.randint(0, 2)
+    else:
+        print "SAFE TREASURE MODE ACTIVATED"
 
     # replace boss souls to prevent softlocks
     winged = [m for m in MonsterObject.every
@@ -541,10 +544,14 @@ if __name__ == "__main__":
             'bat': ['batcompany', 'bat_company', 'bat company'],
             'hard': ['dracula', 'hard'],
             'fam': ['famine'],
+            'safe': ['goodmoney', 'good money', 'good_money'],
         }
         run_interface(ALL_OBJECTS, snes=True, codes=codes)
 
         activated_codes = get_activated_codes()
+        if "fam" in activated_codes:
+            print "FAMINE MODE ACTIVATED"
+
         if ('i' in get_flags() or "oops" in activated_codes
                 or "bat" in activated_codes):
             route_items()
