@@ -18,6 +18,9 @@ RESEED_COUNTER = 0
 ITEM_NAMES = {}
 
 
+HP_HEALING_ITEMS = range(0, 0x05) + range(0x0a, 0x17)
+
+
 def reseed():
     global RESEED_COUNTER
     RESEED_COUNTER += 1
@@ -110,10 +113,15 @@ class MonsterObject(TableObject):
             value = getattr(self, attr)
             if value == 0:
                 continue
-            i = ItemObject.superget(value-1)
-            i = i.get_similar()
-            value = (value & 0xFF00) | (i.superindex+1)
-            setattr(self, attr, value)
+            while True:
+                i = ItemObject.superget(value-1)
+                i = i.get_similar()
+                if ("fam" in get_activated_codes() and i.item_type == 2
+                        and i.index in HP_HEALING_ITEMS):
+                    continue
+                value = (value & 0xFF00) | (i.superindex+1)
+                setattr(self, attr, value)
+                break
 
     @property
     def rank(self):
@@ -238,6 +246,9 @@ class ShopIndexObject(TableObject):
                     index = random.randint(0, max_index)
                 chosen = candidates[index]
                 if chosen in new_items:
+                    continue
+                if ("fam" in get_activated_codes() and item_type == 2
+                        and chosen.index in HP_HEALING_ITEMS):
                     continue
                 new_items.append(chosen)
             new_items = sorted(new_items, key=lambda ni: ni.index)
@@ -424,6 +435,9 @@ def route_items():
                     (5, 0x2c), (7, 0x07), (8, 0x04),
                     ]:
                 continue
+            if ("fam" in get_activated_codes() and item_type == 2
+                    and item_index in HP_HEALING_ITEMS):
+                continue
             t.item_type = item_type
             t.item_index = item_index
             done_items.add((item_type, item_index))
@@ -525,13 +539,14 @@ if __name__ == "__main__":
         codes = {
             'oops': ['oopsallsouls', 'oops all souls', 'oops_all_souls'],
             'bat': ['batcompany', 'bat_company', 'bat company'],
-            'hard': 'hard',
+            'hard': ['dracula', 'hard'],
+            'fam': ['famine'],
         }
         run_interface(ALL_OBJECTS, snes=True, codes=codes)
 
         activated_codes = get_activated_codes()
         if ('i' in get_flags() or "oops" in activated_codes
-                or "bat" in activated_codes or "hard" in activated_codes):
+                or "bat" in activated_codes):
             route_items()
 
         hexify = lambda x: "{0:0>2}".format("%x" % x)
