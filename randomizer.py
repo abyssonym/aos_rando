@@ -78,6 +78,33 @@ class MonsterObject(TableObject):
             return False
         return True
 
+    @classmethod
+    def intershuffle(cls):
+        monsters = [m for m in MonsterObject.ranked
+                    if m.intershuffle_valid]
+        max_index = len(monsters)-1
+        hard_mode = "hard" in get_activated_codes()
+        if hard_mode:
+            def shuffle_func(m):
+                index = monsters.index(m)
+                rand_index = random.random() * max_index
+                ratio = (
+                    random.random() + random.random() + random.random()) / 3
+                new_index = (index * ratio) + (rand_index * (1-ratio))
+                return (new_index, m.index)
+        else:
+            shuffle_func = lambda m: (random.random(), m.index)
+
+        for attrs in ["common_drop", "rare_drop", ("soul_type", "soul")]:
+            if isinstance(attrs, basestring):
+                attrs = [attrs]
+            shuffled = sorted(monsters, key=shuffle_func)
+            for attr in attrs:
+                values = [getattr(m, attr) for m in shuffled]
+                assert len(values) == len(monsters)
+                for m, value in zip(monsters, values):
+                    setattr(m, attr, value)
+
     def mutate(self):
         for attr in ["common_drop", "rare_drop"]:
             value = getattr(self, attr)
