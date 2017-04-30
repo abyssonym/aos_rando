@@ -1,34 +1,41 @@
-.def bat 602&805|602&803|602&603|602&702
-.def hippogryph 805&803|805&602|805&603|805&702|bat
+.prefer 601 801
+.prefer 801 601,603
+.prefer 803 801,601,603
+.prefer 804 801,701,601,603
+
+.def advanced 803&804|603|702
+.def bat 602&805|602&advanced
+.def hippogryph 805&advanced|bat
 .def malphas 803|hippogryph
 .def slide 802|bat
 .def backdash 801
-.def float 601&804|601&malphas|601&skula|panther|hippogryph
+.def float 601|panther|hippogryph
+.def long_jump malphas&float|hippogryph
 .def undine 701
 .def skula 702
-.def panther skula&601&603|malphas&601&603
+.def panther skula&601&603|malphas&601&603|malphas&skula&603|kicker&603
 .def rush 612|613|614
-.def dracula 52c&602&707
-.def chaos dracula&skula
 .def kicker 803&804|hippogryph
 
 .def reservoir skula
-.def eastern_reservoir skula&panther|skula&kicker
+.def eastern_reservoir skula&panther|skula&malphas
 .def cemetary reservoir
 .def forbidden reservoir&undine&rush&malphas
-.def long_jump malphas&float|hippogryph
 .def inner_corridor float|malphas|backdash
 .def chapel inner_corridor
 .def study chapel
-.def overhead study|panther
-.def underfoot study|panther
-.def dance_hall long_jump|kicker
-.def inner_quarters dance_hall&slide|inner_corridor&long_jump
+.def dance_hall long_jump|kicker|malphas&backdash
+.def inner_quarters dance_hall&slide|inner_corridor&long_jump|inner_corridor&kicker
 .def timestop 806&inner_quarters
 .def floating_garden malphas
 .def top_floor inner_quarters&hippogryph|inner_corridor&hippogryph
 .def clock_tower inner_corridor&hippogryph&skula|inner_corridor&hippogryph&kicker|floating_garden|top_floor
 .def arena reservoir
+.def dracula hippogryph&52c&602&707
+.def chaos dracula&skula
+
+.def overhead study|panther
+.def underfoot study|panther
 
 item_00 malphas
 item_01 hippogryph
@@ -109,11 +116,11 @@ item_4b cemetary
 item_4c reservoir&slide|reservoir&overhead
 item_4d reservoir
 item_4e reservoir&hippogryph
-item_4f eastern_reservoir&kicker|eastern_reservoir&long_jump
+item_4f eastern_reservoir&malphas
 item_50 reservoir
 item_51 cemetary
 item_52 reservoir&hippogryph
-item_53 eastern_reservoir
+item_53 eastern_reservoir&malphas|eastern_reservoir&panther
 item_54 reservoir&hippogryph
 item_55 eastern_reservoir&kicker|eastern_reservoir&long_jump|eastern_reservoir&undine&malphas
 item_56 eastern_reservoir&malphas
@@ -121,9 +128,9 @@ item_57 eastern_reservoir&malphas
 item_58 eastern_reservoir&malphas
 item_59 eastern_reservoir&malphas&skula
 item_5a reservoir&malphas
-item_5b cemetary&malphas
-item_5c cemetary&malphas
-item_5d cemetary&malphas
+item_5b cemetary
+item_5c cemetary
+item_5d cemetary
 item_5e arena
 item_5f arena
 item_60 arena

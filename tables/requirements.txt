@@ -1,3 +1,5 @@
+.prefer 803 603
+
 .def bat 602
 .def hippogryph 805|bat
 .def malphas 803|hippogryph
@@ -8,8 +10,6 @@
 .def undine 701
 .def skula 702
 .def rush 612|613|614
-.def dracula 52c&602&707
-.def chaos dracula&skula
 .def kicker 803&804|hippogryph
 
 .def reservoir skula&malphas
@@ -20,8 +20,6 @@
 .def inner_corridor float|malphas
 .def chapel inner_corridor
 .def study chapel
-.def overhead study|panther
-.def underfoot study|panther
 .def dance_hall long_jump
 .def inner_quarters dance_hall&slide|inner_corridor&long_jump
 .def timestop 806&inner_quarters
@@ -29,6 +27,11 @@
 .def top_floor inner_quarters&hippogryph|inner_corridor&hippogryph
 .def clock_tower inner_corridor&hippogryph&skula|floating_garden|top_floor
 .def arena reservoir
+.def dracula hippogryph&52c&602&707
+.def chaos dracula&skula
+
+.def overhead study|panther
+.def underfoot study|panther
 
 item_00 malphas
 item_01 hippogryph
