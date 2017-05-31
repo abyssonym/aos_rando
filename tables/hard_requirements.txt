@@ -3,9 +3,8 @@
 .prefer 803 801,601,603
 .prefer 804 801,701,601,603
 
-.def advanced 803&804&601|603|803&702|601&702
-.def bat 602&805|602&advanced
-.def hippogryph 805&advanced|bat
+.def bat 602
+.def hippogryph 805|bat
 .def malphas 803|hippogryph
 .def slide 802|bat
 .def backdash 801
@@ -13,7 +12,7 @@
 .def long_jump malphas&float|hippogryph
 .def undine 701
 .def skula 702
-.def panther skula&601&603|malphas&601&603|malphas&skula&603|kicker&603
+.def panther 603
 .def rush 612|613|614
 .def kicker 803&804|hippogryph
 

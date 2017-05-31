@@ -422,7 +422,7 @@ def route_items():
 
     for item_type, item_index in souls:
         item = "%x" % ((item_type << 8) | item_index)
-        if bat_mode or (hard_mode and random.choice([True, False])):
+        if bat_mode or hard_mode:
             continue
         ir.assign_item(item, aggression=aggression)
 
@@ -493,10 +493,20 @@ def route_items():
             for l in locations])
         if locations & souls:
             continue
-        souls = [s for s in souls if s not in banned]
         soulstrs = dict([((a, b), "{0}{1:0>2}".format("%x" % a, "%x" % b))
                          for (a, b) in souls])
-        souls = [s for s in souls if ir.get_item_rank(soulstrs[s]) is not None]
+        order = ['a', 'b']
+        random.shuffle(order)
+        for o in order:
+            if o == 'a':
+                temp = [s for s in souls
+                        if ir.get_item_rank(soulstrs[s]) is not None]
+                if temp:
+                    souls = temp
+            if o == 'b':
+                temp = [s for s in souls if s not in banned]
+                if temp:
+                    souls = temp
         souls = sorted(
             souls, key=lambda s: (ir.get_item_rank(soulstrs[s]),
                                   random.random()))
@@ -599,9 +609,7 @@ def route_items():
                     (item_type, item_index) in done_items):
                 continue
             if hard_mode and (item_type, item_index) in [
-                    (6, 0x12), (6, 0x13), (6, 0x14),
-                    (5, 0x2c), (7, 0x07), (8, 0x04),
-                    ]:
+                    (6, 0x12), (6, 0x13), (6, 0x14), (8, 0x04)]:
                 continue
             if ("fam" in get_activated_codes() and item_type == 2
                     and item_index in HP_HEALING_ITEMS):

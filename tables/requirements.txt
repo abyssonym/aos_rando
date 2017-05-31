@@ -27,7 +27,7 @@
 .def top_floor inner_quarters&hippogryph|inner_corridor&hippogryph
 .def clock_tower inner_corridor&hippogryph&skula|floating_garden|top_floor
 .def arena reservoir
-.def dracula hippogryph&52c&602&707
+.def dracula hippogryph&dracula_bullet&dracula_guardian&dracula_enchanted&21a&21b&21c
 .def chaos dracula&skula
 
 .def overhead study|panther
