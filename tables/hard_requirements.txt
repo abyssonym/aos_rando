@@ -153,5 +153,4 @@ item_6f forbidden&skula
 item_70 chaos
 item_71 chaos
 item_72 dracula
-enemy_6a inner_quarters&malphas
 enemy_6b clock_tower&malphas

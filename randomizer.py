@@ -456,6 +456,63 @@ def route_items():
                 m.soul = item_index
         done_items.add((item_type, item_index))
 
+    # replace boss souls to prevent softlocks
+    winged = [m for m in MonsterObject.every
+              if m.soul_type == 0 and m.soul == 1][0]
+    kicker = [m for m in MonsterObject.every
+              if m.soul_type == 3 and m.soul == 4][0]
+    replaceable = [kicker, winged]
+    headhunter = MonsterObject.get(0x6a)
+    legion = MonsterObject.get(0x6c)
+    balore = MonsterObject.get(0x6d)
+    bosses = [headhunter, legion, balore]
+
+    if hard_mode:
+        banned = [(8, 0x05), (6, 0x02)]
+    else:
+        banned = []
+
+    random.shuffle(bosses)
+    for boss in bosses:
+        if boss is legion:
+            locations = [addresses.legion1, addresses.legion2]
+            souls = set([(8, 0x03), (8, 0x05), (6, 0x02)])
+        elif boss is balore:
+            locations = [addresses.balore1, addresses.balore2,
+                         addresses.balore3]
+            souls = set([(8, 0x03), (8, 0x05), (6, 0x03), (6, 0x02)])
+        elif boss is headhunter:
+            locations = [addresses.headhunter1, addresses.headhunter2,
+                         addresses.headhunter3, addresses.headhunter4,
+                         addresses.headhunter5]
+            souls = set([(6, 0x02), (6, 0x03), (7, 0x01),
+                         (8, 0x02), (8, 0x04), (8, 0x05)])
+        else:
+            raise Exception
+        locations = set([
+            (t.get_by_pointer(l).item_type, t.get_by_pointer(l).item_index)
+            for l in locations])
+        if locations & souls:
+            continue
+        souls = [s for s in souls if s not in banned]
+        soulstrs = dict([((a, b), "{0}{1:0>2}".format("%x" % a, "%x" % b))
+                         for (a, b) in souls])
+        souls = [s for s in souls if ir.get_item_rank(soulstrs[s]) is not None]
+        souls = sorted(
+            souls, key=lambda s: (ir.get_item_rank(soulstrs[s]),
+                                  random.random()))
+        soul_type, soul = souls.pop(0)
+        soul_type -= 5
+        if replaceable:
+            replacement = replaceable.pop(0)
+            replacement.soul_type = boss.soul_type
+            replacement.soul = boss.soul
+        else:
+            erased_souls.add((boss.soul_type+5, boss.soul))
+        boss.soul_type = soul_type
+        boss.soul = soul
+        assert 0 <= boss.soul_type <= 3
+
     remaining_treasures = [t for t in TreasureObject.every
                            if t not in done_treasures]
     random.shuffle(remaining_treasures)
@@ -565,49 +622,6 @@ def route_items():
                 t.item_index = random.randint(0, 2)
     else:
         print "SAFE TREASURE MODE ACTIVATED"
-
-    # replace boss souls to prevent softlocks
-    winged = [m for m in MonsterObject.every
-              if m.soul_type == 0 and m.soul == 1][0]
-    kicker = [m for m in MonsterObject.every
-              if m.soul_type == 3 and m.soul == 4][0]
-    if hard_mode:
-        replaceable = [kicker, winged]
-    else:
-        replaceable = [winged, kicker]
-    legion = MonsterObject.get(0x6c)
-    balore = MonsterObject.get(0x6d)
-    bosses = [legion, balore]
-    random.shuffle(bosses)
-    for boss in bosses:
-        if boss is legion:
-            locations = [addresses.legion1, addresses.legion2]
-            souls = set([(8, 0x03), (8, 0x05), (6, 0x02)])
-        elif boss is balore:
-            locations = [addresses.balore1, addresses.balore2,
-                         addresses.balore3]
-            souls = set([(8, 0x03), (8, 0x05), (6, 0x03), (6, 0x02)])
-        else:
-            raise Exception
-        locations = set([
-            (t.get_by_pointer(l).item_type, t.get_by_pointer(l).item_index)
-            for l in locations])
-        if locations & souls:
-            continue
-        soulstrs = dict([((a, b), "{0}{1:0>2}".format("%x" % a, "%x" % b))
-                         for (a, b) in souls])
-        souls = [s for s in souls if ir.get_item_rank(soulstrs[s]) is not None]
-        souls = sorted(
-            souls, key=lambda s: (ir.get_item_rank(soulstrs[s]),
-                                  random.random()))
-        soul_type, soul = souls.pop(0)
-        soul_type -= 5
-        replacement = replaceable.pop(0)
-        replacement.soul_type = boss.soul_type
-        replacement.soul = boss.soul
-        boss.soul_type = soul_type
-        boss.soul = soul
-        assert 0 <= boss.soul_type <= 3
 
 
 def enable_cutscene_skip():

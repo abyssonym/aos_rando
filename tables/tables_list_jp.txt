@@ -6,6 +6,11 @@ ArmorObject         armor_table.txt             4d25bc  45
 TreasureObject      treasure_table.txt          treasure_pointers_jp.txt
 ShopIndexObject     shop_index_table.txt        4fd2ec  130
 $cutscene_skip      59b30
+$headhunter1        4ed26d
+$headhunter2        4ed3bd
+$headhunter3        4ed59d
+$headhunter4        4ed609
+$headhunter5        4ed615
 $legion1            4f3951
 $legion2            4f4125
 $balore1            4f5ad1
