@@ -482,8 +482,7 @@ def route_items():
                          addresses.balore3]
             souls = set([(8, 0x03), (8, 0x05), (6, 0x03), (6, 0x02)])
         elif boss is headhunter:
-            locations = [addresses.headhunter1, addresses.headhunter2,
-                         addresses.headhunter3, addresses.headhunter4,
+            locations = [addresses.headhunter1, addresses.headhunter4,
                          addresses.headhunter5]
             souls = set([(6, 0x02), (6, 0x03), (7, 0x01),
                          (8, 0x02), (8, 0x04), (8, 0x05)])
