@@ -3,7 +3,7 @@
 .prefer 803 801,601,603
 .prefer 804 801,701,601,603
 
-.def advanced 803&804|603|702
+.def advanced 803&804&601|603|803&702|601&702
 .def bat 602&805|602&advanced
 .def hippogryph 805&advanced|bat
 .def malphas 803|hippogryph
@@ -19,7 +19,7 @@
 
 .def reservoir skula
 .def eastern_reservoir skula&panther|skula&malphas
-.def cemetary reservoir
+.def cemetary reservoir&malphas
 .def forbidden reservoir&undine&rush&malphas
 .def inner_corridor float|malphas|backdash
 .def chapel inner_corridor
@@ -31,7 +31,8 @@
 .def top_floor inner_quarters&hippogryph|inner_corridor&hippogryph
 .def clock_tower inner_corridor&hippogryph&skula|inner_corridor&hippogryph&kicker|floating_garden|top_floor
 .def arena reservoir
-.def dracula hippogryph&52c&602&707
+.def balore arena&malphas|arena&panther
+.def dracula hippogryph&dracula_bullet&dracula_guardian&dracula_enchanted&21a&21b&21c
 .def chaos dracula&skula
 
 .def overhead study|panther
@@ -131,12 +132,12 @@ item_5a reservoir&malphas
 item_5b cemetary
 item_5c cemetary
 item_5d cemetary
-item_5e arena
+item_5e balore
 item_5f arena
 item_60 arena
-item_61 arena
-item_62 arena&slide
-item_63 arena
+item_61 balore
+item_62 balore&slide
+item_63 balore
 item_64 arena
 item_65 dracula
 item_66 dracula
@@ -152,3 +153,5 @@ item_6f forbidden&skula
 item_70 chaos
 item_71 chaos
 item_72 dracula
+enemy_6a inner_quarters&malphas
+enemy_6b clock_tower&malphas

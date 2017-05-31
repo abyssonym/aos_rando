@@ -16,6 +16,8 @@ ALL_OBJECTS = None
 DEBUG_MODE = False
 RESEED_COUNTER = 0
 ITEM_NAMES = {}
+LABEL_PRESET = {}
+BESTIARY_DESCRIPTIONS = []
 
 
 HP_HEALING_ITEMS = range(0, 0x05) + range(0x0a, 0x17)
@@ -42,6 +44,56 @@ def get_item_names():
     return get_item_names()
 
 
+def get_text(pointer):
+    label = get_global_label()
+    f = open(get_outfile(), "r+b")
+    f.seek(pointer)
+    s = ""
+    while True:
+        peek = f.read(1)
+        if label == "AOS_NA" and ord(peek) == 1:
+            break
+        elif ord(peek) == 0xF0:
+            pointer = f.tell()
+            peek2 = f.read(1)
+            if ord(peek2) == 0:
+                break
+            f.seek(pointer)
+        s += peek
+    if label == "AOS_NA":
+        trim = [chr(0), chr(6), chr(0xa)]
+    else:
+        s = s.lstrip(chr(0))
+        trim = [chr(0), chr(0xa)]
+    while s[-1] in trim:
+        for c in trim:
+            s = s.rstrip(c)
+    pointer = f.tell()
+    f.close()
+    return s, pointer
+
+
+def bytestring_to_sjis(s):
+    s = s.lstrip(chr(0))
+    #print map(hex, map(ord, s))
+    assert len(s) % 2 == 0
+    even = [c for (i, c) in enumerate(s) if i % 2 == 0]
+    odd = [c for (i, c) in enumerate(s) if i % 2 == 1]
+    s = ["".join([a, b]) for (a, b) in zip(odd, even)]
+    ss = []
+    for c in s:
+        try:
+            c = c.decode("sjis")
+        except UnicodeDecodeError:
+            c = "?"
+        ss.append(c)
+    ss = "".join(ss)
+    return ss
+
+
+class RoutingException(Exception): pass
+
+
 class MonsterObject(TableObject):
     flag = "d"
     flag_description = "enemy souls and drops"
@@ -51,13 +103,45 @@ class MonsterObject(TableObject):
 
     @property
     def name(self):
-        soul_type = self.soul_type + 5
-        soul = self.soul
+        soul_type, soul = self.old_soul
+        soul_type = soul_type + 5
+        soul = soul
         index = (soul_type << 8) | soul
         try:
             return get_item_names()[index]
         except KeyError:
             return "UNKNOWN MONSTER"
+
+    @property
+    def bestiary(self):
+        if not BESTIARY_DESCRIPTIONS:
+            pointer = addresses.enemy_descriptions
+            for m in MonsterObject.every:
+                desc, pointer = get_text(pointer)
+                BESTIARY_DESCRIPTIONS.append(desc)
+        return BESTIARY_DESCRIPTIONS[self.index]
+
+    def restore_soul(self):
+        other = [m for m in MonsterObject.every
+                 if (m.soul_type, m.soul) == self.old_soul][0]
+        self.soul_type, other.soul_type = other.soul_type, self.soul_type
+        self.soul, other.soul = other.soul, self.soul
+        assert (self.soul_type, self.soul) == self.old_soul
+
+    @property
+    def old_soul(self):
+        if hasattr(self, "_old_soul"):
+            return self._old_soul
+        self._old_soul = (self.soul_type, self.soul)
+        return self.old_soul
+
+    @property
+    def old_soul_type(self):
+        return self.old_soul[0]
+
+    @property
+    def old_soul_index(self):
+        return self.old_soul[1]
 
     @property
     def pretty_drops(self):
@@ -83,6 +167,8 @@ class MonsterObject(TableObject):
 
     @classmethod
     def intershuffle(cls):
+        for m in MonsterObject.every:
+            m.name
         monsters = [m for m in MonsterObject.ranked
                     if m.intershuffle_valid]
         max_index = len(monsters)-1
@@ -134,11 +220,14 @@ class MonsterObject(TableObject):
         else:
             return 0
 
+    def cleanup(self):
+        assert 0 <= self.soul_type <= 3
+
 
 class ItemObject(TableObject):
     @property
     def rank(self):
-        if self.price == 0 and self.item_type >= 3:
+        if self.price == 0:
             rank = 1000000
         else:
             rank = self.price
@@ -229,6 +318,17 @@ class ShopIndexObject(TableObject):
         return ItemObject.superget(self.item_type, self.item_index)
 
     @classmethod
+    def insert_item(cls, item_type, item_index):
+        candidates = [s for s in ShopIndexObject.every
+                      if hasattr(s, "shop_rank")
+                      and s.shop_rank == 3
+                      and not s.inserted_item]
+        chosen = random.choice(candidates)
+        chosen.inserted_item = True
+        chosen.item_type = item_type
+        chosen.item_index = item_index
+
+    @classmethod
     def randomize_all(cls):
         f = open(get_outfile(), "r+b")
         f.seek(addresses.hammer3)
@@ -276,6 +376,8 @@ class ShopIndexObject(TableObject):
             chosen_sios = sorted(chosen_sios, key=lambda sio: sio.index)
             for sio in chosen_sios:
                 f.write(chr(sio.index))
+                sio.shop_rank = int(address[-1])
+                sio.inserted_item = False
             previous = chosen_sios
         f.close()
 
@@ -299,21 +401,6 @@ def route_items():
 
     while True:
         ir.assign_everything(aggression=aggression)
-        if hard_mode:
-            bat_location = ir.get_assigned_location("602")
-            assert bat_location is not None
-            hippo_location = ir.get_assigned_location("805")
-            malphas_location = ir.get_assigned_location("803")
-            if (hippo_location and
-                    ir.get_location_rank(bat_location) <
-                    ir.get_location_rank(hippo_location)):
-                ir.clear_assignments()
-                continue
-            if (malphas_location and
-                    ir.get_location_rank(bat_location) <
-                    ir.get_location_rank(malphas_location)):
-                ir.clear_assignments()
-                continue
         break
 
     souls = [(t.item_type, t.item_index) for t in TreasureObject.every
@@ -324,7 +411,10 @@ def route_items():
     item_types = [t.item_type for t in TreasureObject.every]
 
     for location, item in sorted(ir.assignments.items()):
-        item = int(item, 0x10)
+        try:
+            item = int(item, 0x10)
+        except ValueError:
+            item = LABEL_PRESET[item]
         item_type = item >> 8
         item_index = item & 0xFF
         if (item_type, item_index) in souls:
@@ -336,27 +426,34 @@ def route_items():
             continue
         ir.assign_item(item, aggression=aggression)
 
-    if hard_mode and (8, 0x05) in souls:
-        bat_location = ir.get_assigned_location("602")
-        hippo_location = ir.get_assigned_location("805")
-        assert bat_location is not None
-        if (hippo_location and
-                ir.get_location_rank(bat_location) >
-                ir.get_location_rank(hippo_location)):
-            ir.unassign_item("805")
-
     done_treasures = set([])
     done_items = set([])
+    erased_souls = set([])
     for location, item in sorted(ir.assignments.items()):
-        _, index = location.split('_')
+        location_type, index = location.split('_')
         index = int(index, 0x10)
-        item = int(item, 0x10)
+        try:
+            item = int(item, 0x10)
+        except ValueError:
+            item = LABEL_PRESET[item]
         item_type = item >> 8
         item_index = item & 0xFF
-        t = TreasureObject.get(index)
-        t.item_type = item_type
-        t.item_index = item_index
-        done_treasures.add(t)
+        if location_type == "item":
+            t = TreasureObject.get(index)
+            t.item_type = item_type
+            t.item_index = item_index
+            done_treasures.add(t)
+        elif location_type == "enemy":
+            if item_type < 5:
+                if "h" in get_flags():
+                    ShopIndexObject.insert_item(item_type, item_index)
+                else:
+                    raise RoutingException
+            else:
+                m = MonsterObject.get(index)
+                erased_souls.add((m.soul_type+5, m.soul))
+                m.soul_type = item_type-5
+                m.soul = item_index
         done_items.add((item_type, item_index))
 
     remaining_treasures = [t for t in TreasureObject.every
@@ -405,6 +502,8 @@ def route_items():
                 # money
                 max_index = 6
                 item_index = random.randint(0, max_index)
+                if item_index >= 4:
+                    item_index = random.randint(4, item_index)
             elif 2 <= item_type <= 4:
                 if item_type == 2:
                     # consumables
@@ -424,9 +523,15 @@ def route_items():
                 item_index = chosen.index
             elif item_type >= 5:
                 # souls
-                souls = [(m.soul_type+5, m.soul) for m in MonsterObject.every
-                         if m.soul > 0 or m.soul_type > 0]
-                souls = [s for s in souls if s not in done_items]
+                souls = None
+                if erased_souls:
+                    souls = sorted(erased_souls)
+                    souls = [s for s in souls if s not in done_items]
+                if not souls:
+                    souls = [(m.soul_type+5, m.soul)
+                             for m in MonsterObject.every
+                             if m.soul > 0 or m.soul_type > 0]
+                    souls = [s for s in souls if s not in done_items]
                 if not souls:
                     item_type = 1
                     item_index = 6
@@ -434,7 +539,7 @@ def route_items():
                     item_type, item_index = random.choice(souls)
             if ((item_type >= 3 or
                     (item_type == 1 and item_index <= 3) or
-                    (item_type == 2 and item_index >= 0x1a)) and
+                    (item_type == 2 and item_index >= 0x19)) and
                     (item_type, item_index) in done_items):
                 continue
             if hard_mode and (item_type, item_index) in [
@@ -559,9 +664,68 @@ if __name__ == "__main__":
         if "fam" in activated_codes:
             print "FAMINE MODE ACTIVATED"
 
-        if ('i' in get_flags() or "oops" in activated_codes
-                or "bat" in activated_codes):
-            route_items()
+        '''
+        for m in MonsterObject.every:
+            if get_global_label() != "AOS_NA":
+                print "%x" % m.index, bytestring_to_sjis(m.bestiary)
+            else:
+                print "%x" % m.index, m.bestiary
+        '''
+
+        route_item_flag = ('i' in get_flags() or "oops" in activated_codes
+                           or "bat" in activated_codes)
+        keys = {
+            0: "bullet",
+            1: "guardian",
+            2: "enchanted",
+        }
+        for i in xrange(3):
+            monsters = [m for m in MonsterObject.every
+                        if m.old_soul_type == i
+                        and (m.old_soul_type > 0 or m.old_soul_index > 0)]
+            if not route_item_flag:
+                monsters = [m for m in monsters
+                            if m.index not in [0x5a, 0x66, 0x69]]
+            m = random.choice(monsters)
+            if not route_item_flag:
+                m.restore_soul()
+            soul_type, soul = m.old_soul
+            soul_type += 5
+            bestiary = m.bestiary
+            bestiary = bestiary.strip()
+            bestiary = bestiary.rstrip(chr(6))
+            key = keys[i]
+            LABEL_PRESET["dracula_%s" % key] = (soul_type << 8) | soul
+            ancient_addr = getattr(addresses, "ancient_%s" % key)
+            ancient, _ = get_text(ancient_addr)
+            if get_global_label() == "AOS_NA":
+                if len(bestiary) > len(ancient):
+                    bestiary = bestiary[:len(ancient)-3]
+                    bestiary += "..."
+                while len(bestiary) < len(ancient):
+                    bestiary += " "
+            else:
+                if len(bestiary) > len(ancient):
+                    bestiary = bestiary[:len(ancient)]
+                while len(bestiary) < (len(ancient)/2)*2:
+                    bestiary += chr(0x40) + chr(0x81)
+                if len(bestiary) < len(ancient):
+                    assert False
+            f = open(get_outfile(), "r+b")
+            f.seek(ancient_addr)
+            f.write(bestiary)
+            dracula_addr = getattr(addresses, "dracula_%s" % key)
+            f.seek(dracula_addr)
+            f.write(chr(soul))
+            f.close()
+
+        if route_item_flag:
+            while True:
+                try:
+                    route_items()
+                except RoutingException:
+                    continue
+                break
 
         hexify = lambda x: "{0:0>2}".format("%x" % x)
         numify = lambda x: "{0: >3}".format(x)
@@ -583,6 +747,7 @@ if __name__ == "__main__":
         enable_cutscene_skip()
         if get_global_label() == "AOS_NA":
             write_seed_display()
+
         clean_and_write(ALL_OBJECTS)
         finish_interface()
     except Exception, e:

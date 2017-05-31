@@ -14,9 +14,12 @@ $balore3            51f909
 $hammer1            526c04
 $hammer2            526c1c
 $hammer3            526c40
-$ancient1           f3f32
-$ancient2           f3f66
-$ancient3           f3f96
+$ancient_bullet     f3f32
+$ancient_guardian   f3f66
+$ancient_enchanted  f3f96
 $enemy_descriptions f6a3e
 $start_game_text    f850a
 $soul_set_text      f86c6
+$dracula_bullet     d4cf0
+$dracula_guardian   d4cf6
+$dracula_enchanted  d4cfc

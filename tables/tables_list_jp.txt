@@ -14,3 +14,10 @@ $balore3            4f6209
 $hammer1            4fd4f4
 $hammer2            4fd50c
 $hammer3            4fd530
+$ancient_bullet     f19ca
+$ancient_guardian   f19ea
+$ancient_enchanted  f1a0a
+$enemy_descriptions f39ee
+$dracula_bullet     d32c8
+$dracula_guardian   d32ce
+$dracula_enchanted  d32d4
