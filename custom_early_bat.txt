@@ -1,0 +1,11 @@
+# HOW TO USE
+#
+# This is a custom seed to start the game with Giant Bat.
+
+item_gravekeeper_05 602
+
+# boss souls (recommended to set these manually)
+enemy_headhunter_6a 70E
+enemy_death_6b 618
+enemy_legion_6c 531
+enemy_balore_6d 532

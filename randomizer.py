@@ -161,7 +161,7 @@ class MonsterObject(TableObject):
             return False
         codes = get_activated_codes()
         item_rando = ("i" in get_flags() or "chaos" in codes
-                      or "bat" in codes or "oops" in codes)
+                      or "custom" in codes or "oops" in codes)
         if self.index in [0x5F, 0x68] and not item_rando:
             return False
         return True
@@ -395,7 +395,6 @@ class ShopIndexObject(TableObject):
 def route_items():
     hard_mode = "chaos" in get_activated_codes()
     custom_mode = "custom" in get_activated_codes()
-    bat_mode = "bat" in get_activated_codes()
     if hard_mode:
         print "CHAOS MODE ACTIVATED"
         ir = ItemRouter(path.join(tblpath, "hard_requirements.txt"))
@@ -403,9 +402,6 @@ def route_items():
         ir = ItemRouter(path.join(tblpath, "hard_requirements.txt"))
         ir.set_custom_assignments(custom_items)
         hard_mode = True
-    elif bat_mode:
-        print "BAT MODE ACTIVATED"
-        ir = ItemRouter(path.join(tblpath, "bat_requirements.txt"))
     else:
         ir = ItemRouter(path.join(tblpath, "requirements.txt"))
 
@@ -439,7 +435,7 @@ def route_items():
 
     for item_type, item_index in souls:
         item = "%x" % ((item_type << 8) | item_index)
-        if bat_mode or hard_mode:
+        if hard_mode:
             continue
         ir.assign_item(item, aggression=aggression)
 
@@ -707,7 +703,6 @@ if __name__ == "__main__":
 
         codes = {
             'oops': ['oopsallsouls', 'oops all souls', 'oops_all_souls'],
-            'bat': ['batcompany', 'bat_company', 'bat company'],
             'chaos': ['chaos', 'hard'],
             'fam': ['famine'],
             'safe': ['goodmoney', 'good money', 'good_money'],
@@ -743,7 +738,6 @@ if __name__ == "__main__":
             print "FAMINE MODE ACTIVATED"
 
         route_item_flag = ('i' in get_flags() or "oops" in activated_codes
-                           or "bat" in activated_codes
                            or "custom" in activated_codes)
         keys = {
             0: "bullet",
