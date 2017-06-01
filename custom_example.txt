@@ -1,0 +1,54 @@
+# EXAMPLE CUSTOM SEED - THE HELL SEED
+#
+# 1. Run the randomizer, and in "flags" section type "custom" to activate
+#       custom mode.
+# 2. Type in the name of this file ("custom_example.txt") when it
+#       asks for your custom mode filename.
+# 3. The randomizer will generate a seed of my own design. Some items will
+#       still be random! For example, I did not specify a location for
+#       Galamoth to appear, so it could be anywhere. These unspecified items
+#       will vary depending on the seed number.
+#
+# Note that this example seed is VERY hard and VERY annoying. It will
+# require you to use all kinds of weird tricks to beat.
+
+# start with malphas instead of gravekeeper
+item_gravekeeper_05 803
+
+# mana prism at the tip top of the dance hall - skula
+item_manaprism_2e 702
+
+# false ceiling in dance hall near inner quarters - rush soul
+item_shermanring_32 612
+
+# ancient book 3 room - skeleton blaze
+item_ancientbook3_55 802
+
+# rubber ducky room in arena - kicker skeleton
+item_blackcloak_60 804
+
+# gold medusa room in arena (worst room in the game) - undine
+item_balmung_62 701
+
+# behind graham in top floor - chaos ring & black panther
+item_draculastunic_65 42c
+item_blackpanther_66 603
+
+# forbidden area false wall - high jump
+item_claimhsolais_6e 805
+
+# forbidden area mimic room - giant bat
+item_joyeuse_6f 602
+
+# chaos rooms (requires skula) - positron rifle and valmanway
+item_superpotion_70 339
+item_highmindup_71 33a
+
+# chaos room (does not require skula) - excalibur
+item_manaprism_72 324
+
+# bosses - death: backdash
+enemy_headhunter_6a 501
+enemy_death_6b 801
+enemy_legion_6c 501
+enemy_balore_6d 501

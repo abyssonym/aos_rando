@@ -1,0 +1,603 @@
+# HOW TO USE
+#
+# 1. Look up the item code for the item you want in the appendix at the end of
+#       the file. (ex. Final Sword has an item code "31A")
+# 2. Find the location below where you want to put the item. (ex.
+#       "item_shortsword_03" is the location of the short sword at the
+#       beginning of the game)
+# 3. Type the item code next to the chosen location, separated by a space.
+#       (ex. "item_shortsword_03 31A" to put a Final Sword at the beginning
+#       of the game)
+# 4. Repeat for as many items and locations as you want. 
+# 5. Run the randomizer, and in the "flags" section type "custom" to activate
+#       custom mode.
+# 6. Type in the name of this file (including the ".txt" extension) when the
+#       randomizer asks for your custom mode filename.
+#
+# Any unfilled locations will be filled in by the randomizer. The randomizer 
+#       will try to make the seed beatable with your custom restrictions.
+#       The unfilled locations will be determined by the seed number. If you
+#       do something like putting Skula in the Arena, then the seed won't
+#       be beatable.
+
+# castle entrance
+item_luckycharm_00
+
+# near castle entrance
+item_vjaya_01
+item_cestus_02
+
+# gravekeeper room
+item_shortsword_03
+item_cape_04
+item_gravekeeper_05
+
+# tall room from near creaking skull to dance hall
+item_lance_06
+
+# peeping eye hidden room
+item_mindup_07
+
+# entrance to inner corridor (white dragon)
+item_potion_08
+
+# inner corridor leather armor room
+item_potion_09
+item_leatherplate_0a
+
+# flying armor room (entrance to floating gardens)
+item_flyingarmor_0b
+
+# end of inner corridor near chapel
+item_yasutsuna_0c
+
+# room after creaking skull with peeping eye
+item_castlemap1_0d
+
+# above inner corridor armor of fire room
+item_armoroffire_0e
+
+# ??? a potion somewhere accessible from inner corridor
+item_potion_0f
+
+# above inner corridor by armor of fire
+item_copperplate_10
+item_scarf_11
+
+# end of inner corridor by mermen
+item_500_12
+item_potion_13
+
+# below chapel warp point
+item_antivenom_14
+
+# chapel belfry
+item_highmindup_15
+item_100_16
+item_bamboosword_17
+item_highpotion_18
+item_mindup_19
+
+# 100 bucks in the chapel somewhere (requires malphas)
+item_100_1a
+
+# top of manticore/ghost dancer room in chapel
+item_tallhammer_1b
+
+# rapier room in chapel
+item_rapier_1c
+
+# hidden room above silk robe room
+item_1000_1d
+
+# 100 bucks in the chapel somewhere
+item_100_1e
+
+# silk robe room accessible from manticore room in chapel
+item_silkrobe_1f
+
+# hidden melon room in study
+item_melon_20
+
+# 100 bucks in the study somewhere
+item_100_21
+
+# uncurse potion in study prior to ectoplasms
+item_uncursepotion_22
+
+# malphas and hammer (person) room after great armor boss fight
+item_malphas_23
+
+# hammer (weapon) room in study (requires malphas)
+item_hammer_24
+
+# heart pendant above box room in study (requires malphas)
+item_heartpendant_25
+
+# box room in study (requires malphas)
+item_broadsword_26
+
+# backdash room in study
+item_whipsword_27
+
+# from study to forbidden area (requires slide)
+item_ancientbook1_28
+
+# 100 bucks in the study somewhere
+item_100_29
+
+# bastard sword in study
+item_bastardsword_2a
+
+# dance hall near top
+item_samuraiarmor_2b
+
+# 100 bucks in dance hall somewhere (requires malphas)
+item_100_2c
+
+# cutall in dance hall (get with slide)
+item_cutall_2d
+
+# mana prism at the tip top of the dance hall
+item_manaprism_2e
+
+# high potion near the top of the dance hall?
+item_highpotion_2f
+
+# skeleton blaze room after big golem boss in dance hall
+item_skeletonblaze_30
+
+# 100 bucks in dance hall somewhere (requires malphas)
+item_100_31
+
+# false ceiling in dance hall near inner quarters
+item_shermanring_32
+
+# behind chronomancer
+item_dainslef_33
+item_ancientbook2_34
+
+# inner quarters, near entrance to dance hall
+item_highmindup_35
+
+# false floor in inner quarters
+item_highpotion_36
+
+# false wall after false floor in inner quarters
+item_ninjasuit_37
+
+# top of inner quarters after headhunter
+item_hrunting_38
+item_undine_39
+
+# inner quarters lilith room
+item_mindup_3a
+
+# floating garden central area
+item_castlemap3_3b
+
+# big room in floating garden with two money sacks behind bone pillars
+item_1000_3c
+item_1000_3d
+
+# various rooms in floating gardens containing money
+item_500_3e
+item_500_3f
+item_500_40
+
+# slide/spikes room in clocktower (requires skula)
+item_pitchblacksuit_41
+
+# pendulum room in clocktower (requires skula)
+item_burtgang_42
+
+# behind death in clocktower
+item_skula_43
+
+# money near top of clocktower
+item_2000_44
+
+# hidden room by spikes in clocktower
+item_mystletain_45
+
+# room by reservoir (accessible from beginning of the game)
+item_pendant_46
+
+# long swim by reservoir (accessible from beginning of the game)
+item_tastymeat_47
+
+# above the long swim (requires undine and malphas)
+item_elfinrobe_48
+
+# reservoir by man-eater after long swim
+item_rahabssword_49
+
+# reservoir room with dead crusaders, tritons, and fish heads
+item_highmindup_4a
+
+# cemetary behind false wall
+item_pudding_4b
+
+# reservoir mana prism after long slide
+item_manaprism_4c
+
+# super potion in reservoir somewhere?
+item_superpotion_4d
+
+# super potion in reservoir somewhere (requires high jump)
+item_superpotion_4e
+
+# milican's sword by eastern reservoir, room with imps
+item_milicanssword_4f
+
+# armor of water/man-eater room in reservoir
+item_armorofwater_50
+
+# galamoth room behind legion
+item_galamoth_51
+
+# longinus room by waterfall (requires high jump)
+item_ronginusspear_52
+
+# money and handgun in eastern reservoir boat room (handgun requires high jump)
+item_1000_53
+item_handgun_54
+
+# ancient book 3 room at the top of the eastern reservoir after boat room
+item_ancientbook3_55
+
+# eastern reservoir after boat room
+item_2000_56
+
+# east arm of eastern reservoir after boat room
+item_runering_57
+
+# false wall by east leg of eastern reservoir after boat room
+item_osafune_58
+
+# waterfall room (super potion from west leg of eastern reservoir after boat)
+item_superpotion_59
+item_eversing_5a
+
+# cemetary before legion (requires malphas)
+item_2000_5b
+
+# cemetary after legion (requires malphas)
+item_highpotion_5c
+
+# cemetary after legion (requires malphas)
+item_goldring_5d
+
+# behind balore (giant bat room)
+item_giantbat_5e
+
+# laevatain room at end of red minotaur hallway in arena
+item_laevatain_5f
+
+# rubber ducky room in arena
+item_blackcloak_60
+
+# lubicant room in arena
+item_olroxssuit_61
+
+# gold medusa room in arena (worst room in the game)
+item_balmung_62
+
+# DDR room in arena
+item_rarering_63
+
+# high potion at top of arena
+item_highpotion_64
+
+# behind graham in top floor
+item_draculastunic_65
+item_blackpanther_66
+
+# top floor near graham
+item_manaprism_67
+
+# top floor false ceiling
+item_gungner_68
+
+# top floor behind iron golem
+item_hippogryph_69
+
+# top floor behind final guard
+item_satansring_6a
+
+# top floor near graham
+item_manaprism_6b
+
+# top floor below warp (near lubicants)
+item_superpotion_6c
+
+# top floor above iron golem room
+item_kaladbolg_6d
+
+# forbidden area false wall
+item_claimhsolais_6e
+
+# forbidden area mimic room
+item_joyeuse_6f
+
+# chaos rooms (requires skula)
+item_superpotion_70
+item_highmindup_71
+
+# chaos room (does not require skula)
+item_manaprism_72
+
+# boss souls (recommended to set these manually)
+enemy_headhunter_6a 70E
+enemy_death_6b 618
+enemy_legion_6c 531
+enemy_balore_6d 532
+
+# APPENDIX - ITEM CODES
+#
+# dracula_bullet - Required bullet soul for good ending
+# dracula_guardian - Required guardian soul for good ending
+# dracula_enchanted - Required enchanted soul for good ending
+# 100 $1
+# 101 $10
+# 102 $50
+# 103 $100
+# 104 $500
+# 105 $1,000
+# 106 $2,000
+# 200 Potion
+# 201 High Potion
+# 202 Super Potion
+# 203 Meat Strip
+# 204 Tasty Meat
+# 205 Mind Up
+# 206 High Mind Up
+# 207 Mana Prism
+# 208 Anti-Venom
+# 209 Uncurse Potion
+# 20A Potato Pancake
+# 20B Beef Curry
+# 20C Ramen
+# 20D Cream Soda
+# 20E Cream Puff
+# 20F Milk
+# 210 Coffee
+# 211 Tea
+# 212 Pudding
+# 213 Strawberry
+# 214 Melon
+# 215 Grapes
+# 216 Persimmon
+# 217 Rotten Meat
+# 218 Spoiled Milk
+# 219 Skull Key
+# 21A Ancient Book 1
+# 21B Ancient Book 2
+# 21C Ancient Book 3
+# 21D Castle Map 1
+# 21E Castle Map 2
+# 21F Castle Map 3
+# 300 Knife
+# 301 Baselard
+# 302 Combat Knife
+# 303 Short Sword
+# 304 Bastard Sword
+# 305 Whip Sword
+# 306 Gladius
+# 307 Gram
+# 308 Milican's Sword
+# 309 Hrunting
+# 30A Mystletain
+# 30B Rahab's Sword
+# 30C Durandal
+# 30D Laevatain
+# 30E Burtgang
+# 30F Kaladbolg
+# 310 Vjaya
+# 311 Balmung
+# 312 Broadsword
+# 313 Scimitar
+# 314 Claymore
+# 315 Great Sword
+# 316 Joyeuse
+# 317 Dainslef
+# 318 Ascalon
+# 319 Claimh Solais
+# 31A Final Sword
+# 31B Bamboo Sword
+# 31C Katana
+# 31D Osafune
+# 31E Onikiri
+# 31F Kunitsuna
+# 320 Yasutsuna
+# 321 Muramasa
+# 322 Hammer
+# 323 Warhammer
+# 324 Excalibur
+# 325 Tallhammer
+# 326 Battle Axe
+# 327 Death's Sickle
+# 328 Rapier
+# 329 Estoc
+# 32A Cutall
+# 32B Spear
+# 32C Trident
+# 32D Lance
+# 32E Partizan
+# 32F Gabolg
+# 330 Gungner
+# 331 Ronginus' Spear
+# 332 Cestus
+# 333 Kaiser Knuckle
+# 334 Mach Punch
+# 335 Whip Knuckle
+# 336 Poison Fist
+# 337 Handgun
+# 338 Silver Gun
+# 339 Positron Rifle
+# 33A Valmanway
+# 400 Casual Clothes
+# 401 Cloth Tunic
+# 402 Gym Clothes
+# 403 War Fatigues
+# 404 Ninja Suit
+# 405 Soldier Uniform
+# 406 Pitch Black Suit
+# 407 Olrox's Suit
+# 408 Dracula's Tunic
+# 409 Leather Plate
+# 40A Copper Plate
+# 40B Iron Plate
+# 40C Steel Plate
+# 40D Silver Plate
+# 40E Gold Plate
+# 40F Eversing
+# 410 Samurai Armor
+# 411 Silk Robe
+# 412 Elfin Robe
+# 413 Death's Robe
+# 414 Demon's Mail
+# 415 Armor of Fire
+# 416 Armor of Water
+# 417 Blocking Mail
+# 418 Army Jacket
+# 419 Cape
+# 41A Crimson Cloak
+# 41B Black Cloak
+# 41C Pendant
+# 41D Heart Pendant
+# 41E Scarf
+# 41F Red Scarf
+# 420 Ancient Belt
+# 421 Black Belt
+# 422 Skull Necklace
+# 423 Flame Necklace
+# 424 Satan's Ring
+# 425 Tear Of Blood
+# 426 Lucky Charm
+# 427 Rare Ring
+# 428 Soul Eater Ring
+# 429 Rune Ring
+# 42A Sherman Ring
+# 42B Gold Ring
+# 42C Chaos Ring
+# 501 Winged Skeleton
+# 502 Bat
+# 503 Skeleton
+# 504 Merman
+# 505 Axe Armor
+# 506 Skull Archer
+# 507 Killer Fish
+# 508 Blue Crow
+# 509 Zombie Soldier
+# 50A Ghost
+# 50B Siren
+# 50C Tiny Devil
+# 50D Durga
+# 50E Rock Armor
+# 50F Student Witch
+# 510 Arachne
+# 511 Fleaman
+# 512 Evil Butcher
+# 513 Waiter Skeleton
+# 514 Altair
+# 515 Mudman
+# 516 Cockatrice
+# 517 Werewolf
+# 518 Harpy
+# 519 Une
+# 51A Needles
+# 51B Man-Eater
+# 51C Ukoback
+# 51D Fish Head
+# 51E Disc Armor
+# 51F Nightmare
+# 520 Slime
+# 521 Dryad
+# 522 Ripper
+# 523 Werejaguar
+# 524 Weretiger
+# 525 Biphron
+# 526 Mandragora
+# 527 Beam Skeleton
+# 528 Skull Millione
+# 529 Giant Skeleton
+# 52A Gladiator
+# 52B Demon Lord
+# 52C Flame Demon
+# 52D Lightning Doll
+# 52E Valkyrie
+# 52F Bomber Armor
+# 530 Red Minotaur
+# 531 Legion
+# 532 Balore
+# 533 Killer Doll
+# 534 Nemesis
+# 535 Killer Mantle
+# 536 Kyoma Demon
+# 537 Chronomage
+# 601 Flying Armor
+# 602 Giant Bat
+# 603 Black Panther
+# 604 Buer
+# 605 Witch
+# 606 Giant Ghost
+# 607 Final Guard
+# 608 Great Armor
+# 609 Catoblepas
+# 60A Bone Pillar
+# 60B Cagnazzo
+# 60C Big Golem
+# 60D Shadow Knight
+# 60E Creaking Skull
+# 60F Medusa Head
+# 610 Persephone
+# 611 Alura Une
+# 612 Devil
+# 613 Manticore
+# 614 Curly
+# 615 Sky Fish
+# 616 Imp
+# 617 Alastor
+# 618 Death
+# 701 Undine
+# 702 Skula
+# 703 Zombie Officer
+# 704 Iron Golem
+# 705 Dead Warrior
+# 706 Peeping Eye
+# 707 Succubus
+# 708 Flesh Golem
+# 709 Tsuchinoko
+# 70A Giant Worm
+# 70B Wooden Golem
+# 70C Zombie
+# 70D Lubricant
+# 70E Headhunter
+# 70F Basilisk
+# 710 Erinys
+# 711 Mimic
+# 712 Arc Demon
+# 713 Poison Worm
+# 714 Ectoplasm
+# 715 Gargoyle
+# 716 Skeleton Knight
+# 717 Minotaur
+# 718 Golem
+# 719 Triton
+# 71A White Dragon
+# 71B Quezlcoatl
+# 71C Gorgon
+# 71D Dead Crusader
+# 71E Red Crow
+# 71F Lilith
+# 720 Bael
+# 721 Stolas
+# 722 Ghost Dancer
+# 723 Gremlin
+# 801 Grave Keeper
+# 802 Skeleton Blaze
+# 803 Malphas
+# 804 Kicker Skeleton
+# 805 Hippogryph
+# 806 Galamoth

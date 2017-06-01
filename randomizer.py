@@ -18,6 +18,7 @@ RESEED_COUNTER = 0
 ITEM_NAMES = {}
 LABEL_PRESET = {}
 BESTIARY_DESCRIPTIONS = []
+custom_items = {}
 
 
 HP_HEALING_ITEMS = range(0, 0x05) + range(0x0a, 0x17)
@@ -384,10 +385,15 @@ class ShopIndexObject(TableObject):
 
 def route_items():
     hard_mode = "chaos" in get_activated_codes()
+    custom_mode = "custom" in get_activated_codes()
     bat_mode = "bat" in get_activated_codes()
     if hard_mode:
         print "CHAOS MODE ACTIVATED"
         ir = ItemRouter(path.join(tblpath, "hard_requirements.txt"))
+    elif custom_mode:
+        ir = ItemRouter(path.join(tblpath, "hard_requirements.txt"))
+        ir.set_custom_assignments(custom_items)
+        hard_mode = True
     elif bat_mode:
         print "BAT MODE ACTIVATED"
         ir = ItemRouter(path.join(tblpath, "bat_requirements.txt"))
@@ -399,9 +405,7 @@ def route_items():
     else:
         aggression=3
 
-    while True:
-        ir.assign_everything(aggression=aggression)
-        break
+    ir.assign_everything(aggression=aggression)
 
     souls = [(t.item_type, t.item_index) for t in TreasureObject.every
              if t.item_type >= 5]
@@ -445,82 +449,96 @@ def route_items():
             done_treasures.add(t)
         elif location_type == "enemy":
             if item_type < 5:
-                if "h" in get_flags():
+                if 'h' in get_flags():
                     ShopIndexObject.insert_item(item_type, item_index)
                 else:
                     raise RoutingException
             else:
+                if 'd' not in get_flags() and location not in custom_items:
+                    raise RoutingException
                 m = MonsterObject.get(index)
                 erased_souls.add((m.soul_type+5, m.soul))
                 m.soul_type = item_type-5
                 m.soul = item_index
         done_items.add((item_type, item_index))
 
-    # replace boss souls to prevent softlocks
-    winged = [m for m in MonsterObject.every
-              if m.soul_type == 0 and m.soul == 1][0]
-    kicker = [m for m in MonsterObject.every
-              if m.soul_type == 3 and m.soul == 4][0]
-    replaceable = [kicker, winged]
-    headhunter = MonsterObject.get(0x6a)
-    legion = MonsterObject.get(0x6c)
-    balore = MonsterObject.get(0x6d)
-    bosses = [headhunter, legion, balore]
+    if hard_mode and 'd' in get_flags():
+        # kicker skeleton + rush souls
+        banned_souls = [(3, 4), (1, 0x12), (1, 0x13), (1, 0x14)]
+        for m in MonsterObject.every:
+            if (m.soul_type, m.soul) in banned_souls:
+                m.soul_type = 0
+                m.soul = 1
 
-    if hard_mode:
-        banned = [(8, 0x05), (6, 0x02)]
-    else:
-        banned = []
+    if 'd' in get_flags():
+        # replace boss souls to prevent softlocks
+        winged = [m for m in MonsterObject.every
+                  if m.soul_type == 0 and m.soul == 1]
+        kicker = [m for m in MonsterObject.every
+                  if m.soul_type == 3 and m.soul == 4]
+        replaceable = kicker + winged
+        headhunter = MonsterObject.get(0x6a)
+        legion = MonsterObject.get(0x6c)
+        balore = MonsterObject.get(0x6d)
+        bosses = [headhunter, legion, balore]
 
-    random.shuffle(bosses)
-    for boss in bosses:
-        if boss is legion:
-            locations = [addresses.legion1, addresses.legion2]
-            souls = set([(8, 0x03), (8, 0x05), (6, 0x02)])
-        elif boss is balore:
-            locations = [addresses.balore1, addresses.balore2,
-                         addresses.balore3]
-            souls = set([(8, 0x03), (8, 0x05), (6, 0x03), (6, 0x02)])
-        elif boss is headhunter:
-            locations = [addresses.headhunter1, addresses.headhunter4,
-                         addresses.headhunter5]
-            souls = set([(6, 0x02), (6, 0x03), (7, 0x01),
-                         (8, 0x02), (8, 0x04), (8, 0x05)])
+        if hard_mode:
+            banned = [(8, 0x05), (6, 0x02)]
         else:
-            raise Exception
-        locations = set([
-            (t.get_by_pointer(l).item_type, t.get_by_pointer(l).item_index)
-            for l in locations])
-        if locations & souls:
-            continue
-        soulstrs = dict([((a, b), "{0}{1:0>2}".format("%x" % a, "%x" % b))
-                         for (a, b) in souls])
-        order = ['a', 'b']
-        random.shuffle(order)
-        for o in order:
-            if o == 'a':
-                temp = [s for s in souls
-                        if ir.get_item_rank(soulstrs[s]) is not None]
-                if temp:
-                    souls = temp
-            if o == 'b':
-                temp = [s for s in souls if s not in banned]
-                if temp:
-                    souls = temp
-        souls = sorted(
-            souls, key=lambda s: (ir.get_item_rank(soulstrs[s]),
-                                  random.random()))
-        soul_type, soul = souls.pop(0)
-        soul_type -= 5
-        if replaceable:
-            replacement = replaceable.pop(0)
-            replacement.soul_type = boss.soul_type
-            replacement.soul = boss.soul
-        else:
-            erased_souls.add((boss.soul_type+5, boss.soul))
-        boss.soul_type = soul_type
-        boss.soul = soul
-        assert 0 <= boss.soul_type <= 3
+            banned = []
+
+        random.shuffle(bosses)
+        for boss in bosses:
+            hexdex = "enemy_{0:0>2}".format("%x" % boss.index)
+            if hexdex in custom_items:
+                continue
+            if boss is legion:
+                locations = [addresses.legion1, addresses.legion2]
+                souls = set([(8, 0x03), (8, 0x05), (6, 0x02)])
+            elif boss is balore:
+                locations = [addresses.balore1, addresses.balore2,
+                             addresses.balore3]
+                souls = set([(8, 0x03), (8, 0x05), (6, 0x03), (6, 0x02)])
+            elif boss is headhunter:
+                locations = [addresses.headhunter1, addresses.headhunter4,
+                             addresses.headhunter5]
+                souls = set([(6, 0x02), (6, 0x03), (7, 0x01),
+                             (8, 0x02), (8, 0x04), (8, 0x05)])
+            else:
+                raise Exception
+            locations = set([
+                (t.get_by_pointer(l).item_type, t.get_by_pointer(l).item_index)
+                for l in locations])
+            if locations & souls:
+                continue
+            soulstrs = dict([((a, b), "{0}{1:0>2}".format("%x" % a, "%x" % b))
+                             for (a, b) in souls])
+            order = ['a', 'b']
+            random.shuffle(order)
+            for o in order:
+                if o == 'a':
+                    temp = [s for s in souls
+                            if ir.get_item_rank(soulstrs[s]) is not None]
+                    if temp:
+                        souls = temp
+                if o == 'b':
+                    temp = [s for s in souls if s not in banned]
+                    if temp:
+                        souls = temp
+            souls = sorted(
+                souls, key=lambda s: (ir.get_item_rank(soulstrs[s]),
+                                      random.random()))
+            soul_type, soul = souls.pop(0)
+            soul_type -= 5
+            if replaceable:
+                replacement = replaceable.pop(0)
+                replacement.soul_type = boss.soul_type
+                replacement.soul = boss.soul
+            else:
+                erased_souls.add((boss.soul_type+5, boss.soul))
+            boss.soul_type = soul_type
+            boss.soul = soul
+            assert 0 <= boss.soul_type <= 3
 
     remaining_treasures = [t for t in TreasureObject.every
                            if t not in done_treasures]
@@ -678,10 +696,31 @@ if __name__ == "__main__":
             'chaos': ['chaos', 'hard'],
             'fam': ['famine'],
             'safe': ['goodmoney', 'good money', 'good_money'],
+            'custom': ['custom'],
         }
         run_interface(ALL_OBJECTS, snes=True, codes=codes)
 
         activated_codes = get_activated_codes()
+        if "custom" in activated_codes:
+            print "CUSTOM MODE ACTIVATED"
+            custom_filename = raw_input("Filename for custom items seed? ")
+            f = open(custom_filename)
+            for line in f:
+                if '#' in line:
+                    index = line.index('#')
+                    line = line[:index]
+                line = line.strip()
+                while '  ' in line:
+                    line = line.replace('  ', ' ')
+                line = line.strip()
+                line = line.split()
+                if len(line) == 2:
+                    location, item = line
+                    location = location.split('_')
+                    assert len(location) >= 2
+                    location = location[0] + "_" + location[-1]
+                    custom_items[location] = item
+
         if "fam" in activated_codes:
             print "FAMINE MODE ACTIVATED"
 
@@ -694,7 +733,8 @@ if __name__ == "__main__":
         '''
 
         route_item_flag = ('i' in get_flags() or "oops" in activated_codes
-                           or "bat" in activated_codes)
+                           or "bat" in activated_codes
+                           or "custom" in activated_codes)
         keys = {
             0: "bullet",
             1: "guardian",
