@@ -1,0 +1,25 @@
+# HOW TO USE
+#
+# This is a vanilla custom seed that places all movement abilities in their
+#       their appropriate locations. Ancient books and boss souls are also
+#       included.
+
+item_gravekeeper_05 801
+item_flyingarmor_0b 601
+item_malphas_23 803
+item_ancientbook1_28 21a
+item_skeletonblaze_30 802
+item_ancientbook2_34 21b
+item_undine_39 701
+item_skula_43 702
+item_galamoth_51 806
+item_ancientbook3_55 21c
+item_giantbat_5e 602
+item_blackpanther_66 603
+item_hippogryph_69 805
+
+# boss souls (recommended to set these manually)
+enemy_headhunter_6a 70E
+enemy_death_6b 618
+enemy_legion_6c 531
+enemy_balore_6d 532

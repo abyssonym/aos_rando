@@ -7,7 +7,7 @@ from randomtools.interface import (
     get_outfile, get_seed, get_flags, get_activated_codes,
     run_interface, rewrite_snes_meta,
     clean_and_write, finish_interface)
-from randomtools.itemrouter import ItemRouter
+from randomtools.itemrouter import ItemRouter, ItemRouterException
 from os import path
 
 
@@ -306,6 +306,15 @@ class TreasureObject(TableObject):
     def get_by_pointer(cls, pointer):
         return [t for t in TreasureObject.every if t.pointer == pointer][0]
 
+    @property
+    def signature(self):
+        name = self.name.lower()
+        from string import lowercase, digits
+        name = "".join([c for c in name if c in lowercase+digits])
+        hexdex = "{0:0>2}".format("%x" % self.index)
+        item = "%x" % (((self.item_type) << 8) | self.item_index)
+        return "item_%s_%s %s" % (name, hexdex, item)
+
 
 class ShopIndexObject(TableObject):
     flag = "h"
@@ -405,7 +414,11 @@ def route_items():
     else:
         aggression=3
 
-    ir.assign_everything(aggression=aggression)
+    try:
+        ir.assign_everything(aggression=aggression)
+    except ItemRouterException, e:
+        if not custom_mode:
+            raise e
 
     souls = [(t.item_type, t.item_index) for t in TreasureObject.every
              if t.item_type >= 5]
@@ -728,14 +741,6 @@ if __name__ == "__main__":
 
         if "fam" in activated_codes:
             print "FAMINE MODE ACTIVATED"
-
-        '''
-        for m in MonsterObject.every:
-            if get_global_label() != "AOS_NA":
-                print "%x" % m.index, bytestring_to_sjis(m.bestiary)
-            else:
-                print "%x" % m.index, m.bestiary
-        '''
 
         route_item_flag = ('i' in get_flags() or "oops" in activated_codes
                            or "bat" in activated_codes
