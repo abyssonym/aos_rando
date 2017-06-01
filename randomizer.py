@@ -454,8 +454,10 @@ def route_items():
                 else:
                     raise RoutingException
             else:
-                if 'd' not in get_flags() and location not in custom_items:
-                    raise RoutingException
+                if location not in custom_items:
+                    if ('d' not in get_flags()
+                            or "nosoul" in get_activated_codes()):
+                        raise RoutingException
                 m = MonsterObject.get(index)
                 erased_souls.add((m.soul_type+5, m.soul))
                 m.soul_type = item_type-5
@@ -697,6 +699,9 @@ if __name__ == "__main__":
             'fam': ['famine'],
             'safe': ['goodmoney', 'good money', 'good_money'],
             'custom': ['custom'],
+            'nosoul': ['nosoul'],
+            'nodrop': ['nodrop'],
+            'noshop': ['noshop'],
         }
         run_interface(ALL_OBJECTS, snes=True, codes=codes)
 
@@ -787,6 +792,26 @@ if __name__ == "__main__":
                 except RoutingException:
                     continue
                 break
+
+        if "nodrop" in get_activated_codes():
+            print "NODROP MODE ACTIVATED"
+            for m in MonsterObject.every:
+                m.common_drop = 0
+                m.rare_drop = 0
+
+        if "nosoul" in get_activated_codes():
+            print "NOSOUL MODE ACTIVATED"
+            for m in MonsterObject.every:
+                hexdex = "enemy_{0:0>2}".format("%x" % m.index)
+                if hexdex in custom_items:
+                    continue
+                m.soul_type = 0
+                m.soul = 1
+
+        if "noshop" in get_activated_codes():
+            print "NOSHOP MODE ACTIVATED"
+            for s in ShopIndexObject.every:
+                s.item_type, s.item_index = 2, 0x19
 
         hexify = lambda x: "{0:0>2}".format("%x" % x)
         numify = lambda x: "{0: >3}".format(x)
