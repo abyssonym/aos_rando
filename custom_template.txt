@@ -141,7 +141,7 @@ item_cutall_2d
 # mana prism at the tip top of the dance hall
 item_manaprism_2e
 
-# high potion near the top of the dance hall?
+# high potion near big golem in dance hall (need slide for non-souls)
 item_highpotion_2f
 
 # skeleton blaze room after big golem boss in dance hall

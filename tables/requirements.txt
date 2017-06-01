@@ -78,9 +78,9 @@ item_29 study
 item_2a study
 item_2b dance_hall
 item_2c dance_hall&malphas
-item_2d dance_hall
+item_2d dance_hall&slide
 item_2e dance_hall&hippogryph|dance_hall&malphas
-item_2f dance_hall&malphas
+item_2f dance_hall&malphas&slide
 item_30 dance_hall&malphas
 item_31 dance_hall&malphas
 item_32 inner_quarters&hippogryph
@@ -106,7 +106,7 @@ item_45 clock_tower
 item_46 *
 item_47 *
 item_48 undine&malphas|hippogryph
-item_49 reservoir
+item_49 reservoir&skula
 item_4a reservoir&skula
 item_4b cemetary
 item_4c reservoir&slide

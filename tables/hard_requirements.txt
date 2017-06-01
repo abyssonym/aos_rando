@@ -38,7 +38,7 @@
 .def underfoot study|panther
 
 item_00 malphas
-item_01 hippogryph
+#item_01 hippogryph
 item_02 malphas
 item_03 *
 item_04 *
@@ -49,9 +49,9 @@ item_08 inner_corridor
 item_09 inner_corridor
 item_0a inner_corridor
 item_0b *
-item_0c inner_corridor&bat|inner_corridor&overhead
+#item_0c inner_corridor&bat|inner_corridor&overhead
 item_0d *
-item_0e inner_corridor&hippogryph
+#item_0e inner_corridor&hippogryph
 item_0f inner_corridor
 item_10 inner_corridor&float|inner_corridor&malphas
 item_11 inner_corridor
@@ -61,7 +61,7 @@ item_14 chapel&malphas|chapel&float
 item_15 chapel
 item_16 chapel
 item_17 chapel
-item_18 chapel&malphas|chapel&panther
+#item_18 chapel&malphas|chapel&panther
 item_19 chapel
 item_1a chapel&malphas
 item_1b chapel&hippogryph
@@ -75,16 +75,16 @@ item_22 study
 item_23 study
 item_24 study&malphas|study&panther
 item_25 study&malphas
-item_26 study&malphas
+#item_26 study&malphas
 item_27 study
 #item_28 study&slide|forbidden
 item_29 study
 item_2a study
 item_2b dance_hall
 item_2c dance_hall&malphas
-item_2d dance_hall
+#item_2d dance_hall
 item_2e dance_hall&hippogryph|dance_hall&malphas
-item_2f dance_hall&malphas
+#item_2f dance_hall&malphas
 item_30 dance_hall&malphas
 item_31 dance_hall&malphas
 item_32 inner_quarters&kicker
@@ -110,10 +110,10 @@ item_45 clock_tower
 item_46 *
 item_47 *
 item_48 undine&malphas|hippogryph
-item_49 reservoir
+item_49 reservoir&skula
 item_4a reservoir&skula
 item_4b cemetary
-item_4c reservoir&slide|reservoir&overhead
+#item_4c reservoir&slide|reservoir&overhead
 item_4d reservoir
 item_4e reservoir&hippogryph
 item_4f eastern_reservoir&malphas
@@ -121,12 +121,12 @@ item_50 reservoir
 item_51 cemetary
 item_52 reservoir&hippogryph
 item_53 eastern_reservoir&malphas|eastern_reservoir&panther
-item_54 reservoir&hippogryph
+#item_54 reservoir&hippogryph
 item_55 eastern_reservoir&kicker|eastern_reservoir&long_jump|eastern_reservoir&undine&malphas
 item_56 eastern_reservoir&malphas
 item_57 eastern_reservoir&malphas
 item_58 eastern_reservoir&malphas
-item_59 eastern_reservoir&malphas&skula
+#item_59 eastern_reservoir&malphas&skula
 item_5a reservoir&malphas
 item_5b cemetary
 item_5c cemetary
