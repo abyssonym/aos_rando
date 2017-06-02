@@ -163,7 +163,8 @@ class MonsterObject(TableObject):
         codes = get_activated_codes()
         item_rando = ("i" in get_flags() or "chaos" in codes
                       or "custom" in codes or "oops" in codes)
-        if self.index in [0x5F, 0x68] and not item_rando:
+        if (self.index in [0x5F, 0x68] and not item_rando
+                and "vangram" in codes):
             return False
         return True
 
