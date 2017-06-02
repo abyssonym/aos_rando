@@ -406,10 +406,12 @@ def route_items():
         ir = ItemRouter(path.join(tblpath, "hard_requirements.txt"))
     elif custom_mode:
         ir = ItemRouter(path.join(tblpath, "hard_requirements.txt"))
-        ir.set_custom_assignments(custom_items)
-        hard_mode = True
     else:
         ir = ItemRouter(path.join(tblpath, "requirements.txt"))
+
+    if custom_mode:
+        hard_mode = True
+        ir.set_custom_assignments(custom_items)
 
     if hard_mode:
         aggression=4
