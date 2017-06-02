@@ -12,7 +12,7 @@ from os import path
 from time import sleep
 
 
-VERSION = 6
+VERSION = 7
 ALL_OBJECTS = None
 DEBUG_MODE = False
 RESEED_COUNTER = 1

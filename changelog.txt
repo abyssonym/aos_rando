@@ -1,3 +1,15 @@
+VERSION 7
+- Added support for custom seeds, including some examples.
+	- "custom_example.txt" is a devilish challenge of my design.
+	- "custom_early_bat.txt" just puts Giant Bat where Grave Keeper would be.
+	- The "vanilla" files can be used to keep items in their usual locations.
+	- See "custom_template.txt" for information on how to make your own.
+- Randomized the three souls required to get the good ending. See Ancient Books for hints.
+- Updated item routing logic (mostly Chaos mode but some normal stuff too).
+- Cracked down on Chaos mode routing to resist potential sequence breaking.
+- Previously it was possible to get stuck in Headhunter's area; this should no longer be the case (unless playing a custom seed).
+- Various bugfixes and balance tweaks.
+
 VERSION 6
 - "Chaos Mode" added. "Chaos Mode" is the hard version of the randomizer, not to confused with Aria of Sorrow's "hard mode". To play Chaos Mode, type "chaos" when the randomizer asks for flags.
 - Hammer's inventory is now randomizable.

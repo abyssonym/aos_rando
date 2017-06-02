@@ -1,6 +1,6 @@
 Castlevania Aria of Sorrow Item Randomizer
-Version:    6
-Date:       April 28, 2017
+Version:    7
+Date:       June 01, 2017
 URL:        https://github.com/abyssonym/aos_rando
 Contact:    https://twitter.com/abyssonym
             https://www.twitch.tv/abyssonym
@@ -9,14 +9,19 @@ Contact:    https://twitter.com/abyssonym
     This is an item randomizer in the same vein as the LttP and Super Metroid item randomizers. Every seed should be beatable, but IANACE (I Am Not A Castlevania Expert).
 
 --- FAQ ---
+Q: How do I make/play a custom seed?
+A: Type the secret code "custom" in the flags section of the randomizer. It will ask you for another filename. This is where you input the name of a custom seed file such as "custom_example.txt" or "custom_early_bat.txt". For detailed information on how to create a custom seed file of your own, see the file named "custom_template.txt".
+
 Q: What is "Chaos Mode"?
 A: "Chaos Mode" is the hard version of the randomizer, not to confused with Aria of Sorrow's "hard mode". To play Chaos Mode, type "chaos" when the randomizer asks for flags. Chaos Mode differs from the casual mode in a number of ways:
     - Chaos Mode may not be completeable without the use of tricks, such as precise jumps and damage boosts.
     - Chaos Mode is much more aggressively linear than casual mode. This refers to both game balance and area progression.
-    - In Chaos Mode, you will never start with Black Panther or Flying Armor. Usually you will get either backdash or Skula.
     - If a soul isn't necessary to complete the game, it may never appear. So, some seeds may not have backdash or hippogryph.
     - Please note that Chaos mode doesn't pull any punches. In a Skula-first run, you may find yourself in the Arena with very few resources.
     - Zips are NOT accounted for in Chaos mode, because I'm not very familiar with them. I may add another mode in the future that requires zips to complete.
+
+Q: I equipped Flame Demon, Giant Bat, and Succubus, but the game won't let me progress! What's going on?
+A: As of version 7, the souls you need to get the good ending are randomized. Find the Ancient Book items for hints on what those souls are.
 
 Q: Do I have to farm enemy souls to get the good ending?
 A: No, the required souls are hidden in the castle in soul statues. You never have to farm enemy souls.
@@ -27,11 +32,11 @@ A: Those are all still in the game as pickups. You can get them all without ever
 Q: What about rush souls, for getting past the waterfall?
 A: There will be at least one rush soul obtainable without farming, too.
 
-Q: Uh-oh, I got Flame Demon/Succubus from an enemy... does that mean I have to farm them?
+Q: Uh-oh, I got required souls from an enemy... does that mean I have to farm them?
 A: No, an enemy can still drop them, but they are also hidden in statues. You never have to farm.
 
 Q: What if I don't randomize items, just enemy souls? How do I get the good ending?
-A: In that case, Flame Demon and Succubus drop their normal souls.
+A: In that case, the appropriate enemies will drop their normal souls.
 
 --- HOW TO USE ---
 Running the randomizer:
