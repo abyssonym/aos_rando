@@ -1,7 +1,7 @@
 # HOW TO USE
 #
-# 1. Look up the item code for the item you want in the appendix at the end of
-#       the file. (ex. Final Sword has an item code "31A")
+# 1. Look up the item code for the item you want in the Appendix A at the end
+#       of the file. (ex. Final Sword has an item code "31A")
 # 2. Find the location below where you want to put the item. (ex.
 #       "item_shortsword_03" is the location of the short sword at the
 #       beginning of the game)
@@ -333,7 +333,7 @@ enemy_death_6b 618
 enemy_legion_6c 531
 enemy_balore_6d 532
 
-# APPENDIX - ITEM CODES
+# APPENDIX A - ITEM CODES
 #
 # dracula_bullet - Required bullet soul for good ending
 # dracula_guardian - Required guardian soul for good ending
@@ -601,3 +601,118 @@ enemy_balore_6d 532
 # 804 Kicker Skeleton
 # 805 Hippogryph
 # 806 Galamoth
+#
+# -----
+#
+# APPENDIX B - ENEMY CODES
+#
+# enemy_00 Bat
+# enemy_01 Zombie
+# enemy_02 Skeleton
+# enemy_03 Merman
+# enemy_04 Axe Armor
+# enemy_05 Skull Archer
+# enemy_06 Peeping Eye
+# enemy_07 Killer Fish
+# enemy_08 Bone Pillar
+# enemy_09 Blue Crow
+# enemy_0a Buer
+# enemy_0b White Dragon
+# enemy_0c Zombie Soldier
+# enemy_0d Skeleton Knight
+# enemy_0e Ghost
+# enemy_0f Siren
+# enemy_10 Tiny Devil
+# enemy_11 Durga
+# enemy_12 Rock Armor
+# enemy_13 Giant Ghost
+# enemy_14 Winged Skeleton
+# enemy_15 Minotaur
+# enemy_16 Student Witch
+# enemy_17 Arachne
+# enemy_18 Fleaman
+# enemy_19 Evil Butcher
+# enemy_1a Quezlcoatl
+# enemy_1b Ectoplasm
+# enemy_1c Catoblepas
+# enemy_1d Ghost Dancer
+# enemy_1e Waiter Skeleton
+# enemy_1f Killer Doll
+# enemy_20 Zombie Officer
+# enemy_21 Creaking Skull
+# enemy_22 Wooden Golem
+# enemy_23 Tsuchinoko
+# enemy_24 Persephone
+# enemy_25 Lilith
+# enemy_26 Nemesis
+# enemy_27 Kyoma Demon
+# enemy_28 Chronomage
+# enemy_29 Valkyrie
+# enemy_2a Witch
+# enemy_2b Curly
+# enemy_2c Altair
+# enemy_2d Red Crow
+# enemy_2e Cockatrice
+# enemy_2f Dead Warrior
+# enemy_30 Devil
+# enemy_31 Imp
+# enemy_32 Werewolf
+# enemy_33 Gorgon
+# enemy_34 Disc Armor
+# enemy_35 Golem
+# enemy_36 Manticore
+# enemy_37 Gremlin
+# enemy_38 Harpy
+# enemy_39 Medusa Head
+# enemy_3a Bomber Armor
+# enemy_3b Lightning Doll
+# enemy_3c Great Armor
+# enemy_3d Une
+# enemy_3e Giant Worm
+# enemy_3f Needles
+# enemy_40 Man-Eater
+# enemy_41 Fish Head
+# enemy_42 Nightmare
+# enemy_43 Triton
+# enemy_44 Slime
+# enemy_45 Big Golem
+# enemy_46 Dryad
+# enemy_47 Poison Worm
+# enemy_48 Arc Demon
+# enemy_49 Cagnazzo
+# enemy_4a Ripper
+# enemy_4b Werejaguar
+# enemy_4c Ukoback
+# enemy_4d Alura Une
+# enemy_4e Biphron
+# enemy_4f Mandragora
+# enemy_50 Flesh Golem
+# enemy_51 Sky Fish
+# enemy_52 Dead Crusader
+# enemy_53 Kicker Skeleton
+# enemy_54 Weretiger
+# enemy_55 Killer Mantle
+# enemy_56 Mudman
+# enemy_57 Gargoyle
+# enemy_58 Red Minotaur
+# enemy_59 Beam Skeleton
+# enemy_5a Alastor
+# enemy_5b Skull Millione
+# enemy_5c Giant Skeleton
+# enemy_5d Gladiator
+# enemy_5e Bael
+# enemy_5f Succubus
+# enemy_60 Mimic
+# enemy_61 Stolas
+# enemy_62 Erinys
+# enemy_63 Lubricant
+# enemy_64 Basilisk
+# enemy_65 Iron Golem
+# enemy_66 Demon Lord
+# enemy_67 Final Guard
+# enemy_68 Flame Demon
+# enemy_69 Shadow Knight
+# enemy_6a Headhunter
+# enemy_6b Death
+# enemy_6c Legion
+# enemy_6d Balore

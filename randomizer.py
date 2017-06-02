@@ -445,6 +445,9 @@ def route_items():
             continue
         ir.assign_item(item, aggression=aggression)
 
+    assigned_locations = ir.assigned_locations
+    assert set(assigned_locations) >= set(custom_items.keys())
+
     done_treasures = set([])
     done_items = set([])
     erased_souls = set([])
@@ -479,7 +482,7 @@ def route_items():
                         continue
                     if m is m2:
                         continue
-                    if m2.signature in custom_items:
+                    if m2.signature in assigned_locations:
                         continue
                     if (m2.soul_type, m2.soul) == (item_type-5, item_index):
                         m2.soul_type, m2.soul = m.soul_type, m.soul
@@ -494,7 +497,7 @@ def route_items():
         # kicker skeleton + rush souls
         banned_souls = [(3, 4), (1, 0x12), (1, 0x13), (1, 0x14)]
         for m in MonsterObject.every:
-            if m.signature in custom_items:
+            if m.signature in assigned_locations:
                 continue
             if (m.soul_type, m.soul) in banned_souls:
                 m.soul_type = 0
@@ -519,7 +522,7 @@ def route_items():
 
         random.shuffle(bosses)
         for boss in bosses:
-            if boss.signature in custom_items:
+            if boss.signature in assigned_locations:
                 continue
             if boss is legion:
                 locations = [addresses.legion1, addresses.legion2]
@@ -677,6 +680,8 @@ def route_items():
     else:
         print "SAFE TREASURE MODE ACTIVATED"
 
+    return ir.assignments
+
 
 def enable_cutscene_skip():
     # 0x1AF8 is the byte in SRAM that saves whether the game has been beaten
@@ -802,15 +807,20 @@ if __name__ == "__main__":
             f.write(chr(soul))
             f.close()
 
+        item_assignments = {}
         if route_item_flag:
             while True:
                 try:
-                    route_items()
+                    item_assignments = route_items()
                 except RoutingException:
                     print "Trying again..."
                     sleep(1)
                     continue
                 break
+
+            for key, value in custom_items.items():
+                assert key in item_assignments
+                assert item_assignments[key] == value
 
         if "nodrop" in get_activated_codes():
             print "NODROP MODE ACTIVATED"
@@ -821,7 +831,7 @@ if __name__ == "__main__":
         if "nosoul" in get_activated_codes():
             print "NOSOUL MODE ACTIVATED"
             for m in MonsterObject.every:
-                if m.signature in custom_items:
+                if m.signature in item_assignments:
                     continue
                 m.soul_type = 0
                 m.soul = 1
