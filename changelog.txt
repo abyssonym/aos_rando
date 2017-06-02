@@ -1,3 +1,7 @@
+VERSION 8
+- Due to an error, the Headhunter fix mentioned in version 7 did not work, but
+now it does.
+
 VERSION 7
 - Added support for custom seeds, including some examples.
 	- "custom_example.txt" is a devilish challenge of my design.
