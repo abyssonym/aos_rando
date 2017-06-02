@@ -560,8 +560,8 @@ def route_items():
                     if temp:
                         souls = temp
             souls = sorted(
-                souls, key=lambda s: (ir.get_item_rank(soulstrs[s]),
-                                      random.random()))
+                sorted(souls), key=lambda s: (ir.get_item_rank(soulstrs[s]),
+                                              random.random()))
             soul_type, soul = souls.pop(0)
             soul_type -= 5
             if replaceable:
