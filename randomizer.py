@@ -15,7 +15,7 @@ from time import sleep
 VERSION = 6
 ALL_OBJECTS = None
 DEBUG_MODE = False
-RESEED_COUNTER = 0
+RESEED_COUNTER = 1
 ITEM_NAMES = {}
 LABEL_PRESET = {}
 BESTIARY_DESCRIPTIONS = []
@@ -725,14 +725,16 @@ if __name__ == "__main__":
                        and g not in [TableObject]]
 
         codes = {
-            'oops': ['oopsallsouls', 'oops all souls', 'oops_all_souls'],
             'chaos': ['chaos', 'hard'],
-            'fam': ['famine'],
-            'safe': ['goodmoney', 'good money', 'good_money'],
             'custom': ['custom'],
+            'fam': ['famine'],
             'nosoul': ['nosoul'],
             'nodrop': ['nodrop'],
             'noshop': ['noshop'],
+            'oops': ['oopsallsouls', 'oops all souls', 'oops_all_souls'],
+            'safe': ['goodmoney', 'good money', 'good_money'],
+            'vangram': ['vangram', 'vanillagraham', 'vanilla_graham',
+                        'vanilla graham'],
         }
         run_interface(ALL_OBJECTS, snes=True, codes=codes)
 
@@ -767,7 +769,16 @@ if __name__ == "__main__":
             1: "guardian",
             2: "enchanted",
         }
+
+        reseed()
         for i in xrange(3):
+            if "vangram" in activated_codes:
+                print "VANILLA GRAHAM SOULS PRESERVED"
+                LABEL_PRESET["dracula_bullet"] = 0x52c
+                LABEL_PRESET["dracula_guardian"] = 0x602
+                LABEL_PRESET["dracula_enchanted"] = 0x707
+                break
+
             monsters = [m for m in MonsterObject.every
                         if m.old_soul_type == i
                         and (m.old_soul_type > 0 or m.old_soul_index > 0)]
@@ -807,6 +818,7 @@ if __name__ == "__main__":
             f.write(chr(soul))
             f.close()
 
+        reseed()
         item_assignments = {}
         if route_item_flag:
             while True:
@@ -821,6 +833,7 @@ if __name__ == "__main__":
             for key, value in custom_items.items():
                 assert key in item_assignments
                 assert item_assignments[key] == value
+        reseed()
 
         if "nodrop" in get_activated_codes():
             print "NODROP MODE ACTIVATED"
