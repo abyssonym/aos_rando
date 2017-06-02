@@ -9,6 +9,7 @@ from randomtools.interface import (
     clean_and_write, finish_interface)
 from randomtools.itemrouter import ItemRouter, ItemRouterException
 from os import path
+from time import sleep
 
 
 VERSION = 6
@@ -224,6 +225,10 @@ class MonsterObject(TableObject):
     def cleanup(self):
         assert 0 <= self.soul_type <= 3
 
+    @property
+    def signature(self):
+        return "enemy_{0:0>2}".format("%x" % self.index)
+
 
 class ItemObject(TableObject):
     @property
@@ -312,8 +317,7 @@ class TreasureObject(TableObject):
         from string import lowercase, digits
         name = "".join([c for c in name if c in lowercase+digits])
         hexdex = "{0:0>2}".format("%x" % self.index)
-        item = "%x" % (((self.item_type) << 8) | self.item_index)
-        return "item_%s_%s %s" % (name, hexdex, item)
+        return "item_%s_%s" % (name, hexdex)
 
 
 class ShopIndexObject(TableObject):
@@ -393,8 +397,10 @@ class ShopIndexObject(TableObject):
 
 
 def route_items():
+    print "Now routing items. Please wait."
     hard_mode = "chaos" in get_activated_codes()
     custom_mode = "custom" in get_activated_codes()
+    nosoul = "nosoul" in get_activated_codes() or 'd' not in get_flags()
     if hard_mode:
         print "CHAOS MODE ACTIVATED"
         ir = ItemRouter(path.join(tblpath, "hard_requirements.txt"))
@@ -464,24 +470,37 @@ def route_items():
                     raise RoutingException
             else:
                 if location not in custom_items:
-                    if ('d' not in get_flags()
-                            or "nosoul" in get_activated_codes()):
+                    if nosoul:
                         raise RoutingException
+
                 m = MonsterObject.get(index)
-                erased_souls.add((m.soul_type+5, m.soul))
+                for m2 in MonsterObject.every:
+                    if nosoul:
+                        continue
+                    if m is m2:
+                        continue
+                    if m2.signature in custom_items:
+                        continue
+                    if (m2.soul_type, m2.soul) == (item_type-5, item_index):
+                        m2.soul_type, m2.soul = m.soul_type, m.soul
+                        break
+                else:
+                    erased_souls.add((m.soul_type+5, m.soul))
                 m.soul_type = item_type-5
                 m.soul = item_index
         done_items.add((item_type, item_index))
 
-    if hard_mode and 'd' in get_flags():
+    if hard_mode and not nosoul:
         # kicker skeleton + rush souls
         banned_souls = [(3, 4), (1, 0x12), (1, 0x13), (1, 0x14)]
         for m in MonsterObject.every:
+            if m.signature in custom_items:
+                continue
             if (m.soul_type, m.soul) in banned_souls:
                 m.soul_type = 0
                 m.soul = 1
 
-    if 'd' in get_flags():
+    if not nosoul:
         # replace boss souls to prevent softlocks
         winged = [m for m in MonsterObject.every
                   if m.soul_type == 0 and m.soul == 1]
@@ -500,8 +519,7 @@ def route_items():
 
         random.shuffle(bosses)
         for boss in bosses:
-            hexdex = "enemy_{0:0>2}".format("%x" % boss.index)
-            if hexdex in custom_items:
+            if boss.signature in custom_items:
                 continue
             if boss is legion:
                 locations = [addresses.legion1, addresses.legion2]
@@ -789,6 +807,8 @@ if __name__ == "__main__":
                 try:
                     route_items()
                 except RoutingException:
+                    print "Trying again..."
+                    sleep(1)
                     continue
                 break
 
@@ -801,8 +821,7 @@ if __name__ == "__main__":
         if "nosoul" in get_activated_codes():
             print "NOSOUL MODE ACTIVATED"
             for m in MonsterObject.every:
-                hexdex = "enemy_{0:0>2}".format("%x" % m.index)
-                if hexdex in custom_items:
+                if m.signature in custom_items:
                     continue
                 m.soul_type = 0
                 m.soul = 1
