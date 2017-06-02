@@ -320,6 +320,11 @@ class TreasureObject(TableObject):
         hexdex = "{0:0>2}".format("%x" % self.index)
         return "item_%s_%s" % (name, hexdex)
 
+    @property
+    def short_signature(self):
+        hexdex = "{0:0>2}".format("%x" % self.index)
+        return "item_%s" % hexdex
+
 
 class ShopIndexObject(TableObject):
     flag = "h"
@@ -543,7 +548,8 @@ def route_items():
                 raise Exception
             locations = set([
                 (t.get_by_pointer(l).item_type, t.get_by_pointer(l).item_index)
-                for l in locations])
+                for l in locations
+                if t.get_by_pointer(l).short_signature in assigned_locations])
             if locations & souls:
                 continue
             soulstrs = dict([((a, b), "{0}{1:0>2}".format("%x" % a, "%x" % b))
