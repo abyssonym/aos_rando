@@ -224,7 +224,7 @@ item_manaprism_4c
 # super potion in reservoir somewhere?
 item_superpotion_4d
 
-# super potion in reservoir somewhere (requires high jump)
+# super potion behind flesh golem (requires high jump)
 item_superpotion_4e
 
 # milican's sword by eastern reservoir, room with imps

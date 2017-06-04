@@ -1,13 +1,13 @@
-# EXAMPLE CUSTOM SEED - THE HELL SEED
+# EXAMPLE CUSTOM SEED - THE HELL SEED V2
 #
 # 1. Run the randomizer, and in "flags" section type "custom" to activate
 #       custom mode.
 # 2. Type in the name of this file ("custom_example.txt") when it
 #       asks for your custom mode filename.
 # 3. The randomizer will generate a seed of my own design. Some items will
-#       still be random! For example, I did not specify a location for
-#       Galamoth to appear, so it could be anywhere. These unspecified items
-#       will vary depending on the seed number.
+#       still be random! For example, I did not specify a location for the
+#       Ancient Books to appear, so they could be anywhere. These unspecified
+#       items will vary depending on the seed number.
 #
 # Note that this example seed is VERY hard and VERY annoying. It will
 # require you to use all kinds of weird tricks to beat.
@@ -21,24 +21,39 @@ item_manaprism_2e 702
 # false ceiling in dance hall near inner quarters - rush soul
 item_shermanring_32 612
 
-# ancient book 3 room - skeleton blaze
-item_ancientbook3_55 802
+# behind chronomancer - flying armor
+item_ancientbook2_34 601
+
+# above the long swim (requires malphas and undine or kicker) - galamoth
+item_elfinrobe_48 806
+
+# super potion behind flesh golem (requires high jump) - skeleton blaze
+item_superpotion_4e 802
+
+# longinus room by waterfall (requires high jump)
+#item_ronginusspear_52
+
+# ancient book 3 room - undine
+item_ancientbook3_55 701
 
 # rubber ducky room in arena - kicker skeleton
 item_blackcloak_60 804
 
-# gold medusa room in arena (worst room in the game) - undine
-item_balmung_62 701
+# gold medusa room in arena (worst room in the game)
+#item_balmung_62
 
-# behind graham in top floor - chaos ring & black panther
+# behind graham in top floor - chaos ring & giant bat
 item_draculastunic_65 42c
-item_blackpanther_66 603
+item_blackpanther_66 602
 
-# forbidden area false wall - high jump
-item_claimhsolais_6e 805
+# top floor near graham
+item_manaprism_6b dracula_guardian
 
-# forbidden area mimic room - giant bat
-item_joyeuse_6f 602
+# forbidden area false wall - black panther
+item_claimhsolais_6e 603
+
+# forbidden area mimic room - hippogryph
+item_joyeuse_6f 805
 
 # chaos rooms (requires skula) - positron rifle and valmanway
 item_superpotion_70 339
