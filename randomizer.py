@@ -827,6 +827,11 @@ if __name__ == "__main__":
             f.write(chr(soul))
             f.close()
 
+        if "noshop" in get_activated_codes():
+            print "NOSHOP MODE ACTIVATED"
+            for s in ShopIndexObject.every:
+                s.item_type, s.item_index = 2, 0x19
+
         reseed()
         item_assignments = {}
         if route_item_flag:
@@ -857,11 +862,6 @@ if __name__ == "__main__":
                     continue
                 m.soul_type = 0
                 m.soul = 1
-
-        if "noshop" in get_activated_codes():
-            print "NOSHOP MODE ACTIVATED"
-            for s in ShopIndexObject.every:
-                s.item_type, s.item_index = 2, 0x19
 
         hexify = lambda x: "{0:0>2}".format("%x" % x)
         numify = lambda x: "{0: >3}".format(x)

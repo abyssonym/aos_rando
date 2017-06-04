@@ -1,6 +1,5 @@
 VERSION 8
-- Due to an error, the Headhunter fix mentioned in version 7 did not work, but
-now it does.
+- Due to an error, the Headhunter fix mentioned in version 7 did not work, but now it does.
 
 VERSION 7
 - Added support for custom seeds, including some examples.
