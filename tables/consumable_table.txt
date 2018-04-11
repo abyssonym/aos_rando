@@ -1,4 +1,7 @@
 item_id,2
 unknown1,2,list
 price,4
-unknown2,8,list
+eat_type,1
+unknown2,1,list
+restore_pts,2
+unknown3,4,list

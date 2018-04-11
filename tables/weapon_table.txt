@@ -1,4 +1,6 @@
 item_id,2
 unknown1,2,list
 price,4
-unknown2,20,list
+unknown2,2,list
+atk,1
+unknown3,17,list

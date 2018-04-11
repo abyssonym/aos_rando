@@ -1,0 +1,741 @@
+
+080D813C Decompress
+  ; r0 - Source pointer to the LZ77-compressed data to be decompressed
+  ; r1 - Destination pointer where the decompressed data should be stored
+
+08000DA0 GetEntitySlot
+  ; r0 - Minimum entity index to check
+  ; r1 - Maximum entity index to check
+  ; r2 - Update function pointer for the new entity
+08000E14 DeleteEntity
+  ; r0 - Pointer to the entity to delete.
+
+08000500 UpdateGameState
+  ; Calls the update code function for the current game state (02000010).
+  ; If that function returns a new state value, it sets the game state to that value.
+
+080D8128 Divide
+  ; Returns r0 / r1
+080DA988 Divide2
+  ; returns r0 / r1
+080D812C Modulo
+  ; Returns r0 % r1
+
+08000A90 Rand
+080DAA00 RandClampToMax
+  ; r0 - Random number
+  ; r1 - Maximum is r1-1
+
+0802D284 GetRedSoulPointer
+  ; r0 - Index of the red soul
+  ; If in Julius mode, will return the Julius skill of that index instead of the red soul.
+0802D244 GetLastUsedRedSoulPointer
+  ; 020131BF - Index of the last used red soul
+  ; If in Julius mode, will return the Julius skill of that index instead of the red soul.
+
+080C4624 DamageEnemy
+  ; r0 - Enemy entity receiving the damage
+  ; r1 - Entity doing the damage
+  ; r2 - ??? pointer
+  ; Also makes the enemy flash white for 8 frames.
+08021530 GetPlayerDamage
+  ; r0 - Type of attack.
+  ;   0 - ?
+  ;   1 - ?
+  ;   2 - Jumpkick
+  ;   3 - Weapon
+  ;   4 - Slide (and Julius's uppercut)
+  ;   5 - Bullet soul
+  ;   6 - Guardian soul
+0806B7D8 CalcDamageToEnemy
+  ; r0 - Enemy entity receiving the damage
+  ; r1 - Entity doing the damage
+  ; r2 - ??? pointer
+  ; r3 - Base damage to do
+  ; Returns r0 - The amount of damage to do
+  ; The formula is: damage = (base_damage-defense/2)*(0x100-defense)/0x100
+08042B8C ShowDamageToEnemyNumber
+  ; r0 - Pointer to entity getting damaged
+  ; r1 - Damage done
+  ; r2 - 0 for damage, 1 for healing
+
+080683BC EnemyCheckDrops
+
+080326B8 GetNumOwnedSoul
+  ; r0 - Soul type
+  ; r1 - Soul index-1
+
+0804459C SpawnSoul
+  ; r0 - X pos in pixels on the screen
+  ; r1 - Y pos in pixels on the screen
+  ; r2 - Soul type
+  ; r3 - Soul index-1 (e.g. Winged Skeleton would be 00 instead of 01)
+  ; [r13] - 0?
+080D7308 SpawnSoulForBoss
+  ; r0 - X pos in pixels on the screen
+  ; r1 - Y pos in pixels on the screen
+  ; r2 - Enemy ID
+  ; r3 - Boss death flag to set when the soul has been absorbed
+
+080233BC GetCurrentWeaponAttackAnimation
+  ; r0 - Player's state, 0 for standing, 1 for crouching, 2 for in the air. (Maybe more?)
+  ; Returns the currently equipped weapon's swing animation for the player to use, read from list 084F1238.
+
+0804B314 GetEquippedItem
+  ; r0 - Equip slot
+  ;   0 - Body armor
+  ;   1 - Accessory
+  ;   2 - Weapon
+
+08021654 DamagePlayer
+  ; r0 - Pointer to ??? in the stack.
+
+080421AC CheckCollisions
+  ; r0 - Entity
+
+08022028 AddMP
+  ; r0 - MP to add
+
+08021FA4 CopyPlayerStats
+  ; Copies the player's STR CON INT LCK and resistances from the player's base stats list (020131FC) to the player's current stats list (020131EE).
+  ; Does not copy ATK or DEF.
+
+08012744 LoadSave
+  ; r0 - Save file to load. 0 is the first file, 2 is the second file, 4 is the third file.
+
+080D7910 PlaySound
+  ; r0 - Sound index
+
+08013EEC PlaySong
+  ; r0 - Sound index
+
+08013960 PlaySongForCurrentRoom
+  ; r0 - Pointer to 02000060??
+  ; Note that the ambient song that plays in the waterfall room and the Julius fight room are hardcoded into this function.
+
+08011B2C ChangeRoom??
+  ; r0 - Pointer to 02000060??
+
+08011F44 TeleportPlayer
+  ; r0 - Room pointer to teleport to
+  ; r1 - Dest X
+  ; r2 - Dest Y
+  ; r3 - Dest X offset
+  ; [r13] - Dest Y offset
+
+08001980 GetRoomPointer
+  ; r0 - Sector index
+  ; r1 - Room index
+
+0804F84C GetWarpRoomPointer
+  ; r0 - Warp room index
+  ; Returns pointer to the warp point in list 08525FBC.
+
+08011A44 CheckShouldEnterDoor
+  ; r0 - Pointer to the player entity
+  ; Returns 1 if the player should enter a door (either because they're out of bounds of the room or because they're touching a special collision tile) or 0 if they shouldn't enter a door.
+
+08001FE8 GetCollisionData
+  ; r0 - Pointer to entity to use as the base position to check
+  ; r1 - X offset to check
+  ; r2 - Y offset to check
+  ; Returns the collision data of the tile at the designated point.
+
+08021278 SetEntityCollision
+  ; r0 - Entity pointer
+  ; r1 - Whether this platform is slippery or has friction.
+  ;   0 - Player stays at the same x pos, eventually slipping off the entity.
+  ;   1 - Player's x pos is moved as this entity moves.
+
+0806E29C CheckPlayerClose
+  ; r0 - Entity to check how close the player is to it
+  ; r1 - Max X distance
+  ; r2 - Max Y distance
+  ; Returns: 0 if the player is out of range, 1 if in range.
+08068AD4 CheckEntityCloseToPoint
+  ; r0 - Entity A pointer
+  ; r1 - Point's X pos
+  ; r2 - Point's Y pos
+  ; r3 - Max X distance
+  ; [r13] - Max Y distance
+  ; Returns: 0 if the entity is out of range, 1 if in range.
+
+0806CAF8 MoveByVelocity
+  ; r0 - 
+  ; r1 - Number of subpixels to move??
+  ; r2 - 
+  ; r3 - 
+
+0806E0D0 LoadSprite
+  ; r0 - Entity ptr
+  ; r1 - GFX asset ptr
+  ; r2 - Palette pointer
+  ; r3 - 0? Palette offset?
+  ; [r13,0] - Sprite ptr
+0804DF3C LoadCommonSprite
+  ; r0 - Entity
+
+0803B800 LoadGFX
+  ; r0 - GFX wrapper or list pointer
+  ; r1 - ?
+08039E90 LoadGFX2
+  ; Run for GFX types 0 and 1 (uncompressed and compressed)
+  ; r0 - GFX wrapper pointer
+  ; r1 - ?
+  ; 08039FC4-0803A02C is where it copies uncompressed GFX to VRAM, one row at a time.
+0803B9B4 LoadGFXCompressed
+0803D8B4 GetVRAMOffset
+  ; r0 - The desired VRAM index to get, in terms of 128x32px chunks. 0-F.
+  ; The way these indexes would map out visually to VRAM is like this:
+  ;   [    0    ] [    4    ]
+  ;   [    1    ] [    5    ]
+  ;   [    2    ] [    6    ]
+  ;   [    3    ] [    7    ]
+  ;   [    8    ] [    C    ]
+  ;   [    9    ] [    D    ]
+  ;   [    A    ] [    E    ]
+  ;   [    B    ] [    F    ]
+  ; This mapping is stored in ROM at 080E2B04.
+  ; Returns - The first free offset in VRAM. This is in terms of 8x8px tiles, so the return value must be multiplied by 0x20 to get the offset in bytes.
+
+0803C7B4 LoadObjectPalette
+  ; r0 - Palette list pointer
+  ; r1 - Palette index of the first palette in the list to load
+  ; r2 - Number of palettes to load
+  ; r3 - Index to load the palettes at in palette RAM (e.g. 9 to replace the 9th object palette)
+
+0803B9D1 EnemyDraw
+
+0803F2C8 EntityChangeAnimation
+  ; r0 - Entity
+  ; r1 - 
+  ; r2 - 
+  ; r3 - 
+
+080427B8 SetCallbacksAndIframesIndex
+  ; r0 - Entity
+  ; r1 - Iframes index to store at entity+70
+  ; r2 - On-hurt-player callback to store at +7C
+  ; r3 - On-damaged callback to store at +80
+  ; Also initializes the entity's hitbox.
+0806B04C InitializeEnemyFromDNA
+  ; r0 - Entity pointer
+  ; Copies values from the enemy DNA into the entity.
+  ; It detects which enemy it is by the ID at +36 in the entity.
+
+0803F17C SpriteAnimate
+  ; Call every frame to handle the animation.
+  ; r0 - Entity pointer to animate
+
+03004970 EnemyDrawSkeleton?
+  ; r0 - Entity
+  ; Called by 0803ACC0
+
+0806AE54 EntityUpdateDamageFlashing
+  ; r0 - Entity
+  ; Decrements the counter at entity+2D.
+  ; Then, if bit 02 of the counter is set, it sets the draw-white sprite drawing flag.
+  ; Returns 0 if the counter reached 0, or 1 otherwise. Some enemies use this to freeze their AI to flinch when damaged.
+
+08001994 GetMinitileData
+  ; r0 - 
+  ; r1 - 
+  ; r2 - 
+  ; r3 - 
+
+0800F92C PreloadRoomEnemies
+  ; r0 - Room's entity list pointer
+  ; Loads all enemies in the room, then deletes them all. This is so the enemy assets can all be loaded at once when entering the room.
+0800F4F8 LoadRoomEntities
+  ; Loads room entities immediately when you enter the room
+0800F750 CheckDelayedLoadRoomEntities
+0800F1FC LoadRoomEntity
+  ; r0 - Pointer to the entity in the room's entity list.
+
+0806D128 EntityCheckOffScreen
+  ; r0 - Entity pointer
+  ; r1 - Index in the list of entity sizes (08118D08)
+  ; This checks if an entity went offscreen. It returns 0 if on screen and 1 if off screen. This is so certain entities offscreen can stop updating until they're on screen again.
+
+080109F4 MapDrawTile
+
+080D4C98 CheckDraculaSoulsEquipped?
+  ; Checks if the player has the 3 souls required for the good ending equipped.
+  ; 080D4CF0 hardcodes the red soul index required.
+  ; 080D4CF6 hardcodes the blue soul index required.
+  ; 080D4CFC hardcodes the yellow soul index required.
+
+08014628 PlayerSomaCreate
+08014720 PlayerJuliusCreate
+0801B0D8 PlayerSomaUpdate
+0801FEF8 PlayerJuliusUpdate
+
+080221CC WeaponOneHandedUse
+080224BC WeaponTwoHandedUse
+
+084F0B14 PointerToGameObject
+
+; Enemy-specific code
+080AD2A8 EnemyBatCreate
+080AD644 EnemyBatUpdate
+0807ABEC EnemyZombieCreate
+0807A9EC EnemyZombieUpdate
+080C33C8 EnemySkeletonCreate
+080C34F8 EnemySkeletonUpdate
+08070D3C EnemyMermanCreate
+08070B3C EnemyMermanUpdate
+080B12C4 EnemyAxeArmorCreate
+080B13C4 EnemyAxeArmorUpdate
+080AFC7C EnemySkullArcherCreate
+080AFD94 EnemySkullArcherUpdate
+08087F98 EnemyPeepingEyeCreate
+08087DC0 EnemyPeepingEyeUpdate
+0806F988 EnemyKillerFishCreate
+0806F864 EnemyKillerFishUpdate
+080B3F1C EnemyBonePillarCreate
+080B3F28 EnemyBonePillarUpdate
+080C9A6C EnemyBlueCrowCreate
+080C9FA4 EnemyBlueCrowUpdate
+080CB94C EnemyBuerCreate
+080CC34C EnemyBuerUpdate
+08076664 EnemyWhiteDragonCreate
+08076508 EnemyWhiteDragonUpdate
+08092868 EnemyZombieSoldierCreate
+080926F8 EnemyZombieSoldierUpdate
+0808EC64 EnemySkeletonKnightCreate
+0808F198 EnemySkeletonKnightUpdate
+08089D54 EnemyGhostCreate
+08089AF8 EnemyGhostUpdate
+080764FC EnemySirenCreate
+080764F0 EnemySirenUpdate
+080C52F4 EnemyTinyDevilCreate
+080C5384 EnemyTinyDevilUpdate
+08093708 EnemyDurgaCreate
+080936FC EnemyDurgaUpdate
+080B2E68 EnemyRockArmorCreate
+080B30A4 EnemyRockArmorUpdate
+0807D12C EnemyGiantGhostCreate
+0807D028 EnemyGiantGhostUpdate
+08074B38 EnemyWingedSkeletonCreate
+08074910 EnemyWingedSkeletonUpdate
+080B0D2C EnemyMinotaurCreate
+080B0D38 EnemyMinotaurUpdate
+080B8CA0 EnemyStudentWitchCreate
+080B8D50 EnemyStudentWitchUpdate
+080799FC EnemyArachneCreate
+080798F0 EnemyArachneUpdate
+080C1E0C EnemyFleamanCreate
+080C1F1C EnemyFleamanUpdate
+080BFE1C EnemyEvilButcherCreate
+080BFF14 EnemyEvilButcherUpdate
+08077DF4 EnemyQuezlcoatlCreate
+08077CBC EnemyQuezlcoatlUpdate
+080995B8 EnemyEctoplasmCreate
+080994E0 EnemyEctoplasmUpdate
+08089AEC EnemyCatoblepasCreate
+08089AE0 EnemyCatoblepasUpdate
+080C2DF8 EnemyGhostDancerCreate
+080C2F0C EnemyGhostDancerUpdate
+080AF574 EnemyWaiterSkeletonCreate
+080AF650 EnemyWaiterSkeletonUpdate
+080C7B9C EnemyKillerDollCreate
+080C8848 EnemyKillerDollUpdate
+08092350 EnemyZombieOfficerCreate
+08092174 EnemyZombieOfficerUpdate
+0809252C EnemyZombieOfficerTakeDamage
+0809549C EnemyCreakingSkullCreate
+08095320 EnemyCreakingSkullUpdate
+08081AEC EnemyWoodenGolemCreate
+08081AE0 EnemyWoodenGolemUpdate
+080A71CC EnemyTsuchinokoCreate
+080A7B54 EnemyTsuchinokoUpdate
+0807B5D0 EnemyPersephoneCreate
+0807B47C EnemyPersephoneUpdate
+08094818 EnemyLilithCreate
+08094750 EnemyLilithUpdate
+080C664C EnemyNemesisCreate
+080C67CC EnemyNemesisUpdate
+080A01B8 EnemyKyomaDemonCreate
+080A00DC EnemyKyomaDemonUpdate
+080B712C EnemyChronomageCreate
+080B71F8 EnemyChronomageUpdate
+0806E714 EnemyValkyrieCreate
+0806ED00 EnemyValkyrieUpdate
+080B9D90 EnemyWitchCreate
+080B9E2C EnemyWitchUpdate
+08093178 EnemyCurlyCreate
+080936A0 EnemyCurlyUpdate
+080C1490 EnemyAltairCreate
+080C15C8 EnemyAltairUpdate
+080CA04C EnemyRedCrowCreate
+080CA544 EnemyRedCrowUpdate
+080BC158 EnemyCockatriceCreate
+080BC164 EnemyCockatriceUpdate
+080B7594 EnemyDeadWarriorCreate
+080B7684 EnemyDeadWarriorUpdate
+0808FA30 EnemyDevilCreate
+0808F964 EnemyDevilUpdate
+080C46EC EnemyImpCreate
+080C47F8 EnemyImpUpdate
+0806F7A4 EnemyWerewolfCreate
+0806EDB8 EnemyWerewolfUpdate
+0808904C EnemyGorgonCreate
+08088EA4 EnemyGorgonUpdate
+080B2228 EnemyDiscArmorCreate
+080B22D4 EnemyDiscArmorUpdate
+0807E508 EnemyGolemCreate
+0807E35C EnemyGolemUpdate
+08072854 EnemyManticoreCreate
+08072768 EnemyManticoreUpdate
+080A8218 EnemyGremlinCreate
+080A820C EnemyGremlinUpdate
+08075660 EnemyHarpyCreate
+0807647C EnemyHarpyUpdate
+080938E8 EnemyMedusaHeadCreate
+08093714 EnemyMedusaHeadUpdate
+080B2DB8 EnemyBomberArmorCreate
+080B3040 EnemyBomberArmorUpdate
+080C89B0 EnemyLightningDollCreate
+080C8A9C EnemyLightningDollUpdate
+0808A43C EnemyGreatArmorCreate
+0808A224 EnemyGreatArmorUpdate
+0807427C EnemyUneCreate
+08074130 EnemyUneUpdate
+080AE360 EnemyGiantWormCreate
+080AE36C EnemyGiantWormUpdate
+080CB518 EnemyNeedlesCreate
+080CB854 EnemyNeedlesUpdate
+080BAC3C EnemyMan-EaterCreate
+080BAD68 EnemyMan-EaterUpdate
+080B3F34 EnemyFishHeadCreate
+080B3F40 EnemyFishHeadUpdate
+080B839C EnemyNightmareCreate
+080B84B4 EnemyNightmareUpdate
+08086AD4 EnemyTritonCreate
+080869F4 EnemyTritonUpdate
+080C11C0 EnemySlimeCreate
+080C1348 EnemySlimeUpdate
+080A8328 EnemyBigGolemCreate
+080A8224 EnemyBigGolemUpdate
+080AEAAC EnemyDryadCreate
+080AEB8C EnemyDryadUpdate
+080AE378 EnemyPoisonWormCreate
+080AE384 EnemyPoisonWormUpdate
+08092150 EnemyArcDemonCreate
+08092144 EnemyArcDemonUpdate
+080B806C EnemyCagnazzoCreate
+080B8088 EnemyCagnazzoUpdate
+080C24AC EnemyRipperCreate
+080C2558 EnemyRipperUpdate
+080796F0 EnemyWerejaguarCreate
+08078754 EnemyWerejaguarUpdate
+080C5BDC EnemyUkobackCreate
+080C6480 EnemyUkobackUpdate
+0807C0A0 EnemyAluraUneCreate
+0807CF9C EnemyAluraUneUpdate
+08099C5C EnemyBiphronCreate
+0809A450 EnemyBiphronUpdate
+080CEF34 EnemyMandragoraCreate
+080CF99C EnemyMandragoraUpdate
+08081B04 EnemyFleshGolemCreate
+08081AF8 EnemyFleshGolemUpdate
+080A7C80 EnemySkyFishCreate
+080A7BD0 EnemySkyFishUpdate
+0808F2D0 EnemyDeadCrusaderCreate
+0808F1F4 EnemyDeadCrusaderUpdate
+080C0324 EnemyKickerSkeletonCreate
+080C03D0 EnemyKickerSkeletonUpdate
+08079874 EnemyWeretigerCreate
+0807976C EnemyWeretigerUpdate
+080BB70C EnemyKillerMantleCreate
+080BB824 EnemyKillerMantleUpdate
+08072670 EnemyMudmanCreate
+08071904 EnemyMudmanUpdate
+080864A0 EnemyGargoyleCreate
+08086990 EnemyGargoyleUpdate
+080B0D44 EnemyRedMinotaurCreate
+080B0D50 EnemyRedMinotaurUpdate
+080CA5EC EnemyBeamSkeletonCreate
+080CA6E4 EnemyBeamSkeletonUpdate
+080CD544 EnemyAlastorCreate
+080CD644 EnemyAlastorUpdate
+080B8044 EnemySkullMillioneCreate
+080B8060 EnemySkullMillioneUpdate
+08098EF8 EnemyGiantSkeletonCreate
+08098EEC EnemyGiantSkeletonUpdate
+080A07FC EnemyGladiatorCreate
+080A1D64 EnemyGladiatorUpdate
+080CC624 EnemyBaelCreate
+080CD2D0 EnemyBaelUpdate
+08093D24 EnemySuccubusCreate
+08093C34 EnemySuccubusUpdate
+08098FBC EnemyMimicCreate
+08098F04 EnemyMimicUpdate
+0809A6C0 EnemyStolasCreate
+0809A4AC EnemyStolasUpdate
+080A71C0 EnemyErinysCreate
+080A71B4 EnemyErinysUpdate
+080B8094 EnemyLubicantCreate
+080B80B0 EnemyLubicantUpdate
+080BC1F8 EnemyBasiliskCreate
+080BC204 EnemyBasiliskUpdate
+08081AD4 EnemyIronGolemCreate
+08081AC8 EnemyIronGolemUpdate
+08092168 EnemyDemonLordCreate
+0809215C EnemyDemonLordUpdate
+0808EC40 EnemyFinalGuardCreate
+0808EC34 EnemyFinalGuardUpdate
+08092138 EnemyFlameDemonCreate
+0809212C EnemyFlameDemonUpdate
+0808EC58 EnemyShadowKnightCreate
+0808EC4C EnemyShadowKnightUpdate
+08081C10 EnemyHeadhunterCreate
+08081B10 EnemyHeadhunterUpdate
+080BF2E8 EnemyDeathCreate
+080BF5FC EnemyDeathUpdate
+0809C6BC EnemyLegionCreate
+0809C5E8 EnemyLegionUpdate
+080B5C38 EnemyBaloreCreate
+080B5DC0 EnemyBaloreUpdate
+080CFAB0 EnemyBelmontCreate
+080CFED0 EnemyBelmontUpdate
+080D2424 EnemyGrahamCreate
+080D5DF4 EnemyGrahamUpdate
+080A1E38 EnemyChaosCreate
+080A4340 EnemyChaosUpdate
+080A712C EnemyChaos2Create
+080A6ED4 EnemyChaos2Update
+
+; Special object-specific code
+0804D9DC Object00Create
+0804DAB4 Object00Update
+08033C84 Object01Create
+08033C90 Object01Update
+0804DFAC Object02Create
+0804E0F8 Object02Update
+0804E4A0 Object03Create
+0804E52C Object03Update
+0804E770 Object04Create
+0804E8C4 Object04Update
+0804F00C Object05Create
+0804F084 Object05Update
+0804EC3C Object06Create
+0804ED30 Object06Update
+0804F6E4 Object07Create
+0804F770 Object07Update
+0804FFA0 Object08Create
+0805008C Object08Update
+080501D0 Object09Create
+08050270 Object09Update
+0805045C Object0ACreate
+080504BC Object0AUpdate
+080504C0 Object0BCreate
+0805050C Object0BUpdate
+080506F0 Object0CCreate
+080505CC Object0CUpdate
+08050710 Object0DCreate
+080507BC Object0DUpdate
+08050C14 Object0ECreate
+08050CC0 Object0EUpdate
+08050DB4 Object0FCreate
+08050E3C Object0FUpdate
+080510B0 Object10Create
+080511F0 Object10Update
+080512C4 Object11Create
+080512F8 Object11Update
+0805140C Object12Create
+0805158C Object12Update
+08051A2C Object13Create
+08051B0C Object13Update
+08052870 Object14Create
+080528C4 Object14Update
+0805296C Object15Create
+08052A34 Object15Update
+08052F6C Object16Create
+08052CE4 Object16Update
+0805305C Object17Create
+080532E8 Object17Update
+080538DC Object18Create
+08053968 Object18Update
+08053BFC Object19Create
+08053D10 Object19Update
+080540A0 Object1ACreate
+080540A4 Object1AUpdate
+08053F34 Object1BCreate
+08053FC8 Object1BUpdate
+0805464C Object1CCreate
+0805474C Object1CUpdate
+080554F0 Object1DCreate
+08055680 Object1DUpdate
+08055734 Object1ECreate
+08055738 Object1EUpdate
+080564F8 Object1FCreate
+08056224 Object1FUpdate
+0805B42C Object20Create
+0805B510 Object20Update
+08056550 Object21Create
+08056784 Object21Update
+08056828 Object22Create
+08056F14 Object22Update
+0805780C Object23Create
+080577FC Object23Update
+080578A4 Object24Create
+0805790C Object24Update
+08057AA0 Object25Create
+080579A4 Object25Update
+08057E04 Object26Create
+08057EE0 Object26Update
+08058258 Object27Create
+08058464 Object27Update
+08057FA8 Object28Create
+080581B4 Object28Update
+08057080 Object29Create
+08057380 Object29Update
+08057438 Object2ACreate
+08057744 Object2AUpdate
+08058508 Object2BCreate
+08058544 Object2BUpdate
+080585B0 Object2CCreate
+08058664 Object2CUpdate
+080588EC Object2DCreate
+08058938 Object2DUpdate
+08058A70 Object2ECreate
+08058AB8 Object2EUpdate
+08058C1C Object2FCreate
+08058CD8 Object2FUpdate
+08058F88 Object30Create
+08058FD0 Object30Update
+08059090 Object31Create
+080593A8 Object31Update
+08059494 Object32Create
+080597DC Object32Update
+080598B0 Object33Create
+08059B9C Object33Update
+08059CE0 Object34Create
+0805A108 Object34Update
+0805A18C Object35Create
+0805A590 Object35Update
+0805A6C8 Object36Create
+0805A678 Object36Update
+0805A930 Object37Create
+0805AE00 Object37Update
+
+; Skill-specific code
+08026008 SkillWingedSkeletonUse
+08026C54 SkillBatUse
+08025784 SkillSkeletonUse
+08026F74 SkillMermanUse
+08024274 SkillAxeArmorUse
+08028D68 SkillSkullArcherUse
+08027C58 SkillKillerFishUse
+0802C488 SkillBlueCrowUse
+08025784 SkillZombieSoldierUse
+0802A8D4 SkillGhostUse
+08026368 SkillSirenUse
+08029FB0 SkillTinyDevilUse
+08029C68 SkillTinyDevilUpdate
+0802B808 SkillDurgaUse
+08025784 SkillRockArmorUse
+08025360 SkillStudentWitchUse
+08028EC0 SkillArachneUse
+080299A0 SkillFleamanUse
+08023A70 SkillEvilButcherUse
+08025784 SkillWaiterSkeletonUse
+08027A04 SkillAltairUse
+08028EC0 SkillMudmanUse
+0802968C SkillCockatriceUse
+080284FC SkillWerewolfUse
+0802CC84 SkillHarpyUse
+080265C0 SkillUneUse
+080280B0 SkillNeedlesUse
+0802C6EC SkillMan-EaterUse
+0802A0DC SkillUkobackUse
+0802B350 SkillFishHeadUse
+08027340 SkillDiscArmorUse
+0802A9DC SkillNightmareUse
+0802CFC4 SkillSlimeUse
+080282DC SkillDryadUse
+08023A70 SkillRipperUse
+08027608 SkillWerejaguarUse
+08027608 SkillWeretigerUse
+08028800 SkillBiphronUse
+0802AD78 SkillMandragoraUse
+080289B4 SkillBeamSkeletonUse
+0802B1B8 SkillSkullMillioneUse
+08025784 SkillGiantSkeletonUse
+0802B4C8 SkillGladiatorUse
+0802BF68 SkillDemonLordUse
+080293C4 SkillFlameDemonUse
+0802BD1C SkillFlameDemonUpdate
+080277B0 SkillLightningDollUse
+08024CBC SkillValkyrieUse
+08025784 SkillBomberArmorUse
+080269BC SkillRedMinotaurUse
+0802C0D4 SkillLegionUse
+0802C2C4 SkillBaloreUse
+08024F38 SkillKillerDollUse
+080251F0 SkillNemesisUse
+0802B9A8 SkillKillerMantleUse
+0802BB44 SkillKyomaDemonUse
+08024950 SkillChronomageUse
+0802E23C SkillFlyingArmorUse
+0802EB84 SkillGiantBatUse
+0802E3DC SkillBlackPantherUse
+0802FF40 SkillBuerUse
+0802F96C SkillWitchUse
+0802F96C SkillGiantGhostUse
+0802FC5C SkillFinalGuardUse
+08031948 SkillGreatArmorUse
+08030E64 SkillCatoblepasUse
+0802E730 SkillBonePillarUse
+0802E4EC SkillCagnazzoUse
+08031ACC SkillBigGolemUse
+0802F548 SkillShadowKnightUse
+08030A24 SkillCreakingSkullUse
+08030CC8 SkillMedusaHeadUse
+080300A4 SkillPersephoneUse
+0802E960 SkillAluraUneUse
+0802EFB0 SkillDevilUse
+0802EFB0 SkillManticoreUse
+0802EDD4 SkillDevilManticoreSparksUpdate
+  ; This is the update code for the sparks that follow behind you when using Devil or Manticore.
+0802EFB0 SkillCurlyUse
+0802F1A4 SkillSkyFishUse
+080310AC SkillImpUse
+080314AC SkillAlastorUse
+08030518 SkillDeathUse
+08032204 SkillUndineUse
+08032204 SkillSkulaUse
+08032204 SkillZombieOfficerUse
+08032204 SkillIronGolemUse
+08032204 SkillDeadWarriorUse
+08032204 SkillPeepingEyeUse
+08032204 SkillSuccubusUse
+08032204 SkillFleshGolemUse
+08032204 SkillTsuchinokoUse
+080320D8 SkillGiantWormUse
+080322E8 SkillWoodenGolemUse
+08032310 SkillZombieUse
+08032360 SkillLubicantUse
+080323DC SkillHeadhunterUse
+08032154 SkillBasiliskUse
+08032204 SkillErinysUse
+08032204 SkillMimicUse
+08032204 SkillArcDemonUse
+080322A0 SkillPoisonWormUse
+080322A0 SkillEctoplasmUse
+080322A0 SkillGargoyleUse
+0803226C SkillSkeletonKnightUse
+0803226C SkillMinotaurUse
+0803226C SkillGolemUse
+0803226C SkillTritonUse
+0803226C SkillWhiteDragonUse
+0803226C SkillQuezlcoatlUse
+0803226C SkillGorgonUse
+0803226C SkillDeadCrusaderUse
+0803226C SkillRedCrowUse
+0803226C SkillLilithUse
+0803226C SkillBaelUse
+0803226C SkillStolasUse
+0803226C SkillGhostDancerUse
+0803226C SkillGremlinUse

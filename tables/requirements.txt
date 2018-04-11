@@ -148,4 +148,7 @@ item_6f forbidden&skula
 item_70 chaos
 item_71 chaos
 item_72 dracula
+item_73 dance_hall&malphas
+item_74 arena&hippogryph
+item_75 eastern_reservoir&long_jump
 enemy_6b clock_tower&malphas

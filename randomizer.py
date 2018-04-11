@@ -1,3 +1,4 @@
+import struct as st
 from randomtools.tablereader import (
     TableObject, get_global_label, tblpath, addresses)
 from randomtools.utils import (
@@ -187,7 +188,9 @@ class MonsterObject(TableObject):
         else:
             shuffle_func = lambda m: (random.random(), m.index)
 
-        for attrs in ["common_drop", "rare_drop", ("soul_type", "soul")]:
+        for attrs in ["common_drop", "rare_drop",("soul_type", "soul")]:
+            if "balance" in get_activated_codes() and attrs in ["common_drop","rare_drop"]:
+                continue
             if isinstance(attrs, basestring):
                 attrs = [attrs]
             shuffled = sorted(monsters, key=shuffle_func)
@@ -203,10 +206,9 @@ class MonsterObject(TableObject):
             if value == 0:
                 continue
             while True:
-                i = ItemObject.superget(value-1)
+                i = ItemObject.superget(value-1) 
                 i = i.get_similar()
-                if ("fam" in get_activated_codes() and i.item_type == 2
-                        and i.index in HP_HEALING_ITEMS):
+                if ("fam" in get_activated_codes() and i.item_type == 2 and i.index in HP_HEALING_ITEMS):
                     continue
                 value = (value & 0xFF00) | (i.superindex+1)
                 setattr(self, attr, value)
@@ -238,7 +240,9 @@ class ItemObject(TableObject):
             rank = 1000000
         else:
             rank = self.price
-        return rank + random.random()
+        if isinstance(self,WeaponObject):
+            rank = (self.price/2) + self.atk * 2
+        return rank
 
     @property
     def item_type(self):
@@ -436,7 +440,8 @@ def route_items():
 
     # save for later when picking items
     item_types = [t.item_type for t in TreasureObject.every]
-
+    candle_assignments = 0
+    assigned_memory_flags = []
     for location, item in sorted(ir.assignments.items()):
         try:
             item = int(item, 0x10)
@@ -472,6 +477,12 @@ def route_items():
             t = TreasureObject.get(index)
             t.item_type = item_type
             t.item_index = item_index
+            if index > 114:
+               t.difficulty = 4
+               if t.memory_flag not in assigned_memory_flags:
+                   t.memory_flag = 0x120 + random.randrange(0x30,0x50)
+                   assigned_memory_flags.append(t.memory_flag)
+               candle_assignments += 1
             done_treasures.add(t)
         elif location_type == "enemy":
             if item_type < 5:
@@ -606,7 +617,17 @@ def route_items():
             adjustment = ((random.random() + random.random() + random.random())
                           / 3.0)
             ratio = (ratio * adjustment) + (old_ratio * (1-adjustment))
-
+        if t.difficulty == 2 or t.difficulty == 3 and candle_assignments < 3:
+            print "This runs, somehow."
+            t.difficulty = 4
+            print "Difficulty set"
+            if t.memory_flag not in assigned_memory_flags:
+                 t.memory_flag = 0x120 + random.randrange(0x30,0x50)
+                 assigned_memory_flags.append(t.memory_flag)
+            candle_assignments += 1
+        if t.item_type == 15:
+                 t.item_type = random.randint(2,4)
+                 print "Candle detected!"				 
         while True:
             if oops_all_souls:
                 item_type = 5
@@ -673,11 +694,11 @@ def route_items():
             if ("fam" in get_activated_codes() and item_type == 2
                     and item_index in HP_HEALING_ITEMS):
                 continue
+
             t.item_type = item_type
             t.item_index = item_index
             done_items.add((item_type, item_index))
             break
-
     if 'safe' not in get_activated_codes():
         for t in TreasureObject.every:
             if (t.item_type == 1 and t.item_index >= 4
@@ -742,8 +763,8 @@ if __name__ == "__main__":
             'noshop': ['noshop'],
             'oops': ['oopsallsouls', 'oops all souls', 'oops_all_souls'],
             'safe': ['goodmoney', 'good money', 'good_money'],
-            'vangram': ['vangram', 'vanillagraham', 'vanilla_graham',
-                        'vanilla graham'],
+            'vangram': ['vangram', 'vanillagraham', 'vanilla_graham','vanilla graham'],
+            'balance': ['b','balance','balanced','testmode']
         }
         run_interface(ALL_OBJECTS, snes=True, codes=codes)
 
