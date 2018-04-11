@@ -24,7 +24,7 @@ custom_items = {}
 
 
 HP_HEALING_ITEMS = range(0, 0x05) + range(0x0a, 0x17)
-
+MANA_HEALS = range(0x05, 0x08)
 
 def reseed():
     global RESEED_COUNTER
@@ -244,7 +244,7 @@ class ItemObject(TableObject):
             rank = (self.price/2) + self.atk * 200
         if isinstance(self,ArmorObject):
             rank = (self.price/2) + self.defn * 200
-        if isinstance(self,ConsumableObject):
+        if isinstance(self,ConsumableObject) and self in (HP_HEALING_ITEMS or MANA_HEALS):
             rank = self.price + self.restore_pts * 50
         return rank
 
