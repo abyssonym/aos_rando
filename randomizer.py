@@ -241,7 +241,11 @@ class ItemObject(TableObject):
         else:
             rank = self.price
         if isinstance(self,WeaponObject):
-            rank = (self.price/2) + self.atk * 2
+            rank = (self.price/2) + self.atk * 200
+        if isinstance(self,ArmorObject):
+            rank = (self.price/2) + self.defn * 200
+        if isinstance(self,ConsumableObject):
+            rank = self.price + self.restore_pts * 50
         return rank
 
     @property
