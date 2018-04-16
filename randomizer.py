@@ -275,7 +275,6 @@ class ItemObject(TableObject):
             4: ArmorObject,
         }[index1]
         return subcls.get(index2)
-
     @property
     def superindex(self):
         index = self.index
@@ -630,7 +629,8 @@ def route_items():
             candle_assignments += 1
         if t.item_type == 15:
                  t.item_type = random.randint(2,4)
-                 print "Candle detected!"				 
+                 print "Candle detected!"
+        orig_item = ItemObject.superget(t.item_index)
         while True:
             if oops_all_souls:
                 item_type = 5
@@ -654,6 +654,8 @@ def route_items():
                 if item_index >= 4:
                     item_index = random.randint(4, item_index)
             elif 2 <= item_type <= 4:
+                if "balance" in get_activated_codes():
+                    objects = orig_item.get_similar()
                 if item_type == 2:
                     # consumables
                     objects = ConsumableObject.ranked
@@ -696,8 +698,7 @@ def route_items():
                 continue
             if ("fam" in get_activated_codes() and item_type == 2
                     and item_index in HP_HEALING_ITEMS):
-                continue
-
+                continue              
             t.item_type = item_type
             t.item_index = item_index
             done_items.add((item_type, item_index))
@@ -785,7 +786,7 @@ if __name__ == "__main__":
             f.write(st.pack('H',0xD051))
             f.close()
         if "statfix" in activated_codes:
-            
+            print "Under construction"
         if "custom" in activated_codes:
             print "CUSTOM MODE ACTIVATED"
             custom_filename = raw_input("Filename for custom items seed? ")
