@@ -631,6 +631,8 @@ def route_items():
                  t.item_type = random.randint(2,4)
                  print "Candle detected!"
         orig_item = ItemObject.superget(t.item_index)
+        if t.item_type not in range(2,5):
+             orig_item = ItemObject.superget(random(20,40))
         while True:
             if oops_all_souls:
                 item_type = 5
@@ -656,7 +658,7 @@ def route_items():
             elif 2 <= item_type <= 4:
                 if "balance" in get_activated_codes():
                     objects = orig_item.get_similar()
-                if item_type == 2:
+                elif item_type == 2:
                     # consumables
                     objects = ConsumableObject.ranked
                 elif item_type == 3:
@@ -768,7 +770,7 @@ if __name__ == "__main__":
             'oops': ['oopsallsouls', 'oops all souls', 'oops_all_souls'],
             'safe': ['goodmoney', 'good money', 'good_money'],
             'vangram': ['vangram', 'vanillagraham', 'vanilla_graham','vanilla graham'],
-            'balance': ['b','balance','balanced','testmode'],
+            'balance': ['balance'],
             'noob': ['noob','helper mode','helper_mode'],
             'statfix': ['stat fixes','stat patch','statfix']
         }
