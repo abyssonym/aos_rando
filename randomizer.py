@@ -163,7 +163,7 @@ class MonsterObject(TableObject):
             return False
         codes = get_activated_codes()
         item_rando = ("i" in get_flags() or "chaos" in codes
-                      or "custom" in codes or "oops" in codes)
+                       or "custom" in codes or "oops" in codes)
         if (self.index in [0x5F, 0x68] and not item_rando
                 and "vangram" in codes):
             return False
@@ -231,7 +231,6 @@ class MonsterObject(TableObject):
     @property
     def signature(self):
         return "enemy_{0:0>2}".format("%x" % self.index)
-
 
 class ItemObject(TableObject):
     @property
@@ -768,11 +767,25 @@ if __name__ == "__main__":
             'oops': ['oopsallsouls', 'oops all souls', 'oops_all_souls'],
             'safe': ['goodmoney', 'good money', 'good_money'],
             'vangram': ['vangram', 'vanillagraham', 'vanilla_graham','vanilla graham'],
-            'balance': ['b','balance','balanced','testmode']
+            'balance': ['b','balance','balanced','testmode'],
+            'noob': ['noob','helper mode','helper_mode'],
+            'statfix': ['stat fixes','stat patch','statfix']
         }
         run_interface(ALL_OBJECTS, snes=True, codes=codes)
 
         activated_codes = get_activated_codes()
+        if "noob" in activated_codes:
+            print "Newbie mode test."
+            f = open(get_outfile(),"r+b")
+            f.seek(0x500A0)
+            f.write(st.pack('H',0x2001))
+            f.seek(0x500A2)
+            f.write(st.pack('H',0x46C0))
+            f.seek(0x10E3E)
+            f.write(st.pack('H',0xD051))
+            f.close()
+        if "statfix" in activated_codes:
+            
         if "custom" in activated_codes:
             print "CUSTOM MODE ACTIVATED"
             custom_filename = raw_input("Filename for custom items seed? ")
