@@ -696,7 +696,7 @@ def route_items():
                     item_index = 6
                 else:
                     item_type, item_index = random.choice(souls)
-            if item_type == 15:
+            if item_type == 0 or item_type == 15:
                 item_type = random.randint(2,5)
                 print "Candle detected!"
             if ((item_type >= 3 or
