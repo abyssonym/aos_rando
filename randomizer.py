@@ -25,7 +25,9 @@ custom_items = {}
 
 HP_HEALING_ITEMS = range(0, 0x05) + range(0x0a, 0x17)
 MANA_HEALS = range(0x05, 0x08)
-
+GUNS = range(0x37,0x3A)
+KNIVES = range(0,0x03) + range(0x1C,0x22) + range(0x2A,0x2B)
+FISTS = range(0x32,0x37)
 def reseed():
     global RESEED_COUNTER
     RESEED_COUNTER += 1
@@ -210,6 +212,12 @@ class MonsterObject(TableObject):
                 i = i.get_similar()
                 if ("fam" in get_activated_codes() and i.item_type == 2 and i.index in HP_HEALING_ITEMS):
                     continue
+                if ("guncula" in get_activated_codes() and i.item_type == 3 and i.index not in GUNS):
+                    continue
+                if ("fistula" in get_activated_codes() and i.item_type == 3 and i.index not in FISTS):
+                    continue
+                if ("assassin" in get_activated_codes() and i.item_type == 3 and i.index not in KNIVES):
+                    continue
                 value = (value & 0xFF00) | (i.superindex+1)
                 setattr(self, attr, value)
                 break
@@ -382,6 +390,12 @@ class ShopIndexObject(TableObject):
                     continue
                 if ("fam" in get_activated_codes() and item_type == 2
                         and chosen.index in HP_HEALING_ITEMS):
+                    continue
+                if ("guncula" in get_activated_codes() and item_type == 3 and chosen.index not in GUNS):
+                    continue
+                if ("fistula" in get_activated_codes() and item_type == 3 and chosen.index not in FISTS):
+                    continue
+                if ("assassin" in get_activated_codes() and item_type == 3 and chosen.index not in KNIVES):
                     continue
                 new_items.append(chosen)
             new_items = sorted(new_items, key=lambda ni: ni.index)
@@ -630,9 +644,6 @@ def route_items():
         if t.item_type == 15:
                  t.item_type = random.randint(2,4)
                  print "Candle detected!"
-        orig_item = ItemObject.superget(t.item_index)
-        if t.item_type not in range(2,5):
-             orig_item = ItemObject.superget(random(20,40))
         while True:
             if oops_all_souls:
                 item_type = 5
@@ -656,9 +667,7 @@ def route_items():
                 if item_index >= 4:
                     item_index = random.randint(4, item_index)
             elif 2 <= item_type <= 4:
-                if "balance" in get_activated_codes():
-                    objects = orig_item.get_similar()
-                elif item_type == 2:
+                if item_type == 2:
                     # consumables
                     objects = ConsumableObject.ranked
                 elif item_type == 3:
@@ -700,7 +709,13 @@ def route_items():
                 continue
             if ("fam" in get_activated_codes() and item_type == 2
                     and item_index in HP_HEALING_ITEMS):
-                continue              
+                continue
+            if ("guncula" in get_activated_codes() and item_type == 3 and item_index not in GUNS):
+                continue
+            if ("fistula" in get_activated_codes() and item_type == 3 and item_index not in FISTS):
+                continue
+            if ("assassin" in get_activated_codes() and item_type == 3 and item_index not in KNIVES):
+                continue
             t.item_type = item_type
             t.item_index = item_index
             done_items.add((item_type, item_index))
@@ -772,13 +787,17 @@ if __name__ == "__main__":
             'vangram': ['vangram', 'vanillagraham', 'vanilla_graham','vanilla graham'],
             'balance': ['balance'],
             'noob': ['noob','helper mode','helper_mode'],
-            'statfix': ['stat fixes','stat patch','statfix']
+            'statfix': ['stat fixes','stat patch','statfix'],
+            'wizard' : ['wizard'],
+            'guncula' : ['guncula'],
+            'fistula' : ['fistula'],
+            'assassin' : ['assassin']
         }
         run_interface(ALL_OBJECTS, snes=True, codes=codes)
 
         activated_codes = get_activated_codes()
         if "noob" in activated_codes:
-            print "Newbie mode test."
+            print "NEWBIE MODE ACTIVATED"
             f = open(get_outfile(),"r+b")
             f.seek(0x500A0)
             f.write(st.pack('H',0x2001))
@@ -787,8 +806,78 @@ if __name__ == "__main__":
             f.seek(0x10E3E)
             f.write(st.pack('H',0xD051))
             f.close()
+        if  "guncula" in activated_codes:
+            print "GUN SOMA MODE ACTIVATED"
+        if "fistula" in activated_codes:
+            print "FISTICUFFS MODE ACTIVATED"
+        if "assassin" in activated_codes:
+            print "ASSASSIN MODE ACTIVATED"
         if "statfix" in activated_codes:
-            print "Under construction"
+            print "FIXED STATS MODE ACTIVATED"
+            f = open(get_outfile(),"r+b")
+            f.seek(0x21580)
+            f.write(st.pack('H',0x2304))
+            f.seek(0x684D2)
+            f.write(st.pack('H',0x1080))
+            f.seek(0x684D4)
+            f.write(st.pack('H',0x1A0C))
+            f.seek(0x684D6)
+            f.write(st.pack('H',0x1080))
+            f.seek(0x684D8)
+            f.write(st.pack('H',0x182D))
+            f.seek(0x685A4)
+            f.write(st.pack('H',0x1080))
+            f.seek(0x685A6)
+            f.write(st.pack('H',0x1A0C))
+            f.seek(0x685A8)
+            f.write(st.pack('H',0x1040))
+            f.seek(0x685AA)
+            f.write(st.pack('H',0x182D))
+            f.seek(0x505E62)
+            f.write(st.pack('B',0x02))
+            f.seek(0x505E7E)
+            f.write(st.pack('B',0x02))
+            f.seek(0x505EB6)
+            f.write(st.pack('B',0x02))
+            f.seek(0x505EEE)
+            f.write(st.pack('B',0x04))
+            f.seek(0x505F0A)
+            f.write(st.pack('B',0x02))
+            f.seek(0x506156)
+            f.write(st.pack('B',0x03))
+            f.seek(0x50626E)
+            f.write(st.pack('B',0x05))
+            f.seek(0x506512)
+            f.write(st.pack('B',0x0A))
+            f.seek(0x506526)
+            f.write(st.pack('B',0x14))
+            f.seek(0x5065C6)
+            f.write(st.pack('B',0x05))
+            f.seek(0x5065DA)
+            f.write(st.pack('B',0x0A))
+            f.seek(0x50667A)
+            f.write(st.pack('B',0x05))
+            f.close()
+        if "wizard" in activated_codes:
+            print "WIZARD MODE ACTIVATED"
+            f = open(get_outfile(), "r+b")
+            f.seek(0x21BE8)
+            f.write(st.pack('H',0x8C40))
+            f.seek(0x21BEA)
+            f.write(st.pack('H',0x200F))
+            f.seek(0x21BEC)
+            f.write(st.pack('I',0xF0B6FA9E))
+            f.seek(0x21C02)
+            f.write(st.pack('H',0x8C52))
+            f.seek(0x21C04)
+            f.write(st.pack('H',0x200F))
+            f.seek(0x21C06)
+            f.write(st.pack('I',0xF0B6FA91))
+            f.seek(0x21C0C)
+            f.write(st.pack('H',0x2002))
+            f.seek(0x322FC)
+            f.write(st.pack('H',0x200F))
+            f.close()
         if "custom" in activated_codes:
             print "CUSTOM MODE ACTIVATED"
             custom_filename = raw_input("Filename for custom items seed? ")
