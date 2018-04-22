@@ -372,6 +372,7 @@ class ShopIndexObject(TableObject):
         sios = [ShopIndexObject.get(i) for i in indexes]
         hard_mode = "chaos" in get_activated_codes()
         total_new_items = []
+        placed_exotics = []
         for item_type in [2, 3, 4]:
             subsios = [sio for sio in sios if sio.item_type == item_type]
             new_items = []
@@ -389,12 +390,15 @@ class ShopIndexObject(TableObject):
                 if ("fam" in get_activated_codes() and item_type == 2
                         and chosen.index in HP_HEALING_ITEMS):
                     continue
-                if ("guncula" in get_activated_codes() and item_type == 3):
+                if ("guncula" in get_activated_codes() and item_type == 3 and chosen.index not in placed_exotics):
                     chosen.index = random.choice(GUNS)
-                if ("fistula" in get_activated_codes() and item_type == 3):
+	                placed_exotics.append(chosen.index)
+                if ("fistula" in get_activated_codes() and item_type == 3 and chosen.index not in placed_exotics):
                     chosen.index = random.choice(FISTS)
-                if ("assassin" in get_activated_codes() and item_type == 3):
+                    placed_exotics.append(chosen.index)
+                if ("assassin" in get_activated_codes() and item_type == 3 and chosen.index not in placed_exotics):
                     chosen.index = random.choice(KNIVES)
+                    placed_exotics.append(chosen.index)
                 if chosen in new_items:
                     continue
                 new_items.append(chosen)
@@ -646,6 +650,9 @@ def route_items():
                 item_type = 5
             else:
                 item_type = random.choice(item_types)
+            if item_type == 0 or item_type == 15:
+                item_type = random.randint(2,5)
+                print "Candle detected!"
             if item_type < 5:
                 low = random.uniform(0.0, random.uniform(0.0, 1.0))
                 high = random.uniform(0.0, 1.0)
@@ -696,9 +703,6 @@ def route_items():
                     item_index = 6
                 else:
                     item_type, item_index = random.choice(souls)
-            if item_type == 0 or item_type == 15:
-                item_type = random.randint(2,5)
-                print "Candle detected!"
             if ((item_type >= 3 or
                     (item_type == 1 and item_index <= 3) or
                     (item_type == 2 and item_index >= 0x19)) and
