@@ -390,14 +390,15 @@ class ShopIndexObject(TableObject):
                 if ("fam" in get_activated_codes() and item_type == 2
                         and chosen.index in HP_HEALING_ITEMS):
                     continue
-                if ("guncula" in get_activated_codes() and item_type == 3 and chosen.index not in placed_exotics):
-                    chosen.index = random.choice(GUNS)
-	                placed_exotics.append(chosen.index)
-                if ("fistula" in get_activated_codes() and item_type == 3 and chosen.index not in placed_exotics):
+                if "guncula" in get_activated_codes() and item_type == 3:
+                    chosen.index = random.choice(GUNS)    
+                if "fistula" in get_activated_codes() and item_type == 3:
                     chosen.index = random.choice(FISTS)
-                    placed_exotics.append(chosen.index)
-                if ("assassin" in get_activated_codes() and item_type == 3 and chosen.index not in placed_exotics):
+                if "assassin" in get_activated_codes() and item_type == 3:
                     chosen.index = random.choice(KNIVES)
+                if chosen.index in placed_exotics:
+                    continue
+                else:
                     placed_exotics.append(chosen.index)
                 if chosen in new_items:
                     continue
@@ -459,7 +460,8 @@ def route_items():
     souls += [(0x8, 0x04)]  # kicker skeleton
 
     # save for later when picking items
-    item_types = [t.item_type for t in TreasureObject.every]
+    forbid_type = [0x0F]
+    item_types = [t.item_type for t in TreasureObject.every]-forbid_type
     candle_assignments = 0
     assigned_memory_flags = []
     for location, item in sorted(ir.assignments.items()):
@@ -500,7 +502,7 @@ def route_items():
             if index > 114:
                t.difficulty = 4
                if t.memory_flag not in assigned_memory_flags:
-                   t.memory_flag = 0x120 + random.randrange(0x30,0x50)
+                   t.memory_flag = 0x80 + random.randrange(0x30,0x50)
                    assigned_memory_flags.append(t.memory_flag)
                candle_assignments += 1
             done_treasures.add(t)
@@ -650,8 +652,8 @@ def route_items():
                 item_type = 5
             else:
                 item_type = random.choice(item_types)
-            if item_type == 0 or item_type == 15:
-                item_type = random.randint(2,5)
+            #if item_type == 0 or item_type == 15:
+            #item_type = random.randint(2,5)
                 print "Candle detected!"
             if item_type < 5:
                 low = random.uniform(0.0, random.uniform(0.0, 1.0))
