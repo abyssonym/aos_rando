@@ -372,7 +372,7 @@ class ShopIndexObject(TableObject):
         sios = [ShopIndexObject.get(i) for i in indexes]
         hard_mode = "chaos" in get_activated_codes()
         total_new_items = []
-        placed_exotics = []
+        placed_weapons = []
         for item_type in [2, 3, 4]:
             subsios = [sio for sio in sios if sio.item_type == item_type]
             new_items = []
@@ -390,16 +390,15 @@ class ShopIndexObject(TableObject):
                 if ("fam" in get_activated_codes() and item_type == 2
                         and chosen.index in HP_HEALING_ITEMS):
                     continue
-                if "guncula" in get_activated_codes() and item_type == 3:
-                    chosen.index = random.choice(GUNS)    
-                if "fistula" in get_activated_codes() and item_type == 3:
-                    chosen.index = random.choice(FISTS)
-                if "assassin" in get_activated_codes() and item_type == 3:
-                    chosen.index = random.choice(KNIVES)
-                if chosen.index in placed_exotics:
-                    continue
-                else:
-                    placed_exotics.append(chosen.index)
+                if "guncula" in get_activated_codes():
+                    placed_weapons = GUNS    
+                if "fistula" in get_activated_codes():
+                    placed_weapons = FISTS
+                if "assassin" in get_activated_codes():
+                    placed_weapons = KNIVES
+                if placed_weapons != [] and item_type == 3:
+                    chosen.index = random.choice(placed_weapons)
+                    placed_weapons.remove(chosen.index)
                 if chosen in new_items:
                     continue
                 new_items.append(chosen)
