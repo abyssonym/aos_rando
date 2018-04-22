@@ -460,7 +460,7 @@ def route_items():
 
     # save for later when picking items
     forbid_type = [0x0F]
-    item_types = [t.item_type for t in TreasureObject.every]-forbid_type
+    item_types = [t.item_type for t in TreasureObject.every].remove(forbid_type)
     candle_assignments = 0
     assigned_memory_flags = []
     for location, item in sorted(ir.assignments.items()):
