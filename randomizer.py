@@ -212,12 +212,12 @@ class MonsterObject(TableObject):
                 i = i.get_similar()
                 if ("fam" in get_activated_codes() and i.item_type == 2 and i.index in HP_HEALING_ITEMS):
                     continue
-                if ("guncula" in get_activated_codes() and i.item_type == 3 and i.index not in GUNS):
-                    continue
-                if ("fistula" in get_activated_codes() and i.item_type == 3 and i.index not in FISTS):
-                    continue
-                if ("assassin" in get_activated_codes() and i.item_type == 3 and i.index not in KNIVES):
-                    continue
+                if ("guncula" in get_activated_codes() and i.item_type == 3):
+                    i.index = random.choice(GUNS)
+                if ("fistula" in get_activated_codes() and i.item_type == 3):
+                    i.index = random.choice(FISTS)
+                if ("assassin" in get_activated_codes() and i.item_type == 3):
+                    i.index = random.choice(KNIVES)
                 value = (value & 0xFF00) | (i.superindex+1)
                 setattr(self, attr, value)
                 break
@@ -386,16 +386,16 @@ class ShopIndexObject(TableObject):
                 else:
                     index = random.randint(0, max_index)
                 chosen = candidates[index]
-                if chosen in new_items:
-                    continue
                 if ("fam" in get_activated_codes() and item_type == 2
                         and chosen.index in HP_HEALING_ITEMS):
                     continue
-                if ("guncula" in get_activated_codes() and item_type == 3 and chosen.index not in GUNS):
-                    continue
-                if ("fistula" in get_activated_codes() and item_type == 3 and chosen.index not in FISTS):
-                    continue
-                if ("assassin" in get_activated_codes() and item_type == 3 and chosen.index not in KNIVES):
+                if ("guncula" in get_activated_codes() and item_type == 3):
+                    chosen.index = random.choice(GUNS)
+                if ("fistula" in get_activated_codes() and item_type == 3):
+                    chosen.index = random.choice(FISTS)
+                if ("assassin" in get_activated_codes() and item_type == 3):
+                    chosen.index = random.choice(KNIVES)
+                if chosen in new_items:
                     continue
                 new_items.append(chosen)
             new_items = sorted(new_items, key=lambda ni: ni.index)
@@ -638,12 +638,9 @@ def route_items():
             t.difficulty = 4
             print "Difficulty set"
             if t.memory_flag not in assigned_memory_flags:
-                 t.memory_flag = 0x120 + random.randrange(0x30,0x50)
+                 t.memory_flag = 0x80 + random.randrange(0x30,0x50)
                  assigned_memory_flags.append(t.memory_flag)
             candle_assignments += 1
-        if t.item_type == 15:
-                 t.item_type = random.randint(2,4)
-                 print "Candle detected!"
         while True:
             if oops_all_souls:
                 item_type = 5
@@ -699,6 +696,9 @@ def route_items():
                     item_index = 6
                 else:
                     item_type, item_index = random.choice(souls)
+            if item_type == 15:
+                item_type = random.randint(2,5)
+                print "Candle detected!"
             if ((item_type >= 3 or
                     (item_type == 1 and item_index <= 3) or
                     (item_type == 2 and item_index >= 0x19)) and
@@ -710,12 +710,12 @@ def route_items():
             if ("fam" in get_activated_codes() and item_type == 2
                     and item_index in HP_HEALING_ITEMS):
                 continue
-            if ("guncula" in get_activated_codes() and item_type == 3 and item_index not in GUNS):
-                continue
-            if ("fistula" in get_activated_codes() and item_type == 3 and item_index not in FISTS):
-                continue
-            if ("assassin" in get_activated_codes() and item_type == 3 and item_index not in KNIVES):
-                continue
+            if ("guncula" in get_activated_codes() and item_type == 3):
+                item_index = random.choice(GUNS)
+            if ("fistula" in get_activated_codes() and item_type == 3):
+                item_index = random.choice(FISTS)
+            if ("assassin" in get_activated_codes() and item_type == 3):
+                item_index = random.choice(KNIVES)
             t.item_type = item_type
             t.item_index = item_index
             done_items.add((item_type, item_index))
@@ -912,6 +912,7 @@ if __name__ == "__main__":
         reseed()
         for i in xrange(3):
             if "vangram" in activated_codes:
+                print "VANILLA GRAHAM SOULS PRESERVED"
                 print "VANILLA GRAHAM SOULS PRESERVED"
                 LABEL_PRESET["dracula_bullet"] = 0x52c
                 LABEL_PRESET["dracula_guardian"] = 0x602
