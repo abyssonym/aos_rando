@@ -372,7 +372,6 @@ class ShopIndexObject(TableObject):
         sios = [ShopIndexObject.get(i) for i in indexes]
         hard_mode = "chaos" in get_activated_codes()
         total_new_items = []
-        placed_weapons = []
         for item_type in [2, 3, 4]:
             subsios = [sio for sio in sios if sio.item_type == item_type]
             new_items = []
@@ -390,15 +389,12 @@ class ShopIndexObject(TableObject):
                 if ("fam" in get_activated_codes() and item_type == 2
                         and chosen.index in HP_HEALING_ITEMS):
                     continue
-                if "guncula" in get_activated_codes():
-                    placed_weapons = GUNS    
-                if "fistula" in get_activated_codes():
-                    placed_weapons = FISTS
-                if "assassin" in get_activated_codes():
-                    placed_weapons = KNIVES
-                if placed_weapons != [] and item_type == 3:
-                    chosen.index = random.choice(placed_weapons)
-                    placed_weapons.remove(chosen.index)
+                if "guncula" in get_activated_codes() and item_type == 3:
+                    chosen.index = random.choice(GUNS)
+                if "fistula" in get_activated_codes() and item_type == 3:
+                    chosen.index = random.choice(FISTS)
+                if "assassin" in get_activated_codes() and item_type == 3:
+                    chosen.index = random.choice(KNIVES)
                 if chosen in new_items:
                     continue
                 new_items.append(chosen)
@@ -457,10 +453,10 @@ def route_items():
     souls = [(t.item_type, t.item_index) for t in TreasureObject.every
              if t.item_type >= 5]
     souls += [(0x8, 0x04)]  # kicker skeleton
-
     # save for later when picking items
-    forbid_type = [0x0F]
-    item_types = [t.item_type for t in TreasureObject.every].remove(forbid_type)
+    item_types = [t.item_type for t in TreasureObject.every]
+    for itypes in item_types[115:118]:
+        itypes = random.randint(1,6)
     candle_assignments = 0
     assigned_memory_flags = []
     for location, item in sorted(ir.assignments.items()):
@@ -501,7 +497,7 @@ def route_items():
             if index > 114:
                t.difficulty = 4
                if t.memory_flag not in assigned_memory_flags:
-                   t.memory_flag = 0x80 + random.randrange(0x30,0x50)
+                   t.memory_flag = 0xA0 + random.randrange(0x01,0x1F)
                    assigned_memory_flags.append(t.memory_flag)
                candle_assignments += 1
             done_treasures.add(t)
@@ -639,11 +635,9 @@ def route_items():
                           / 3.0)
             ratio = (ratio * adjustment) + (old_ratio * (1-adjustment))
         if t.difficulty == 2 or t.difficulty == 3 and candle_assignments < 3:
-            print "This runs, somehow."
             t.difficulty = 4
-            print "Difficulty set"
             if t.memory_flag not in assigned_memory_flags:
-                 t.memory_flag = 0x80 + random.randrange(0x30,0x50)
+                 t.memory_flag = 0xA0 + random.randrange(0x01,0x1F)
                  assigned_memory_flags.append(t.memory_flag)
             candle_assignments += 1
         while True:
@@ -651,9 +645,6 @@ def route_items():
                 item_type = 5
             else:
                 item_type = random.choice(item_types)
-            #if item_type == 0 or item_type == 15:
-            #item_type = random.randint(2,5)
-                print "Candle detected!"
             if item_type < 5:
                 low = random.uniform(0.0, random.uniform(0.0, 1.0))
                 high = random.uniform(0.0, 1.0)
@@ -715,11 +706,11 @@ def route_items():
             if ("fam" in get_activated_codes() and item_type == 2
                     and item_index in HP_HEALING_ITEMS):
                 continue
-            if ("guncula" in get_activated_codes() and item_type == 3):
+            if "guncula" in get_activated_codes() and item_type == 3:
                 item_index = random.choice(GUNS)
-            if ("fistula" in get_activated_codes() and item_type == 3):
+            if "fistula" in get_activated_codes() and item_type == 3:
                 item_index = random.choice(FISTS)
-            if ("assassin" in get_activated_codes() and item_type == 3):
+            if "assassin" in get_activated_codes() and item_type == 3:
                 item_index = random.choice(KNIVES)
             t.item_type = item_type
             t.item_index = item_index
