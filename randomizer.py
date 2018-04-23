@@ -454,9 +454,9 @@ def route_items():
              if t.item_type >= 5]
     souls += [(0x8, 0x04)]  # kicker skeleton
     # save for later when picking items
+    forbid_types = [14,15]
     item_types = [t.item_type for t in TreasureObject.every]
-    for itypes in item_types[115:118]:
-        itypes = random.randint(1,6)
+    item_types.remove(forbid_types)
     candle_assignments = 0
     assigned_memory_flags = []
     for location, item in sorted(ir.assignments.items()):
