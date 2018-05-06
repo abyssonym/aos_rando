@@ -862,7 +862,7 @@ if __name__ == "__main__":
             f.seek(0x21BEA)
             f.write(st.pack('H',0x200F))
             f.seek(0x21BEC)
-            f.write(st.pack('I',0xFA9EF0B6))
+            f.write(st.pack('I',0xFA91F0B6))
             f.seek(0x21C02)
             f.write(st.pack('H',0x8C52))
             f.seek(0x21C04)
