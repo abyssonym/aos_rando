@@ -149,6 +149,6 @@ item_70 chaos
 item_71 chaos
 item_72 dracula
 item_73 dance_hall&malphas
-item_74 arena&hippogryph
-item_75 eastern_reservoir&long_jump
+item_74 eastern_reservoir&long_jump
+item_75 arena&hippogryph
 enemy_6b clock_tower&malphas

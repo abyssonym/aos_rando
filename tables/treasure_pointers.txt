@@ -114,5 +114,5 @@
 523d99 High Mind Up
 523dbd Mana Prism
 515a09 $500 Candle
-51f4a1 $1000 Candle
 51d92d $500 Candle
+51f4a1 $1000 Candle
