@@ -102,7 +102,7 @@ item_3d floating_garden&malphas
 item_3e floating_garden&malphas|floating_garden&panther
 item_3f floating_garden&malphas|floating_garden&panther
 item_40 floating_garden&malphas|floating_garden&panther
-item_41 clock_tower&skula&slide&malphas
+item_41 clock_tower&skula&malphas
 item_42 clock_tower&skula
 item_43 clock_tower&malphas
 item_44 clock_tower&malphas
