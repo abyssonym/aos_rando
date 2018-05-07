@@ -64,7 +64,7 @@ item_17 chapel
 #item_18 chapel&malphas|chapel&panther
 item_19 chapel
 item_1a chapel&malphas
-item_1b chapel&hippogryph
+item_1b chapel&hippogryph|chapel&panther&malphas
 item_1c chapel
 item_1d chapel&overhead
 item_1e chapel
