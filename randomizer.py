@@ -1,8 +1,7 @@
-import struct as st
 from randomtools.tablereader import (
-    TableObject, get_global_label, tblpath, addresses)
+    TableObject, get_global_label, tblpath, addresses, write_patch)
 from randomtools.utils import (
-    classproperty, mutate_normal, shuffle_bits, get_snes_palette_transformer,
+    classproperty, get_snes_palette_transformer,
     write_multi, utilrandom as random)
 from randomtools.interface import (
     get_outfile, get_seed, get_flags, get_activated_codes,
@@ -326,6 +325,8 @@ class TreasureObject(TableObject):
 
     @property
     def name(self):
+        if self.item_type in [14, 15]:
+            return "Candle"
         index = ((self.item_type) << 8) | self.item_index
         return get_item_names()[index]
 
@@ -806,14 +807,7 @@ if __name__ == "__main__":
         activated_codes = get_activated_codes()
         if "noob" in activated_codes:
             print "NEWBIE MODE ACTIVATED"
-            f = open(get_outfile(),"r+b")
-            f.seek(0x500A0)
-            f.write(st.pack('H',0x2001))
-            f.seek(0x500A2)
-            f.write(st.pack('H',0x46C0))
-            f.seek(0x10E3E)
-            f.write(st.pack('H',0xD051))
-            f.close()
+            write_patch(get_outfile(), "devanj_noob_patch.txt")
         if  "guncula" in activated_codes:
             print "GUN SOMA MODE ACTIVATED"
         if "fistula" in activated_codes:
@@ -822,70 +816,11 @@ if __name__ == "__main__":
             print "ASSASSIN MODE ACTIVATED"
         if "statfix" in activated_codes:
             print "FIXED STATS MODE ACTIVATED"
-            f = open(get_outfile(),"r+b")
-            f.seek(0x21580)
-            f.write(st.pack('H',0x2304))
-            f.seek(0x684D2)
-            f.write(st.pack('H',0x1080))
-            f.seek(0x684D4)
-            f.write(st.pack('H',0x1A0C))
-            f.seek(0x684D6)
-            f.write(st.pack('H',0x1080))
-            f.seek(0x684D8)
-            f.write(st.pack('H',0x182D))
-            f.seek(0x685A4)
-            f.write(st.pack('H',0x1080))
-            f.seek(0x685A6)
-            f.write(st.pack('H',0x1A0C))
-            f.seek(0x685A8)
-            f.write(st.pack('H',0x1040))
-            f.seek(0x685AA)
-            f.write(st.pack('H',0x182D))
-            f.seek(0x505E62)
-            f.write(st.pack('B',0x02))
-            f.seek(0x505E7E)
-            f.write(st.pack('B',0x02))
-            f.seek(0x505EB6)
-            f.write(st.pack('B',0x02))
-            f.seek(0x505EEE)
-            f.write(st.pack('B',0x04))
-            f.seek(0x505F0A)
-            f.write(st.pack('B',0x02))
-            f.seek(0x506156)
-            f.write(st.pack('B',0x03))
-            f.seek(0x50626E)
-            f.write(st.pack('B',0x05))
-            f.seek(0x506512)
-            f.write(st.pack('B',0x0A))
-            f.seek(0x506526)
-            f.write(st.pack('B',0x14))
-            f.seek(0x5065C6)
-            f.write(st.pack('B',0x05))
-            f.seek(0x5065DA)
-            f.write(st.pack('B',0x0A))
-            f.seek(0x50667A)
-            f.write(st.pack('B',0x05))
-            f.close()
+            write_patch(get_outfile(), "devanj_statfix_patch.txt",
+                        noverify=True)
         if "wizard" in activated_codes:
             print "WIZARD MODE ACTIVATED"
-            f = open(get_outfile(), "r+b")
-            f.seek(0x21BE8)
-            f.write(st.pack('H',0x8C40))
-            f.seek(0x21BEA)
-            f.write(st.pack('H',0x210F))
-            f.seek(0x21BEC)
-            f.write(st.pack('I',0xFA9EF0B6))
-            f.seek(0x21C02)
-            f.write(st.pack('H',0x8C50))
-            f.seek(0x21C04)
-            f.write(st.pack('H',0x210F))
-            f.seek(0x21C06)
-            f.write(st.pack('I',0xFA91F0B6))
-            f.seek(0x21C0C)
-            f.write(st.pack('H',0x2002))
-            f.seek(0x322FC)
-            f.write(st.pack('H',0x200F))
-            f.close()
+            write_patch(get_outfile(), "devanj_wizard_patch.txt")
         if "custom" in activated_codes:
             print "CUSTOM MODE ACTIVATED"
             custom_filename = raw_input("Filename for custom items seed? ")
