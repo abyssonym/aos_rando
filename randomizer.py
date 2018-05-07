@@ -28,6 +28,8 @@ MANA_HEALS = range(0x05, 0x08)
 GUNS = range(0x37,0x3A)
 KNIVES = range(0,0x03) + range(0x1C,0x22) + range(0x2A,0x2B)
 FISTS = range(0x32,0x37)
+
+
 def reseed():
     global RESEED_COUNTER
     RESEED_COUNTER += 1
@@ -165,7 +167,7 @@ class MonsterObject(TableObject):
             return False
         codes = get_activated_codes()
         item_rando = ("i" in get_flags() or "chaos" in codes
-                       or "custom" in codes or "oops" in codes)
+                      or "custom" in codes or "oops" in codes)
         if (self.index in [0x5F, 0x68] and not item_rando
                 and "vangram" in codes):
             return False
@@ -190,7 +192,7 @@ class MonsterObject(TableObject):
         else:
             shuffle_func = lambda m: (random.random(), m.index)
 
-        for attrs in ["common_drop", "rare_drop",("soul_type", "soul")]:
+        for attrs in ["common_drop", "rare_drop", ("soul_type", "soul")]:
             if "balance" in get_activated_codes() and attrs in ["common_drop","rare_drop"]:
                 continue
             if isinstance(attrs, basestring):
@@ -208,9 +210,10 @@ class MonsterObject(TableObject):
             if value == 0:
                 continue
             while True:
-                i = ItemObject.superget(value-1) 
+                i = ItemObject.superget(value-1)
                 i = i.get_similar()
-                if ("fam" in get_activated_codes() and i.item_type == 2 and i.index in HP_HEALING_ITEMS):
+                if ("fam" in get_activated_codes() and i.item_type == 2
+                        and i.index in HP_HEALING_ITEMS):
                     continue
                 if ("guncula" in get_activated_codes() and i.item_type == 3):
                     i.index = random.choice(GUNS)
@@ -240,6 +243,7 @@ class MonsterObject(TableObject):
     def signature(self):
         return "enemy_{0:0>2}".format("%x" % self.index)
 
+
 class ItemObject(TableObject):
     @property
     def rank(self):
@@ -251,7 +255,9 @@ class ItemObject(TableObject):
                 rank = (self.price/2) + self.atk * 200
             if isinstance(self,ArmorObject):
                 rank = (self.price/2) + self.defn * 200
-            if isinstance(self,ConsumableObject) and (self.index in HP_HEALING_ITEMS or self.index in MANA_HEALS):
+            if isinstance(self,ConsumableObject) and (
+                    self.index in HP_HEALING_ITEMS or
+                    self.index in MANA_HEALS):
                 rank = self.price + self.restore_pts * 50
         return rank
 
@@ -283,6 +289,7 @@ class ItemObject(TableObject):
             4: ArmorObject,
         }[index1]
         return subcls.get(index2)
+
     @property
     def superindex(self):
         index = self.index
@@ -453,10 +460,12 @@ def route_items():
     souls = [(t.item_type, t.item_index) for t in TreasureObject.every
              if t.item_type >= 5]
     souls += [(0x8, 0x04)]  # kicker skeleton
+
     # save for later when picking items
     item_types = [t.item_type for t in TreasureObject.every]
     item_types.remove(15)
     item_types.remove(14)
+
     candle_assignments = 0
     assigned_memory_flags = []
     for location, item in sorted(ir.assignments.items()):
@@ -634,6 +643,7 @@ def route_items():
             adjustment = ((random.random() + random.random() + random.random())
                           / 3.0)
             ratio = (ratio * adjustment) + (old_ratio * (1-adjustment))
+
         if t.difficulty == 2 or t.difficulty == 3 and candle_assignments < 3:
             t.difficulty = 4
             if t.memory_flag not in assigned_memory_flags:
@@ -716,6 +726,7 @@ def route_items():
             t.item_index = item_index
             done_items.add((item_type, item_index))
             break
+
     if 'safe' not in get_activated_codes():
         for t in TreasureObject.every:
             if (t.item_type == 1 and t.item_index >= 4
@@ -780,7 +791,8 @@ if __name__ == "__main__":
             'noshop': ['noshop'],
             'oops': ['oopsallsouls', 'oops all souls', 'oops_all_souls'],
             'safe': ['goodmoney', 'good money', 'good_money'],
-            'vangram': ['vangram', 'vanillagraham', 'vanilla_graham','vanilla graham'],
+            'vangram': ['vangram', 'vanillagraham', 'vanilla_graham',
+                        'vanilla graham'],
             'balance': ['balance'],
             'noob': ['noob','helper mode','helper_mode'],
             'statfix': ['stat fixes','stat patch','statfix'],
@@ -908,7 +920,6 @@ if __name__ == "__main__":
         reseed()
         for i in xrange(3):
             if "vangram" in activated_codes:
-                print "VANILLA GRAHAM SOULS PRESERVED"
                 print "VANILLA GRAHAM SOULS PRESERVED"
                 LABEL_PRESET["dracula_bullet"] = 0x52c
                 LABEL_PRESET["dracula_guardian"] = 0x602
