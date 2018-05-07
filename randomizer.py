@@ -463,9 +463,8 @@ def route_items():
     souls += [(0x8, 0x04)]  # kicker skeleton
 
     # save for later when picking items
-    item_types = [t.item_type for t in TreasureObject.every]
-    item_types.remove(15)
-    item_types.remove(14)
+    item_types = [t.item_type for t in TreasureObject.every
+                  if (t.item_type != 14 and t.item_type != 15)]
 
     candle_assignments = 0
     assigned_memory_flags = []
@@ -651,6 +650,7 @@ def route_items():
                  t.memory_flag = 0xA0 + random.randrange(0x01,0x1F)
                  assigned_memory_flags.append(t.memory_flag)
             candle_assignments += 1
+
         while True:
             if oops_all_souls:
                 item_type = 5
@@ -727,6 +727,10 @@ def route_items():
             t.item_index = item_index
             done_items.add((item_type, item_index))
             break
+
+    for t in TreasureObject.every:
+        if t.item_type == 14 or t.item_type == 15:
+            t.item_type = random.randint(2, 4)
 
     if 'safe' not in get_activated_codes():
         for t in TreasureObject.every:
