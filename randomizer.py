@@ -247,12 +247,12 @@ class ItemObject(TableObject):
             rank = 1000000
         else:
             rank = self.price
-        if isinstance(self,WeaponObject):
-            rank = (self.price/2) + self.atk * 200
-        if isinstance(self,ArmorObject):
-            rank = (self.price/2) + self.defn * 200
-        if isinstance(self,ConsumableObject) and self in (HP_HEALING_ITEMS or MANA_HEALS):
-            rank = self.price + self.restore_pts * 50
+            if isinstance(self,WeaponObject):
+                rank = (self.price/2) + self.atk * 200
+            if isinstance(self,ArmorObject):
+                rank = (self.price/2) + self.defn * 200
+            if isinstance(self,ConsumableObject) and (self.index in HP_HEALING_ITEMS or self.index in MANA_HEALS):
+                rank = self.price + self.restore_pts * 50
         return rank
 
     @property
