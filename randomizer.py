@@ -216,11 +216,11 @@ class MonsterObject(TableObject):
                         and i.index in HP_HEALING_ITEMS):
                     continue
                 if ("gun" in get_activated_codes() and i.item_type == 3):
-                    i.index = random.choice(GUNS)
+                    i = ItemObject.superget(random.choice(GUNS))
                 if ("fist" in get_activated_codes() and i.item_type == 3):
-                    i.index = random.choice(FISTS)
+                    i = ItemObject.superget(random.choice(FISTS))
                 if ("ass" in get_activated_codes() and i.item_type == 3):
-                    i.index = random.choice(KNIVES)
+                    i = ItemObject.superget(random.choice(KNIVES))
                 value = (value & 0xFF00) | (i.superindex+1)
                 setattr(self, attr, value)
                 break
@@ -415,15 +415,25 @@ class ShopIndexObject(TableObject):
                 if ("fam" in get_activated_codes() and item_type == 2
                         and chosen.index in HP_HEALING_ITEMS):
                     continue
+
+                restricted_items = None
                 if "gun" in get_activated_codes() and item_type == 3:
-                    chosen.index = random.choice(GUNS)
+                    restricted_items = [ItemObject.superget(i) for i in GUNS]
                 if "fist" in get_activated_codes() and item_type == 3:
-                    chosen.index = random.choice(FISTS)
+                    restricted_items = [ItemObject.superget(i) for i in FISTS]
                 if "ass" in get_activated_codes() and item_type == 3:
-                    chosen.index = random.choice(KNIVES)
-                if chosen in new_items:
+                    restricted_items = [ItemObject.superget(i) for i in KNIVES]
+
+                if restricted_items is not None:
+                    temp = [i for i in restricted_items if i not in new_items]
+                    if temp:
+                        restricted_items = temp
+                    chosen = random.choice(restricted_items)
+
+                if chosen in new_items and restricted_items is None:
                     continue
                 new_items.append(chosen)
+
             new_items = sorted(new_items, key=lambda ni: ni.index)
             total_new_items.extend(new_items)
 
