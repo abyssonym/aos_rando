@@ -1,3 +1,15 @@
+VERSION 9
+Special thanks to DevAnj2 for many of the new features in this version.
+
+- Added a balanced mode which makes monster drops scale based on original values.
+- Made three money candles, one in Arena, one in the eastern Underground Reservoir, and one in the Dance Hall, count as item locations by the randomizer.
+- Added statfix and wizard modes. Statfix fixes the INT and LCK stats, making bullet souls scale with INT and having LCK actually have a notable effect on drops. Wizard mode raises overall MP regen.
+- Redid how item ranking is done to give more weight to stats.
+- Added Guncula, Fistula and Assassin game modes. Guncula only has guns placed as weapons, Fistula does the same with fist weapons, and Assassin with knives and katanas.
+- Added Newbie mode, where the whole map is revealed and peeping eye effect is on all the time.
+- Minor changes to Chaos mode logic
+- Dracula souls can now be specified in custom mode
+
 VERSION 8
 - Due to an error, the Headhunter fix mentioned in version 7 did not work, but now it does.
 
