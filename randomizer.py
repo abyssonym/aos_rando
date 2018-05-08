@@ -24,9 +24,9 @@ custom_items = {}
 
 HP_HEALING_ITEMS = range(0, 0x05) + range(0x0a, 0x17)
 MANA_HEALS = range(0x05, 0x08)
-GUNS = range(0x37,0x3A)
-KNIVES = range(0,0x03) + range(0x1C,0x22) + range(0x2A,0x2B)
-FISTS = range(0x32,0x37)
+GUNS = range(0x37, 0x3A)
+KNIVES = range(0, 0x03) + range(0x1C, 0x22) + range(0x2A, 0x2B)
+FISTS = range(0x32, 0x37)
 
 
 def reseed():
@@ -192,7 +192,8 @@ class MonsterObject(TableObject):
             shuffle_func = lambda m: (random.random(), m.index)
 
         for attrs in ["common_drop", "rare_drop", ("soul_type", "soul")]:
-            if "balance" in get_activated_codes() and attrs in ["common_drop","rare_drop"]:
+            if "bal" in get_activated_codes() and attrs in [
+                    "common_drop", "rare_drop"]:
                 continue
             if isinstance(attrs, basestring):
                 attrs = [attrs]
@@ -214,11 +215,11 @@ class MonsterObject(TableObject):
                 if ("fam" in get_activated_codes() and i.item_type == 2
                         and i.index in HP_HEALING_ITEMS):
                     continue
-                if ("guncula" in get_activated_codes() and i.item_type == 3):
+                if ("gun" in get_activated_codes() and i.item_type == 3):
                     i.index = random.choice(GUNS)
-                if ("fistula" in get_activated_codes() and i.item_type == 3):
+                if ("fist" in get_activated_codes() and i.item_type == 3):
                     i.index = random.choice(FISTS)
-                if ("assassin" in get_activated_codes() and i.item_type == 3):
+                if ("ass" in get_activated_codes() and i.item_type == 3):
                     i.index = random.choice(KNIVES)
                 value = (value & 0xFF00) | (i.superindex+1)
                 setattr(self, attr, value)
@@ -247,17 +248,23 @@ class ItemObject(TableObject):
     @property
     def rank(self):
         if self.price == 0:
-            rank = 1000000
+            if hasattr(self, "restore_pts") and self.restore_pts:
+                rank = self.restore_pts
+            else:
+                rank = 1000000
         else:
             rank = self.price
-            if isinstance(self,WeaponObject):
+            if isinstance(self, WeaponObject):
                 rank = (self.price/2) + self.atk * 200
-            if isinstance(self,ArmorObject):
+            if isinstance(self, ArmorObject):
                 rank = (self.price/2) + self.defn * 200
-            if isinstance(self,ConsumableObject) and (
+            if isinstance(self, ConsumableObject) and (
                     self.index in HP_HEALING_ITEMS or
                     self.index in MANA_HEALS):
-                rank = self.price + self.restore_pts * 50
+                if self.index in MANA_HEALS:
+                    rank = self.price + ((self.restore_pts**2) * 3)
+                elif self.index in HP_HEALING_ITEMS:
+                    rank = self.price + (self.restore_pts * 3)
         return rank
 
     @property
@@ -408,11 +415,11 @@ class ShopIndexObject(TableObject):
                 if ("fam" in get_activated_codes() and item_type == 2
                         and chosen.index in HP_HEALING_ITEMS):
                     continue
-                if "guncula" in get_activated_codes() and item_type == 3:
+                if "gun" in get_activated_codes() and item_type == 3:
                     chosen.index = random.choice(GUNS)
-                if "fistula" in get_activated_codes() and item_type == 3:
+                if "fist" in get_activated_codes() and item_type == 3:
                     chosen.index = random.choice(FISTS)
-                if "assassin" in get_activated_codes() and item_type == 3:
+                if "ass" in get_activated_codes() and item_type == 3:
                     chosen.index = random.choice(KNIVES)
                 if chosen in new_items:
                     continue
@@ -719,11 +726,11 @@ def route_items():
             if ("fam" in get_activated_codes() and item_type == 2
                     and item_index in HP_HEALING_ITEMS):
                 continue
-            if "guncula" in get_activated_codes() and item_type == 3:
+            if "gun" in get_activated_codes() and item_type == 3:
                 item_index = random.choice(GUNS)
-            if "fistula" in get_activated_codes() and item_type == 3:
+            if "fist" in get_activated_codes() and item_type == 3:
                 item_index = random.choice(FISTS)
-            if "assassin" in get_activated_codes() and item_type == 3:
+            if "ass" in get_activated_codes() and item_type == 3:
                 item_index = random.choice(KNIVES)
             t.item_type = item_type
             t.item_index = item_index
@@ -804,13 +811,13 @@ if __name__ == "__main__":
             'safe': ['goodmoney', 'good money', 'good_money'],
             'vangram': ['vangram', 'vanillagraham', 'vanilla_graham',
                         'vanilla graham'],
-            'balance': ['balance'],
-            'noob': ['noob','helper mode','helper_mode'],
-            'statfix': ['stat fixes','stat patch','statfix'],
-            'wizard' : ['wizard'],
-            'guncula' : ['guncula'],
-            'fistula' : ['fistula'],
-            'assassin' : ['assassin']
+            'bal': ['balance'],
+            'noob': ['noob', 'helper mode', 'helper_mode'],
+            'fix': ['stat fixes', 'stat patch', 'statfix'],
+            'wiz' : ['wizard'],
+            'gun' : ['guncula'],
+            'fist' : ['fistula'],
+            'ass' : ['assassin']
         }
         run_interface(ALL_OBJECTS, snes=False, codes=codes)
 
@@ -818,17 +825,17 @@ if __name__ == "__main__":
         if "noob" in activated_codes:
             print "NEWBIE MODE ACTIVATED"
             write_patch(get_outfile(), "devanj_noob_patch.txt")
-        if  "guncula" in activated_codes:
+        if "gun" in activated_codes:
             print "GUN SOMA MODE ACTIVATED"
-        if "fistula" in activated_codes:
+        if "fist" in activated_codes:
             print "FISTICUFFS MODE ACTIVATED"
-        if "assassin" in activated_codes:
+        if "ass" in activated_codes:
             print "ASSASSIN MODE ACTIVATED"
-        if "statfix" in activated_codes:
+        if "fix" in activated_codes:
             print "FIXED STATS MODE ACTIVATED"
             write_patch(get_outfile(), "devanj_statfix_patch.txt",
                         noverify=True)
-        if "wizard" in activated_codes:
+        if "wiz" in activated_codes:
             print "WIZARD MODE ACTIVATED"
             write_patch(get_outfile(), "devanj_wizard_patch.txt")
         if "custom" in activated_codes:
