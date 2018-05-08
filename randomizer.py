@@ -257,7 +257,11 @@ class ItemObject(TableObject):
             if isinstance(self, WeaponObject):
                 rank = (self.price/2) + self.atk * 200
             if isinstance(self, ArmorObject):
-                rank = (self.price/2) + self.defn * 200
+                if self.index == 0x17:
+                    self.price = 57300
+                    rank = 63000
+                else:
+                    rank = (self.price/2) + self.defn * 200
             if isinstance(self, ConsumableObject) and (
                     self.index in HP_HEALING_ITEMS or
                     self.index in MANA_HEALS):
@@ -487,7 +491,7 @@ def route_items():
             raise e
 
     souls = [(t.item_type, t.item_index) for t in TreasureObject.every
-             if t.item_type >= 5]
+             if (t.item_type >= 5 and t.item_type <= 8)]
     souls += [(0x8, 0x04)]  # kicker skeleton
 
     # save for later when picking items
@@ -675,6 +679,7 @@ def route_items():
                 item_type = 5
             else:
                 item_type = random.choice(item_types)
+            assert item_type <= 8
             if item_type < 5:
                 low = random.uniform(0.0, random.uniform(0.0, 1.0))
                 high = random.uniform(0.0, 1.0)
@@ -750,10 +755,6 @@ def route_items():
         if t.difficulty in [2, 3]:
             t.difficulty = 4
             t.memory_flag = available_memory_flags.pop(0)
-
-    for t in TreasureObject.every:
-        if t.item_type == 14 or t.item_type == 15:
-            t.item_type = random.randint(2, 4)
 
     if 'safe' not in get_activated_codes():
         for t in TreasureObject.every:
