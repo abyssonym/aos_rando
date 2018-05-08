@@ -833,31 +833,23 @@ if __name__ == "__main__":
             f.write(st.pack('H',0x1040))
             f.seek(0x685AA)
             f.write(st.pack('H',0x182D))
-            f.seek(0x505E62)
-            f.write(st.pack('B',0x02))
-            f.seek(0x505E7E)
-            f.write(st.pack('B',0x02))
-            f.seek(0x505EB6)
-            f.write(st.pack('B',0x02))
-            f.seek(0x505EEE)
-            f.write(st.pack('B',0x04))
-            f.seek(0x505F0A)
-            f.write(st.pack('B',0x02))
-            f.seek(0x506156)
-            f.write(st.pack('B',0x03))
-            f.seek(0x50626E)
-            f.write(st.pack('B',0x05))
-            f.seek(0x506512)
-            f.write(st.pack('B',0x0A))
-            f.seek(0x506526)
-            f.write(st.pack('B',0x14))
-            f.seek(0x5065C6)
-            f.write(st.pack('B',0x05))
-            f.seek(0x5065DA)
-            f.write(st.pack('B',0x0A))
-            f.seek(0x50667A)
-            f.write(st.pack('B',0x05))
             f.close()
+            for wep in WeaponObject.every:
+                if wep.index in [0x0A,0x0B,0x0D,0x10]:
+                    wep.intl = 2
+                if wep.index == 0x25:
+                    wep.intl = 3
+                if wep.index == 0x0F:
+                    wep.intl = 4
+                if wep.index == 0x2F:
+                    wep.intl = 5
+            for armr in ArmorObject.every:
+                if armr.index in [0x1A,0x23]:
+                    armr.intl = 5
+                if armr.index in [0x11,0x1B]:
+                    armr.intl = 10
+                if armr.index == 0x12:
+                    armr.intl = 20
         if "wizard" in activated_codes:
             print "WIZARD MODE ACTIVATED"
             f = open(get_outfile(), "r+b")

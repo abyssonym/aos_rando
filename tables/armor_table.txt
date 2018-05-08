@@ -3,4 +3,6 @@ unknown1,2,list
 price,4
 unknown2,3,list
 defn,1
-unknown3,8,list
+unknown3,2,list
+intl,1
+unknown4,5,list
