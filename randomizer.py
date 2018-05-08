@@ -327,6 +327,8 @@ class TreasureObject(TableObject):
     def name(self):
         if self.item_type in [14, 15]:
             return "Candle"
+        if self.item_type == 0x60:
+            return "Mimic"
         index = ((self.item_type) << 8) | self.item_index
         return get_item_names()[index]
 
@@ -346,6 +348,15 @@ class TreasureObject(TableObject):
     def short_signature(self):
         hexdex = "{0:0>2}".format("%x" % self.index)
         return "item_%s" % hexdex
+
+    def cleanup(self):
+        if (self.old_data["item_type"] in [1, 14, 15]
+                and self.old_data["difficulty"] in [2, 3]
+                and self.item_type == 1):
+            assert self.index >= 0x73
+            for attr in ["difficulty", "item_type",
+                         "item_index", "memory_flag"]:
+                setattr(self, attr, self.old_data[attr])
 
 
 class ShopIndexObject(TableObject):
@@ -466,8 +477,7 @@ def route_items():
     item_types = [t.item_type for t in TreasureObject.every
                   if (t.item_type != 14 and t.item_type != 15)]
 
-    candle_assignments = 0
-    assigned_memory_flags = []
+    available_memory_flags = range(0xa0, 0xbf)
     for location, item in sorted(ir.assignments.items()):
         try:
             item = int(item, 0x10)
@@ -503,12 +513,9 @@ def route_items():
             t = TreasureObject.get(index)
             t.item_type = item_type
             t.item_index = item_index
-            if index > 114:
+            if t.difficulty in [2, 3]:
                t.difficulty = 4
-               if t.memory_flag not in assigned_memory_flags:
-                   t.memory_flag = 0xA0 + random.randrange(0x01,0x1F)
-                   assigned_memory_flags.append(t.memory_flag)
-               candle_assignments += 1
+               t.memory_flag = available_memory_flags.pop(0)
             done_treasures.add(t)
         elif location_type == "enemy":
             if item_type < 5:
@@ -644,13 +651,6 @@ def route_items():
                           / 3.0)
             ratio = (ratio * adjustment) + (old_ratio * (1-adjustment))
 
-        if t.difficulty == 2 or t.difficulty == 3 and candle_assignments < 3:
-            t.difficulty = 4
-            if t.memory_flag not in assigned_memory_flags:
-                 t.memory_flag = 0xA0 + random.randrange(0x01,0x1F)
-                 assigned_memory_flags.append(t.memory_flag)
-            candle_assignments += 1
-
         while True:
             if oops_all_souls:
                 item_type = 5
@@ -727,6 +727,10 @@ def route_items():
             t.item_index = item_index
             done_items.add((item_type, item_index))
             break
+
+        if t.difficulty in [2, 3]:
+            t.difficulty = 4
+            t.memory_flag = available_memory_flags.pop(0)
 
     for t in TreasureObject.every:
         if t.item_type == 14 or t.item_type == 15:
