@@ -812,7 +812,7 @@ if __name__ == "__main__":
             'fistula' : ['fistula'],
             'assassin' : ['assassin']
         }
-        run_interface(ALL_OBJECTS, snes=True, codes=codes)
+        run_interface(ALL_OBJECTS, snes=False, codes=codes)
 
         activated_codes = get_activated_codes()
         if "noob" in activated_codes:
