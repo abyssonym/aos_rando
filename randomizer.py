@@ -250,7 +250,11 @@ class ItemObject(TableObject):
             if isinstance(self,WeaponObject):
                 rank = (self.price/2) + self.atk * 200
             if isinstance(self,ArmorObject):
-                rank = (self.price/2) + self.defn * 200
+                if self.index == 0x17:
+                    self.price = 57300
+                    rank = 63000
+                else:
+                    rank = (self.price/2) + self.defn * 200
             if isinstance(self,ConsumableObject) and (self.index in HP_HEALING_ITEMS or self.index in MANA_HEALS):
                 rank = self.price + self.restore_pts * 50
         return rank
@@ -451,7 +455,7 @@ def route_items():
             raise e
 
     souls = [(t.item_type, t.item_index) for t in TreasureObject.every
-             if t.item_type >= 5]
+             if (t.item_type >= 5 and t.item_type < 14)]
     souls += [(0x8, 0x04)]  # kicker skeleton
     # save for later when picking items
     item_types = [t.item_type for t in TreasureObject.every if (t.item_type != 14 and t.item_type != 15)]
@@ -638,6 +642,8 @@ def route_items():
                  t.memory_flag = 0xA0 + random.randrange(0x01,0x1F)
                  assigned_memory_flags.append(t.memory_flag)
             candle_assignments += 1
+        if item_type == 14 or item_type == 15:
+                item_type = random.randint(2,8)
         while True:
             if oops_all_souls:
                 item_type = 5
@@ -714,9 +720,6 @@ def route_items():
             t.item_index = item_index
             done_items.add((item_type, item_index))
             break
-    for t in TreasureObject.every:
-        if t.item_type == 14 or t.item_type == 15:
-            t.item_type = random.randint(2,4)
     if 'safe' not in get_activated_codes():
         for t in TreasureObject.every:
             if (t.item_type == 1 and t.item_index >= 4
