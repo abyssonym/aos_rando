@@ -4,6 +4,8 @@
 #       their appropriate locations. Ancient books and boss souls are also
 #       included.
 
+dracula_guardian 602
+
 item_gravekeeper_05 801
 item_flyingarmor_0b 601
 item_malphas_23 803

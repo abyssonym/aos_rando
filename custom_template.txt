@@ -20,6 +20,11 @@
 #       do something like putting Skula in the Arena, then the seed won't
 #       be beatable.
 
+# required souls to become dracula and access the chaos realm
+dracula_bullet
+dracula_guardian
+dracula_enchanted
+
 # castle entrance
 item_luckycharm_00
 

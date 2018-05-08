@@ -502,6 +502,8 @@ def route_items():
     erased_souls = set([])
     for location, item in sorted(ir.assignments.items()):
         location_type, index = location.split('_')
+        if location_type == "dracula":
+            continue
         index = int(index, 0x10)
         try:
             item = int(item, 0x10)
@@ -875,35 +877,61 @@ if __name__ == "__main__":
             if not route_item_flag:
                 monsters = [m for m in monsters
                             if m.index not in [0x5a, 0x66, 0x69]]
-            m = random.choice(monsters)
-            if not route_item_flag:
-                m.restore_soul()
-            soul_type, soul = m.old_soul
-            soul_type += 5
-            bestiary = m.bestiary
-            bestiary = bestiary.strip()
-            bestiary = bestiary.rstrip(chr(6))
+
             key = keys[i]
-            LABEL_PRESET["dracula_%s" % key] = (soul_type << 8) | soul
-            ancient_addr = getattr(addresses, "ancient_%s" % key)
-            ancient, _ = get_text(ancient_addr)
-            if get_global_label() == "AOS_NA":
-                if len(bestiary) > len(ancient):
-                    bestiary = bestiary[:len(ancient)-3]
-                    bestiary += "..."
-                while len(bestiary) < len(ancient):
-                    bestiary += " "
+            drackey = "dracula_%s" % key
+            if ("custom" in activated_codes and drackey in custom_items):
+                fullsoul = int(custom_items[drackey], 0x10)
+                soul_type, soul = (fullsoul >> 8), (fullsoul & 0xff)
+                temp = [m for m in monsters
+                        if m.old_soul == (soul_type-5, soul)]
+                assert len(temp) <= 1
+                if temp:
+                    m = temp[0]
+                else:
+                    m = None
             else:
-                if len(bestiary) > len(ancient):
-                    bestiary = bestiary[:len(ancient)]
-                while len(bestiary) < (len(ancient)/2)*2:
-                    bestiary += chr(0x40) + chr(0x81)
-                if len(bestiary) < len(ancient):
-                    assert False
+                m = random.choice(monsters)
+
+            if m:
+                if not route_item_flag:
+                    m.restore_soul()
+                soul_type, soul = m.old_soul
+            if soul_type < 5:
+                soul_type += 5
+            assert 5 <= soul_type <= 7
+
+            LABEL_PRESET[drackey] = (soul_type << 8) | soul
+            if m:
+                bestiary = m.bestiary
+                bestiary = bestiary.strip()
+                bestiary = bestiary.rstrip(chr(6))
+            elif get_global_label() == "AOS_NA":
+                bestiary = ITEM_NAMES[LABEL_PRESET[drackey]]
+            else:
+                bestiary = None
+
             f = open(get_outfile(), "r+b")
-            f.seek(ancient_addr)
-            f.write(bestiary)
-            dracula_addr = getattr(addresses, "dracula_%s" % key)
+            if bestiary is not None:
+                ancient_addr = getattr(addresses, "ancient_%s" % key)
+                ancient, _ = get_text(ancient_addr)
+                if get_global_label() == "AOS_NA":
+                    if len(bestiary) > len(ancient):
+                        bestiary = bestiary[:len(ancient)-3]
+                        bestiary += "..."
+                    while len(bestiary) < len(ancient):
+                        bestiary += " "
+                else:
+                    if len(bestiary) > len(ancient):
+                        bestiary = bestiary[:len(ancient)]
+                    while len(bestiary) < (len(ancient)/2)*2:
+                        bestiary += chr(0x40) + chr(0x81)
+                    if len(bestiary) < len(ancient):
+                        assert False
+                f.seek(ancient_addr)
+                f.write(bestiary)
+
+            dracula_addr = getattr(addresses, drackey)
             f.seek(dracula_addr)
             f.write(chr(soul))
             f.close()

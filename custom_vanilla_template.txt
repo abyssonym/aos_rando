@@ -5,6 +5,11 @@
 #       the required souls to appear, there's a chance that getting the good
 #       ending will be impossible. Don't forget to include a rush soul.
 
+# required souls to become dracula and access the chaos realm
+dracula_bullet 52c
+dracula_guardian 602
+dracula_enchanted 707
+
 # castle entrance
 item_luckycharm_00 426
 
@@ -325,7 +330,6 @@ enemy_manticore_36 613
 enemy_kickerskeleton_53 804
 enemy_succubus_5f dracula_enchanted
 enemy_flamedemon_68 dracula_bullet
-#enemy_balore_6d dracula_guardian
 
 # APPENDIX A - ITEM CODES
 #
