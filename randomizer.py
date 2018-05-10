@@ -845,6 +845,22 @@ if __name__ == "__main__":
         if "fix" in activated_codes:
             print "FIXED STATS MODE ACTIVATED"
             write_patch(get_outfile(), "devanj_statfix_patch.txt")
+            for wep in WeaponObject.every:
+                if wep.index in [0x0A,0x0B,0x0D,0x10]:
+                    wep.intl = 2
+                if wep.index == 0x25:
+                    wep.intl = 3
+                if wep.index == 0x0F:
+                    wep.intl = 4
+                if wep.index == 0x2F:
+                    wep.intl = 5
+            for armr in ArmorObject.every:
+                if armr.index in [0x1A,0x23]:
+                    armr.intl = 5
+                if armr.index in [0x11,0x1B]:
+                    armr.intl = 10
+                if armr.index == 0x12:
+                    armr.intl = 20
         if "wiz" in activated_codes:
             print "WIZARD MODE ACTIVATED"
             write_patch(get_outfile(), "devanj_wizard_patch.txt")

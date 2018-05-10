@@ -3,4 +3,6 @@ unknown1,2,list
 price,4
 unknown2,2,list
 atk,1
-unknown3,17,list
+unknown3,3,list
+intl,1
+unknown4,13,list
