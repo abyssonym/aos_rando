@@ -827,7 +827,7 @@ if __name__ == "__main__":
             'fix': ['stat fixes', 'stat patch', 'statfix'],
             'wiz' : ['wizard'],
             'gun' : ['guncula'],
-            'fist' : ['fistula'],
+            'fist' : ['fistula', 'punchdrac'],
             'ass' : ['assassin']
         }
         run_interface(ALL_OBJECTS, snes=False, codes=codes)
