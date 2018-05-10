@@ -844,8 +844,7 @@ if __name__ == "__main__":
             print "ASSASSIN MODE ACTIVATED"
         if "fix" in activated_codes:
             print "FIXED STATS MODE ACTIVATED"
-            write_patch(get_outfile(), "devanj_statfix_patch.txt",
-                        noverify=True)
+            write_patch(get_outfile(), "devanj_statfix_patch.txt")
         if "wiz" in activated_codes:
             print "WIZARD MODE ACTIVATED"
             write_patch(get_outfile(), "devanj_wizard_patch.txt")
