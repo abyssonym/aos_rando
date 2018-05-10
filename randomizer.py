@@ -216,11 +216,11 @@ class MonsterObject(TableObject):
                         and i.index in HP_HEALING_ITEMS):
                     continue
                 if ("gun" in get_activated_codes() and i.item_type == 3):
-                    i = ItemObject.superget(random.choice(GUNS))
+                    i = WeaponObject.get(random.choice(GUNS))
                 if ("fist" in get_activated_codes() and i.item_type == 3):
-                    i = ItemObject.superget(random.choice(FISTS))
+                    i = WeaponObject.get(random.choice(FISTS))
                 if ("ass" in get_activated_codes() and i.item_type == 3):
-                    i = ItemObject.superget(random.choice(KNIVES))
+                    i = WeaponObject.get(random.choice(KNIVES))
                 value = (value & 0xFF00) | (i.superindex+1)
                 setattr(self, attr, value)
                 break
@@ -422,11 +422,11 @@ class ShopIndexObject(TableObject):
 
                 restricted_items = None
                 if "gun" in get_activated_codes() and item_type == 3:
-                    restricted_items = [ItemObject.superget(i) for i in GUNS]
+                    restricted_items = [WeaponObject.get(i) for i in GUNS]
                 if "fist" in get_activated_codes() and item_type == 3:
-                    restricted_items = [ItemObject.superget(i) for i in FISTS]
+                    restricted_items = [WeaponObject.get(i) for i in FISTS]
                 if "ass" in get_activated_codes() and item_type == 3:
-                    restricted_items = [ItemObject.superget(i) for i in KNIVES]
+                    restricted_items = [WeaponObject.get(i) for i in KNIVES]
 
                 if restricted_items is not None:
                     temp = [i for i in restricted_items if i not in new_items]
