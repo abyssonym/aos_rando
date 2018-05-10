@@ -9,6 +9,10 @@ Special thanks to DevAnj2 for many of the new features in this version.
 - Added Newbie mode, where the whole map is revealed and peeping eye effect is on all the time.
 - Minor changes to Chaos mode logic
 - Dracula souls can now be specified in custom mode
+- v9.2
+	- Fixed errors in weapon game modes.
+	- Added "intboost" mode which increases int bonuses on various equips.
+
 
 VERSION 8
 - Due to an error, the Headhunter fix mentioned in version 7 did not work, but now it does.
