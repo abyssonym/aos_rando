@@ -58,6 +58,29 @@ Seed value:
 Output files:
     The randomizer will output a new, randomized rom with the seed in the filename.
 
+--- SECRET CODES ---
+To use these codes, type the corresponding word when prompted to use your preferred flags.
+
+chaos: A "hard mode" of sorts. Adds in some tricky jumps to the logic, and potentially removes some ability souls from the pool.
+custom: Used for making custom seeds. An example is included in the main folder.
+famine: Removes all healing items from the item pool.
+
+nosoul: Self explanatory, all non progression souls are removed.
+nodrop: Self explanatory, all monster drops, including their soul drop, are removed.
+noshop: Self explanatory, Hammer sells you nothing.
+oopsallsouls: Makes every item placed in world a soul drop, except for the soul books.
+
+goodmoney: Stops random mimics from being placed in item locations.
+vanillagraham: Preserves the vanilla soul requirements for the true good ending.
+balance: Scales monster drops based off their original values.
+noob: Exposes the entire map and turns on the peeping eye effect permanently.
+statfix: Fixes the INT and LCK stats to do what they were intended to.
+wizard: Raises base MP regen and makes Wooden Golem and Rune Ring more effective.
+
+guncula: Only weapons placed and found are guns (Handgun, Silver Gun, Positron Rifle).
+fistula: Only weapons placed and found are fists (all the fist attachments).
+assassin: Only weapons placed and found are knives and katanas.
+
 Like this randomizer? Be sure to check out my other projects:
     FF6 Beyond Chaos Randomizer
         https://github.com/abyssonym/beyondchaos
