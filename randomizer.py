@@ -825,10 +825,11 @@ if __name__ == "__main__":
             'bal': ['balance'],
             'noob': ['noob', 'helper mode', 'helper_mode'],
             'fix': ['stat fixes', 'stat patch', 'statfix'],
-            'wiz' : ['wizard'],
-            'gun' : ['guncula'],
-            'fist' : ['fistula', 'punchdrac'],
-            'ass' : ['assassin']
+            'wiz': ['wizard'],
+            'gun': ['guncula'],
+            'fist': ['fistula', 'punchdrac'],
+            'ass': ['assassin'],
+            'int': ['intboost'],
         }
         run_interface(ALL_OBJECTS, snes=False, codes=codes)
 
@@ -845,6 +846,8 @@ if __name__ == "__main__":
         if "fix" in activated_codes:
             print "FIXED STATS MODE ACTIVATED"
             write_patch(get_outfile(), "devanj_statfix_patch.txt")
+        if "int" in activated_codes:
+            print "EQUIPMENT INT BOOST ACTIVATED"
             for wep in WeaponObject.every:
                 if wep.index in [0x0A,0x0B,0x0D,0x10]:
                     wep.intl = 2

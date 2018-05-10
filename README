@@ -75,6 +75,7 @@ vanillagraham: Preserves the vanilla soul requirements for the true good ending.
 balance: Scales monster drops based off their original values.
 noob: Exposes the entire map and turns on the peeping eye effect permanently.
 statfix: Fixes the INT and LCK stats to do what they were intended to.
+intboost: Increase the INT boosts on various equipment (recommended to use with "statfix" code).
 wizard: Raises base MP regen and makes Wooden Golem and Rune Ring more effective.
 
 guncula: Only weapons placed and found are guns (Handgun, Silver Gun, Positron Rifle).
